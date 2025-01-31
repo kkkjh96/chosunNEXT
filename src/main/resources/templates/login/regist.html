@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/login/register.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="signup-form-container">
+            <h2>회원가입</h2>
+            <form id="signup-form" onsubmit="return validateForm()">
+                <label class="label" for="email">이메일</label>
+                <input class="input" type="email" id="email" name="email" placeholder="이메일을 입력하세요">
+                <button class="btn-regist" type="button" id="check-email-btn" onclick="checkEmailDuplication()">중복 확인</button>
+                <span class="error-message" id="email-error"></span>
+                <span class="info-message" id="email-status"></span>
+
+                <label class="label" for="password">신규 비밀번호</label>
+                <input class="input" type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+                <small class="password-hint">
+                    영문(소문자), 숫자 1자 이상 포함하고 8자 이상 입력해주세요.
+                </small>
+                <span class="error-message" id="password-error"></span>
+
+                <label class="label" for="confirm-password">신규 비밀번호 확인</label>
+                <input class="input" type="password" id="confirm-password" name="confirm-password" placeholder="비밀번호를 다시 입력하세요">
+                <span class="error-message" id="confirm-password-error"></span>
+
+                <label class="label" for="nickname">별명 (표시이름)</label>
+                <input class="input" type="text" id="nickname" name="nickname" placeholder="별명을 입력하세요">
+                <span class="error-message" id="nickname-error"></span>
+
+                <button class="btn-regist" type="submit">가입하기</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
+<script src="/javascript/login/register.js"></script>

@@ -1,6 +1,6 @@
 package com.example.chosunnext.security;
 
-import com.example.chosunnext.dto.user.response.UserDto;
+import com.example.chosunnext.dto.user.response.ResponseUserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +20,9 @@ import java.util.Collection;
  * 2025-01-22        김재홍       최초 생성
  */
 public class CustomUserDetails implements UserDetails {
-    private final UserDto user;
+    private final ResponseUserDto user;
 
-    public CustomUserDetails(UserDto user) {
+    public CustomUserDetails(ResponseUserDto user) {
         this.user = user;
     }
 

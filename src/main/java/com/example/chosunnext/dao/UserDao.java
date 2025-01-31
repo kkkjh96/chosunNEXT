@@ -1,9 +1,9 @@
 package com.example.chosunnext.dao;
 
-import com.example.chosunnext.dto.user.response.UserDto;
+import com.example.chosunnext.dto.user.request.RequestUserDto;
+import com.example.chosunnext.dto.user.response.ResponseUserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.jmx.export.annotation.ManagedNotification;
 
 /**
  * packageName    : com.example.chosunnext.dao
@@ -19,6 +19,10 @@ import org.springframework.jmx.export.annotation.ManagedNotification;
 @Mapper
 public interface UserDao {
 
-    UserDto getUserDto(@Param("userId") String user_id);
+    ResponseUserDto getUserDto(@Param("userId") String user_id);
+
+    int checkId(@Param("userId") String userId);
+
+    void signup(RequestUserDto requestUserDto);
 
 }
