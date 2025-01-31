@@ -1,0 +1,56 @@
+/* common.css */
+body {
+    font-family: 'Noto Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.main-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+}
+
+.logo-img {
+    height: 40px;
+}
+
+.header-right {
+    float: right;
+}
+
+.auth-links a, .user-info a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.auth-links a:hover, .user-info a:hover {
+    text-decoration: underline;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav li {
+    margin: 0 15px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+.main-nav a:hover {
+    color: #007bff;
+}
