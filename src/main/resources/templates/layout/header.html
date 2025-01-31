@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/header.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <!-- Header Fragment Section -->
-<header class="main-header" th:fragment="header">
+<header class="main-header">
     <div class="header-top">
         <div class="logo">
             <img src="/images/logo.png" alt="Logo" class="logo-img">
         </div>
         <div class="header-right">
-            <span th:if="${not #request.userPrincipal}" class="auth-links">
-                <a href="/login" class="login-link">로그인</a>
-                <a href="/signup" class="signup-link">회원가입</a>
+            <!--            <span th:if="${not #request.userPrincipal}" class="auth-links">-->
+            <!--                <a href="/login" class="login-link">로그인</a>-->
+            <!--                <a href="/signup" class="signup-link">회원가입</a>-->
+            <!--            </span>-->
+            <!--            <span th:if="${#request.userPrincipal}" class="user-info">-->
+            <!--                    <a href="/profile" class="profile-link">프로필</a>-->
+            <!--                    <a href="/logout" class="logout-link">로그아웃</a>-->
+            <!--            </span>-->
+            <span class="auth-links">
+                <a href="#" class="login-link">로그인</a>
+                <a href="#" class="signup-link">회원가입</a>
             </span>
-            <span th:if="${#request.userPrincipal}" class="user-info">
-                    <a href="/profile" class="profile-link">프로필</a>
-                    <a href="/logout" class="logout-link">로그아웃</a>
-                </span>
         </div>
     </div>
     <div class="header-bottom">
