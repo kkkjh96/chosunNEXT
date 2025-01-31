@@ -4,7 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.chosunnext.dao.UserDao">
 
-    <select id="getUserDto" resultType="com.example.chosunnext.dto.user.response.UserDto">
+    <select id="getUserDto" resultType="com.example.chosunnext.dto.user.response.ResponseUserDto">
+        SELECT * FROM tbl_user WHERE user_id = #{userId}
+    </select>
+
+    <select id="checkId" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userId}
+    </select>
+
+    <insert id="signup">
+        INSERT INTO tbl_user (user_id, email, password, nickname)
+        VALUES
+        (#{userId}, #{userId}, #{password}, #{nickname})
+    </insert>
+
+    <select id="getUser" resultType="com.example.chosunnext.dto.user.response.ResponseUserDto">
         SELECT * FROM tbl_user WHERE user_id = #{userId}
     </select>
 

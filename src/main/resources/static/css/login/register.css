@@ -1,0 +1,94 @@
+/* register.css */
+.signup-form-container {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px 30px;
+    width: 400px;
+    /*border: 1px solid #ddd;*/
+    /*border-radius: 8px;*/
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+}
+
+.signup-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    /*width: 100%;*/
+}
+
+.input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.password-hint {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.btn-regist {
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-regist:hover {
+    background-color: #0056b3;
+}
+
+.btn-regist:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.info-message {
+    color: green;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.input.invalid {
+    border-color: red;
+    box-shadow: 0 0 4px rgba(255, 0, 0, 0.5);
+}
+
+button#check-email-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

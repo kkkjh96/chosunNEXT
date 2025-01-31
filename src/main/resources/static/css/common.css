@@ -13,7 +13,7 @@
 
 .logo {
     height: 40px;
-    width: 400px;
+    /*width: 400px;*/
 }
 
 .header-right {
@@ -24,7 +24,7 @@
 .auth-links a {
     margin-left: 15px;
     text-decoration: none;
-    color: #007bff;
+    color: #000000;
     font-weight: bold;
 }
 
@@ -72,10 +72,12 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    background: #ffffff;
+    width: 100%;
 }
 
 header.main-header, footer.main-footer {
-    width: 100%;
+    /*width: 100%;*/
     background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
@@ -129,7 +131,7 @@ footer.main-footer {
 
 .footer-column a {
     text-decoration: none;
-    color: #007bff;
+    color: #000000;
 }
 
 .footer-bottom {

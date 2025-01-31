@@ -1,7 +1,7 @@
 package com.example.chosunnext.security;
 
 import com.example.chosunnext.dao.UserDao;
-import com.example.chosunnext.dto.user.response.UserDto;
+import com.example.chosunnext.dto.user.response.ResponseUserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDto userDto = userDao.getUserDto(username);
+        ResponseUserDto userDto = userDao.getUserDto(username);
         if(userDto == null){
             throw new UsernameNotFoundException("사용자를 찿을수 없습니다." + username);
         }
