@@ -1,59 +1,137 @@
 /* header.css */
 .main-header {
-    background-color: #ffffff;
+    padding: 20px;
     border-bottom: 1px solid #ddd;
-    padding: 10px 20px;
+    width: 1200px;
+    margin: 0 auto;
+    min-width: 320px;
+
 }
 
+/* 상단 헤더: 로고와 링크 */
 .header-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .logo {
-    height: 40px;
-    /*width: 400px;*/
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.auth-links a {
-    margin-left: 15px;
-    text-decoration: none;
-    color: #000000;
+    font-size: 2rem;
     font-weight: bold;
+    font-family: 'Serif';
 }
 
-.auth-links a:hover {
-    text-decoration: underline;
+.header-links {
+    font-size: 1rem;
+    position: relative;
 }
 
-.main-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 10px 0;
-}
-
-.main-nav li {
-    margin: 0 15px;
-}
-
-.main-nav a {
+.news-link {
     text-decoration: none;
-    font-size: 18px;
     color: #333;
     font-weight: bold;
 }
 
-.main-nav a:hover {
+.news-link.selected {
+    color: red;
+}
+
+/* 개선된 말풍선 스타일 */
+.recommendation-tooltip {
+    position: absolute;
+    top: 35px;
+    left: 1px;
+    background-color: #f8d7da;
+    color: #721c24;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+.recommendation-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent #f8d7da transparent;
+}
+
+/* 로그인 및 아이콘, 날짜 */
+.header-auth-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+    /*margin-right: 100px;*/
+}
+
+.header-auth {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.header-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.icon-link {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #333;
+}
+
+/* 날짜 스타일 */
+.current-date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 8px;
+    text-align: right;
+}
+
+/* 카테고리 메뉴 */
+.header-middle {
+    margin-top: 20px;
+}
+
+.main-nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    gap: 20px;
+}
+
+.menu-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.menu-link:hover {
     color: #007bff;
 }
+
 
 /* main */
 body {
@@ -101,6 +179,9 @@ footer.main-footer {
     padding: 20px;
     color: #555;
     text-align: center;
+    width: 1200px;
+    margin: 0 auto;
+    min-width: 320px;
 }
 
 .footer-columns {

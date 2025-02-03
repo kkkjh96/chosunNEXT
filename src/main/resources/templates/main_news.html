@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/main_news.css"> <!-- 공통 스타일 적용 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+        <div class="container">
+            <!-- 메인 뉴스 -->
+            <section class="main-news">
+                <img src="https://via.placeholder.com/800x400" alt="메인 뉴스 이미지">
+                <div class="main-news-content">
+                    <h1>글로벌 경제전쟁 후폭풍으로 번진다</h1>
+                    <p>트럼프 "다음 타겟은 EU" - 글로벌 경제의 향방은?</p>
+                </div>
+            </section>
+
+            <!-- 주요 기사 섹션 -->
+            <section class="top-articles">
+                <article class="article-item">
+                    <h3>주요 기사 1</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+                <article class="article-item">
+                    <h3>주요 기사 2</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+                <article class="article-item">
+                    <h3>주요 기사 3</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+                <article class="article-item">
+                    <h3>주요 기사 4</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+                <article class="article-item">
+                    <h3>주요 기사 5</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+                <article class="article-item">
+                    <h3>주요 기사 6</h3>
+                    <p>주요 기사 내용이 여기에 표시됩니다.</p>
+                </article>
+            </section>
+
+            <!-- 연속 기사 목록 섹션 -->
+            <section class="continuous-articles">
+                <h2>연속 기사 목록</h2>
+                <div class="news-row">
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 1</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 2</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                </div>
+                <div class="news-row">
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 3</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 4</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                </div>
+                <div class="news-row">
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 5</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/300x200" alt="연속 기사 이미지">
+                        <h4>연속 기사 제목 6</h4>
+                        <p>연속 기사 요약 내용이 여기에 표시됩니다.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- 오피니언 섹션 -->
+            <section class="opinion-section">
+                <h3>오피니언</h3>
+                <div class="opinion-item">
+                    <p>오피니언 기사 1: AI가 뉴스 제작에 미치는 영향</p>
+                </div>
+                <div class="opinion-item">
+                    <p>오피니언 기사 2: 경제전쟁에 대한 새로운 시각</p>
+                </div>
+                <div class="opinion-item">
+                    <p>오피니언 기사 3: 미래 사회와 기술</p>
+                </div>
+            </section>
+
+            <!-- 광고 배너 -->
+            <section class="ad-banner">
+                <p>AI 학습형 광고 배너 공간입니다</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

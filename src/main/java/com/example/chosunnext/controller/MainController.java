@@ -24,7 +24,7 @@ public class MainController {
     @GetMapping("/")
     public String index() {
         log.info("MainController.index()");
-        return "/layout/layout";
+        return "/main";
     }
 
 }
