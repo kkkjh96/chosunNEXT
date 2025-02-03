@@ -9,36 +9,78 @@
 <body>
 <!-- Header Fragment Section -->
 <header class="main-header">
+<!--    <div class="header-top">-->
+<!--        <div class="logo">-->
+<!--            <img src="/images/logo.png" alt="Logo" class="logo-img">-->
+<!--        </div>-->
+<!--        <div class="header-right">-->
+<!--            &lt;!&ndash;            <span th:if="${not #request.userPrincipal}" class="auth-links">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a href="/login" class="login-link">로그인</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a href="/signup" class="signup-link">회원가입</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </span>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <span th:if="${#request.userPrincipal}" class="user-info">&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <a href="/profile" class="profile-link">프로필</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;                    <a href="/logout" class="logout-link">로그아웃</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </span>&ndash;&gt;-->
+<!--            <span class="auth-links">-->
+<!--                <a href="/login" class="login-link">로그인</a>-->
+<!--                <a href="/register" class="signup-link">회원가입</a>-->
+<!--            </span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="header-bottom">-->
+<!--        <nav class="main-nav">-->
+<!--            <ul>-->
+<!--                <li><a href="/categories/society">사회</a></li>-->
+<!--                <li><a href="/categories/politics">정치</a></li>-->
+<!--                <li><a href="/categories/economy">경제</a></li>-->
+<!--                <li><a href="/categories/culture">문화</a></li>-->
+<!--                <li><a href="/categories/entertainment">연예</a></li>-->
+<!--                <li><a href="/categories/sports">스포츠</a></li>-->
+<!--                <li><a href="/categories/opinion">오피니언</a></li>-->
+<!--                <li><a href="/chosun-next">조선Next</a></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+    <!-- 상단 로고와 전체일보/마이일보 -->
     <div class="header-top">
-        <div class="logo">
-            <img src="/images/logo.png" alt="Logo" class="logo-img">
-        </div>
-        <div class="header-right">
-            <!--            <span th:if="${not #request.userPrincipal}" class="auth-links">-->
-            <!--                <a href="/login" class="login-link">로그인</a>-->
-            <!--                <a href="/signup" class="signup-link">회원가입</a>-->
-            <!--            </span>-->
-            <!--            <span th:if="${#request.userPrincipal}" class="user-info">-->
-            <!--                    <a href="/profile" class="profile-link">프로필</a>-->
-            <!--                    <a href="/logout" class="logout-link">로그아웃</a>-->
-            <!--            </span>-->
-            <span class="auth-links">
-                <a href="#" class="login-link">로그인</a>
-                <a href="#" class="signup-link">회원가입</a>
-            </span>
+        <div class="logo-wrapper">
+            <div class="logo">朝鮮日報</div>
+            <div class="header-links">
+                <a href="#" class="news-link selected">전체일보</a> |
+                <a href="#" class="news-link">마이일보</a>
+                <!-- 말풍선 -->
+                <span class="recommendation-tooltip">취향따라! 맞춤 콘텐츠 추천 받기</span>
+            </div>
         </div>
     </div>
-    <div class="header-bottom">
+
+    <!-- 로그인 및 아이콘 -->
+    <div class="header-auth-icons">
+        <div class="header-auth">
+            <a href="/login" class="auth-link">로그인</a>
+            <a href="/register" class="auth-link">회원가입</a>
+        </div>
+        <div class="header-icons">
+            <a href="#" class="icon-link search-icon">🔍</a>
+            <a href="#" class="icon-link bell-icon">🔔</a>
+            <a href="#" class="icon-link menu-icon">☰</a>
+        </div>
+        <span class="current-date">2025년 1월 10일</span>
+    </div>
+
+    <!-- 날짜 및 카테고리 메뉴 -->
+    <div class="header-middle">
         <nav class="main-nav">
             <ul>
-                <li><a href="/categories/society">사회</a></li>
-                <li><a href="/categories/politics">정치</a></li>
-                <li><a href="/categories/economy">경제</a></li>
-                <li><a href="/categories/culture">문화</a></li>
-                <li><a href="/categories/entertainment">연예</a></li>
-                <li><a href="/categories/sports">스포츠</a></li>
-                <li><a href="/categories/opinion">오피니언</a></li>
-                <li><a href="/chosun-next">조선Next</a></li>
+                <li><a href="#" class="menu-link">사회</a></li>
+                <li><a href="#" class="menu-link">정치</a></li>
+                <li><a href="#" class="menu-link">경제</a></li>
+                <li><a href="#" class="menu-link">문화</a></li>
+                <li><a href="#" class="menu-link">연예</a></li>
+                <li><a href="#" class="menu-link">스포츠</a></li>
+                <li><a href="#" class="menu-link">오피니언</a></li>
+                <li><a href="#" class="menu-link">조선Next</a></li>
             </ul>
         </nav>
     </div>

@@ -85,7 +85,7 @@ function checkEmailDuplication() {
     // AJAX 요청 (예시)
     api.post('/api/check-id', { id: emailField.value.trim() })
         .then(response => {
-            console.log('이��일 중복 검사 성공:', response);
+            console.log('이메일 중복 검사 성공:', response);
             if (response) {
                 emailStatus.textContent = '이미 사용 중인 이메일입니다.';
                 emailStatus.style.color = 'red';

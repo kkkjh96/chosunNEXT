@@ -1,0 +1,73 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 메인 뉴스 */
+.main-news {
+    display: flex;
+    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.main-news img {
+    flex: 2;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.main-news-content {
+    flex: 3;
+    padding: 20px;
+}
+
+.main-news-content h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* 주요 기사 섹션 */
+.top-articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.article-item {
+    flex: 1 1 calc(33.33% - 20px);
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* 연속 기사 목록 */
+.continuous-articles {
+    margin-top: 20px;
+}
+
+.news-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.news-card {
+    flex: 1;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* 오피니언 */
+.opinion-section {
+    background: #fff;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
