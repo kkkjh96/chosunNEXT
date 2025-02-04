@@ -27,4 +27,8 @@ public class MainController {
         return "/main";
     }
 
+    @GetMapping("/mynews")
+    public String mynews() {
+        return "/mynews/my-news-main";
+    }
 }
