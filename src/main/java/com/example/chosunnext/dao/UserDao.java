@@ -2,6 +2,7 @@ package com.example.chosunnext.dao;
 
 import com.example.chosunnext.dto.user.request.RequestUserDto;
 import com.example.chosunnext.dto.user.response.ResponseUserDto;
+import com.example.chosunnext.security.CustomUserDetails;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,5 +25,6 @@ public interface UserDao {
     int checkId(@Param("userId") String userId);
 
     void signup(RequestUserDto requestUserDto);
+
 
 }
