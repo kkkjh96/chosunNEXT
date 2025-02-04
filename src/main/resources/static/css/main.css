@@ -1,66 +1,253 @@
-/* main.css */
 .main-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 1200px;           /* 콘텐츠의 최대 너비를 1200px로 설정 */
+    margin: 0 auto;              /* 중앙 정렬을 위해 자동 마진 적용 */
+    padding: 20px;               /* 콘텐츠 내부에 여백 추가 */
 }
 
+/* 콘텐츠 그리드를 플렉스 레이아웃으로 설정 */
 .content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    display: flex;               /* 플렉스 박스를 사용하여 주요 기사와 추천 뉴스 나란히 배치 */
+    gap: 20px;                   /* 두 섹션 사이에 20px의 간격 추가 */
 }
 
-.top-news, .recommended-news, .editor-recommend, .opinion-section, .hot-news {
-    background-color: #fff;
-    padding: 15px;
-    /*border: 1px solid #ddd;*/
-    /*border-radius: 8px;*/
-    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+/* 주요 기사 섹션 스타일 */
+.top-news {
+    flex: 2;                     /* 플렉스 비율을 2로 설정하여 추천 뉴스보다 더 넓게 배치 */
+    border-top: 2px solid #bbb;  /* 섹션 상단에 진한 회색 구분선 추가 */
+    padding-top: 15px;           /* 상단 여백 추가 */
 }
 
-.main-article img {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 8px;
-    margin: 10px 0;
+/* 추천 뉴스 섹션 스타일 */
+.recommended-news {
+    flex: 1;                     /* 플렉스 비율을 1로 설정하여 주요 기사보다 좁게 배치 */
+    border-top: 2px solid #bbb;  /* 섹션 상단에 진한 회색 구분선 추가 */
+    /*padding-top: 15px;           !* 상단 여백 추가 *!*/
 }
 
-.featured-news {
+.recommended-content{
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.featured-news article {
-    width: 48%;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.recommended-news ul, .hot-news ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.recommended-news li, .hot-news li {
+    gap: 10px;                   /* 두 ��션 사이에 20px 간격 추가 */
+    padding-top: 15px;           /* 상단 여�� 추가 */
+    align-items: center;           /* ���스 ��스를 가로로 정�� */
     margin-bottom: 10px;
+    border-bottom: 1px solid #bbbbbb;
 }
 
-.editor-recommend, .opinion-section, .hot-news {
-    margin-top: 20px;
+.recommended-body{
+    flex: 1;
+    padding: 15px;
 }
 
+.sub-category{
+    color: red;
+}
+
+.recommended-images{
+    flex: 1;
+    gap: 10px;                   /* 두  섹션 사이에 10px 간격 추가 */
+    padding-top: 10px;           /* 상단 여백 추가 */
+}
+
+.recommended-img{
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.content-wrap{
+    display: flex; /* ����스 ��스를 사용하여 주요 기사, 추�� ���스, 에디터 추��, 실시간 �����스 ��션을 나��히 배치 */
+    gap: 20px;                   /* 두 ��션 사이에 20px 간격 추가 */
+}
+
+/* 에디터 추천과 실시간 핫뉴스 섹션을 나란히 배치 */
+.editor-hotnews-container {
+    flex: 2;
+    gap: 20px;                   /* 두 섹션 사이에 20px 간격 추가 */
+    padding-top: 15px;           /* 상단 여백 추가 */
+}
+
+/* 에디터 추천 섹션 스타일 */
+.editor-recommend {
+    background-color: #fff;      /* 배경색을 흰색으로 설정 */
+    padding: 15px;               /* 내부 여백 설정 */
+    border-top: 2px solid #bbb;  /* 섹션 구분선 추가 */
+}
+
+.editor-category{
+    display: flex;
+    gap: 10px;                   /* 두 ��션 사이에 10px 간격 추가 */
+}
+
+.editor-content{
+    flex: 1;
+}
+
+.editor-img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+
+
+.content-hot-news{
+    flex: 1;
+    gap: 20px;
+    padding-top: 15px;/* 두 ��션 사이에 20px 간격 추가 */
+}
+.hot-news{
+    padding: 15px;           /* 상단 여�� 추가 */
+    border-top: 2px solid #bbb;
+}
+
+.main-article{
+    width: 100%;
+    text-align: center;
+}
+
+/* 기사 이미지 스타일 */
+.default {
+    justify-content: center;
+    width: 100%;                 /* 이미지 너비를 부모 요소에 맞춤 */
+    max-width: 600px;            /* 최대 너비를 600px로 제한 */
+    height: 400px;                /* 높이를 자동 조정하여 비율 유지 */
+    border-radius: 8px;          /* 이미지 모서리를 둥글게 설정 */
+    margin: 10px 0;              /* 위아래에 여백 추가 */
+}
+
+/* 기사 목록 스타일 */
+.hot-news ol {
+    list-style: none;            /* 기본 목록 스타일 제거 */
+    padding: 0;                  /* 패딩 제거 */
+    margin: 0;                   /* 마진 제거 */
+}
+
+/* 각 기사 항목 스타일 */
+.hot-news li {
+    padding: 10px 0;             /* 위아래에 여백 추가 */
+    border-bottom: 1px solid #ddd; /* 기사별 구분선 추가 */
+}
+
+/* 마지막 기사 항목의 구분선 제거 */
+.hot-news li:last-child {
+    border-bottom: none;         /* 마지막 항목에 구분선 제거 */
+}
+
+/* 링크 스타일 */
 a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
+    text-decoration: none;       /* 밑줄 제거 */
+    color: #000000;              /* 링크 색상을 파란색으로 설정 */
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline;  /* 마우스를 올렸을 때 밑줄 표시 */
+}
+
+.headline-contain{
+    display: flex;
+    gap: 10px;
+    /*padding: 10px;               !* ���스 ��� ���간격 추가 *!*/
+    /*border-top: 2px solid #ddd; !* ���스 ��� ���간격 추가 *!*/
+}
+
+
+/* 주요 기사 내 추천 기사 스타일 */
+.headline-news {
+    flex: 2;
+    display: flex;               /* 플렉스 레이아웃 사용 */
+    gap: 10px;                   /* 기사 간격 추가 */
+}
+
+.headline-side-contain{
+    flex: 1;
+}
+
+.headline-img{
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+}
+
+/* 추천 기사 스타일 */
+.headline-content {
+    flex: 1;                     /* 추천 기사를 균등한 크기로 배치 */
+    padding: 10px;               /* 내부 여백 설정 */
+    text-align: center;
+    display: flex;
+    /*background-color: #f9f9f9;   !* 배경색 설정 *!*/
+    /*border-radius: 8px;          !* 모서리를 둥글게 설정 *!*/
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); !* 그림자 효과 추가 *!*/
+    /*border: 1px solid #ddd;      !* 기사 경계선 추가 *!*/
+}
+
+.headline-title{
+    text-align: left;
+    margin-top: 20px;
+    padding-top: 10px;
+    font-size: 18px;         /* 제목 크기 설정 */
+    font-weight: bold;
+    border-top: 2px solid #ddd;
+}
+
+.headline-body{
+    flex: 1;
+    padding: 10px;               /* ���스 ��� ���간격 추가 */
+    text-align: center;
+    gap: 10px;
+}
+
+.headline-side-contain{
+    flex: 1;
+    padding: 10px;               /* ����� 여�� 설정 */
+    gap: 10px;                   /* ���스 ��� ���간격 추가 */
+}
+
+.headline-side-img{
+    width: 100px;
+}
+
+.headline-hot-news{
+    flex: 1;
+}
+/* 기사 목록 스타일 */
+.headline-hot-news ol {
+    list-style: none;            /* 기본 목록 스타일 제거 */
+    padding: 0;                  /* 패딩 제거 */
+    margin: 0;                   /* 마진 제거 */
+}
+
+/* 각 기사 항목 스타일 */
+.headline-hot-news li {
+    padding: 10px 0;             /* 위아래에 여백 추가 */
+    border-bottom: 1px solid #ddd; /* 기사별 구분선 추가 */
+}
+
+/* 마지막 기사 항목의 구분선 제거 */
+.headline-hot-news li:last-child {
+    border-bottom: none;         /* 마지막 항목에 구분선 제거 */
+}
+
+.headline-side-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 두 개의 열 */
+    grid-template-rows: auto auto; /* 자동 행 높이 */
+    grid-template-areas:
+        "title image"
+        "content content"; /* 글이 두 칸을 차지하도록 영역 설정 */
+    gap: 5px;            /* ���스 ��� ���간격 추가 */
+}
+
+.headline-side-body{
+    grid-area: title;
+    padding: 10px;               /* ���스 ��� ���간격 추가 */
+}
+
+.headline-side-images{
+    grid-area: image;
+    align-content: center;
+}
+
+.headline-side-subtitle{
+    grid-area: content;
+    border-bottom: 1px solid #bbbbbb;
 }
