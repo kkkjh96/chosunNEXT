@@ -1,0 +1,186 @@
+/* 메인 레이아웃 */
+body {
+    font-family: 'Noto Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    width: 100%;
+}
+
+/* 상단 헤더 */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Serif';
+}
+
+.header-icons span {
+    margin-left: 10px;
+}
+
+/* 메뉴 섹션 */
+.menu-section {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 제목과 메뉴를 한 줄로 배치 */
+.menu-title-and-links {
+    display: flex;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+.menu-title-and-links h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+/* 메뉴 스타일 */
+.page-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.page-menu li {
+    font-weight: bold;
+}
+
+.page-menu a {
+    text-decoration: none;
+    color: #333;
+}
+
+.page-menu a:hover {
+    color: #f04e45;
+}
+
+
+/* 환영 배너 */
+.welcome-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f04e45;
+    color: white;
+    padding: 10px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logout-button {
+    background-color: white;
+    color: #f04e45;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 사용 정보 요약 섹션 */
+.user-info-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #fff8e1;
+    border-bottom: 1px solid #ddd;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-box {
+    text-align: center;
+    padding: 10px;
+}
+
+/* 통계 및 활동 보관함 섹션 */
+.stats-and-activity-section {
+    padding: 20px;
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stats-activity-grid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+}
+
+/* 차트 영역 */
+.chart-container {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 나의 활동 보관함 */
+.activity-summary-section {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.activity-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2칸 */
+    gap: 10px;
+}
+
+.activity-box {
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 푸터 */
+.main-footer {
+    background-color: #ffffff;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    border-top: 1px solid #ddd;
+}
+
+/* 최소 화면 크기 설정 */
+.main-content, header.main-header, footer.main-footer {
+    min-width: 320px;
+}
