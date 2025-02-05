@@ -29,16 +29,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         ResponseUserDto userDto = userDao.getUserDto(username);
-        if(userDto == null){
-            throw new UsernameNotFoundException("사용자를 찿을수 없습니다." + username);
+        if (userDto == null) {
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
         }
 
-        return  org.springframework.security.core.userdetails.User.builder()
-                .username(userDto.getUserId())
-                .password(userDto.getPassword())
-                .roles(userDto.getRole())
-                .build();
+        return new CustomUserDetails(userDto);
     }
 }

@@ -1,10 +1,15 @@
 package com.example.chosunnext.config;
 
+import com.example.chosunnext.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,23 +30,68 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomUserDetailsService customUserDetailsService;
+
+    /**
+     * 권한 접두사 제거 설정
+     */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");  // ROLE_ 접두사 제거
+    }
+
+    /**
+     * PasswordEncoder 빈 등록
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * AuthenticationManager 등록
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    /**
+     * DaoAuthenticationProvider 설정
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    /**
+     * SecurityFilterChain 설정
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())  // CSRF 보호 비활성화
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // 모든 요청 허용
+                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**" ).permitAll()
+                        .requestMatchers("/mypage/**").hasAuthority("USER")  // 접두사 없이 권한 검사
+                        .anyRequest().authenticated()
                 )
-                .formLogin(login -> login.disable())  // 로그인 페이지 비활성화
-                .httpBasic(basic -> basic.disable());  // 기본 인증 비활성화
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                );
 
-        return http.build();  // securityFilterChain object is returned when the configuration is complete.
-
+        return http.build();
     }
 
 }

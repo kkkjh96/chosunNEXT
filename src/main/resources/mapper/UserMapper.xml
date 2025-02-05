@@ -18,8 +18,4 @@
         (#{userId}, #{userId}, #{password}, #{nickname})
     </insert>
 
-    <select id="getUser" resultType="com.example.chosunnext.dto.user.response.ResponseUserDto">
-        SELECT * FROM tbl_user WHERE user_id = #{userId}
-    </select>
-
 </mapper>
