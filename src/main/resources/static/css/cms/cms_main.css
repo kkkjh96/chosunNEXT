@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+ul, li{
+    text-decoration: none;
+}
 .wrap {
     display: flex;
     flex-wrap: wrap;
@@ -11,11 +14,20 @@
     padding: 20px;
 }
 
+.logo{
+    height: 100px;
+    background-color: #555555;
+}
 .side_bar {
     width: 20%;
     background-color: #f0f0f0;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile{
+    height: 100px;
+    background-color: #888888;
 }
 
 .dash_board {
