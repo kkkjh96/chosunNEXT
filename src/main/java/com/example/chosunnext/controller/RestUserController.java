@@ -1,8 +1,10 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.dto.category.response.ResponseCategoryDto;
 import com.example.chosunnext.dto.user.request.RequestUserDto;
 import com.example.chosunnext.dto.user.response.ResponseUserDto;
 import com.example.chosunnext.security.CustomUserDetails;
+import com.example.chosunnext.service.CategoryService;
 import com.example.chosunnext.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,12 +95,26 @@ public class RestUserController {
 
             // 사용자 정보를 세션에 저장
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            session.setAttribute("user", userDetails);
+            log.info("User Details : {}", userDetails);
+            session.setAttribute("user", SecurityContextHolder.getContext());
+//            session.setAttribute("user", userDetails);
 
             return ResponseEntity.ok("로그인 성공");
         } catch (Exception e) {
             return ResponseEntity.status(401).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
         }
+    }
+
+    private final CategoryService categoryService;
+
+    @GetMapping("/footer/categories")
+    public ResponseEntity<List<ResponseCategoryDto>> getFooterCategories() {
+
+        List<ResponseCategoryDto> responseCategories = categoryService.getCategories();
+
+        log.info(responseCategories.toString());
+
+        return ResponseEntity.ok(responseCategories);
     }
 
 }

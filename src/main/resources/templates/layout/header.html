@@ -14,17 +14,13 @@
 <!--            <img src="/images/logo.png" alt="Logo" class="logo-img">-->
 <!--        </div>-->
 <!--        <div class="header-right">-->
-<!--            &lt;!&ndash;            <span th:if="${not #request.userPrincipal}" class="auth-links">&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a href="/login" class="login-link">로그인</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a href="/signup" class="signup-link">회원가입</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </span>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <span th:if="${#request.userPrincipal}" class="user-info">&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <a href="/profile" class="profile-link">프로필</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <a href="/logout" class="logout-link">로그아웃</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </span>&ndash;&gt;-->
-<!--            <span class="auth-links">-->
+<!--            <span th:if="${session.user == null}" class="auth-links">-->
 <!--                <a href="/login" class="login-link">로그인</a>-->
-<!--                <a href="/register" class="signup-link">회원가입</a>-->
+<!--                <a href="/signup" class="signup-link">회원가입</a>-->
+<!--            </span>-->
+<!--            <span th:if="${session.user != null}" class="user-info">-->
+<!--                <a href="/mypage" class="profile-link">마이페이지</a>-->
+<!--                <a href="/logout" class="logout-link">로그아웃</a>-->
 <!--            </span>-->
 <!--        </div>-->
 <!--    </div>-->
@@ -59,8 +55,19 @@
     <!-- 로그인 및 아이콘 -->
     <div class="header-auth-icons">
         <div class="header-auth">
-            <a href="/login" class="auth-link">로그인</a>
-            <a href="/register" class="auth-link">회원가입</a>
+            <span th:if="${session.user == null}" class="auth-links">
+                <a href="/login" class="login-link">로그인</a>
+                <a href="/signup" class="signup-link">회원가입</a>
+            </span>
+            <span th:if="${session.user != null}" class="user-info">
+                <!-- Spring Security 인증 객체 확인 -->
+<span th:if="${#authentication != null}">
+    <p>인증된 사용자: <span th:text="${#authentication.name}">사용자명</span></p>
+    <p>권한 목록: <span th:each="auth : ${#authentication.authorities}" th:text="${auth}">권한</span></p>
+</span>
+                <a href="/mypage" class="profile-link">마이페이지</a>
+                <a href="/logout" class="logout-link">로그아웃</a>
+            </span>
         </div>
         <div class="header-icons">
             <a href="#" class="icon-link search-icon">🔍</a>

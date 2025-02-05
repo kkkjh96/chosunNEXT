@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login(){
-        return "/login/login1";
+        return "/login/login";
     }
 
 
