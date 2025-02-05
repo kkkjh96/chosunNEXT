@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>대시보드</title>
+    <link rel="stylesheet" href="/css/cms/cms_register.css">
+
+    <!-- 네이버 스마트 에디터 관련 CSS 및 JS -->
+    <script type="text/javascript" src="../../javascript/cms/HuskyEZCreator.js" charset="utf-8"></script>
+
+</head>
+<body>
+<div class="wrap">
+
+    <!-- 사이드바 영역 -->
+    <div class="side_bar">
+        <div class="logo">
+            <img src="../images/logo.png" alt="로고">
+        </div>
+        <div class="profile">
+            <img src="../images/myprofile.png" alt="프로필">
+            <div class="user_info">
+                <div class="user_id">박미정</div>
+                <div class="department">디지털 사업부</div>
+            </div>
+        </div>
+
+        <ul>
+            <li><a href="#">뉴스 룸</a></li>
+            <li><a href="#">뉴스 데스크</a></li>
+            <li><a href="#">독자 투고</a></li>
+            <li><a href="#">통계</a></li>
+            <li><a href="#">WCMS</a></li>
+        </ul>
+    </div>
+
+    <!-- 기사 작성 영역 -->
+    <div class="article_regist_wrap">
+        <p>기사 작성</p>
+
+        <form id="article_form">
+            <div class="content_wrap">
+                <input type="text" name="title" placeholder="제목을 입력하세요" required> <br>
+                <input type="text" name="sub_title" placeholder="부제목을 입력하세요" required>
+
+                <!-- 스마트 에디터 영역 -->
+                <textarea id="smarteditor" name="content" style="width:100%; height:300px;"></textarea>
+            </div>
+
+            <div class="section_2">
+                <div class="reservation_type">
+                    예약배포 : <input type="datetime-local" name="reservation_time">
+                    <div style="margin: 10px 0;">
+                        <p>news_type</p>
+                        <label><input type="radio" name="news_type" value="속보" required> 속보</label>
+                        <label><input type="radio" name="news_type" value="단독"> 단독</label>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <p>카테고리 선택</p>
+
+                    <!-- 대분류 선택 -->
+                    <label for="main_category_cd">대분류</label>
+                    <select id="main_category_cd" name="main_category_cd" required>
+                        <option value="">대분류를 선택하세요</option>
+                        <option value="사회">사회</option>
+                        <option value="경제">경제</option>
+                        <option value="정치">정치</option>
+                    </select><br>
+
+                    <!-- 소분류 선택 -->
+                    <label for="sub_category_cd">소분류</label>
+                    <select id="sub_category_cd" name="sub_category_cd" required>
+                        <option value="">소분류를 선택하세요</option>
+                        <option value="사회일반">사회일반</option>
+                        <option value="사건사고">사건사고</option>
+                        <option value="복지">복지</option>
+                    </select><br>
+
+                    <!-- 바이라인 선택 -->
+                    <label for="user_id">바이라인</label>
+                    <select id="user_id" name="user_id" required>
+                        <option value="">기자명을 선택하세요</option>
+                        <option value="기자1">기자1</option>
+                        <option value="기자2">기자2</option>
+                        <option value="기자3">기자3</option>
+                    </select><br>
+
+                    <button type="submit" style="margin-top: 10px;">저장</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 네이버 스마트 에디터 초기화 스크립트 -->
+<script type="text/javascript">
+
+    var oEditors = [];
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "smarteditor",
+        sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+        fCreator: "createSEditor2"
+    });
+
+    // 폼 제출 시 에디터 내용 전송
+    document.getElementById('article_form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 스마트 에디터 내용 동기화
+        oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
+
+        // 폼 제출
+        this.submit();
+    });
+</script>
+</body>
+</html>

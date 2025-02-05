@@ -31,8 +31,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         HttpSession session = request.getSession();
         session.setAttribute("user", userDetails);
 
-        // 리다이렉트 처리
-        response.sendRedirect("/");
-    }
+        // 사용자 권한 확인 및 리다이렉트 경로 설정
+        boolean isReporter = userDetails.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("REPORTER"));
 
-}
+        if (isReporter) {
+            // 리포터 권한이 있는 경우 '/cms'로 리다이렉트
+            response.sendRedirect("/cms");
+        } else {
+            // 일반 사용자 권한인 경우 메인 페이지로 리다이렉트
+            response.sendRedirect("/");
+        }
+
+      }
+    }

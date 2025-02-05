@@ -11,29 +11,71 @@
 
   <div class="side_bar">
       <div class="logo">
-          <img src="">
+          <img src="../images/logo.png">
       </div>
       <div class="profile">
-          <img src="">
+          <img src="../images/myprofile.png">
+          <div class="user_info">
+              <div class="user_id">박미정</div>
+              <div class="department"> 디지털 사업부</div>
+          </div>
       </div>
-        <ul>
-            <li><a>뉴스 룸</a></li>
-            <li><a>뉴스 데스크</a></li>
-            <li><a>독자투고</a></li>
-            <li><a>통계</a></li>
-            <li><a>WCMS</a></li>
 
-        </ul>
+      <ul>
+          <li><a href="#">뉴스 룸</a></li>
+          <li><a href="#">뉴스 데스크</a></li>
+          <li><a href="#">독자 투고</a></li>
+          <li><a href="#">통계</a></li>
+          <li><a href="#">WCMS</a></li>
+      </ul>
   </div>
 
-  <div class="dash_board">
-    <div class="news_list"></div>
-  </div>
+    <!-- 로그아웃 -->
 
-  <div class="photo_show"></div>
+    <div class="dash_board">
+        <p>기사 목록</p>
+        <table class="news_list_wrap">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>기자명</th>
+                <th>작성시간</th>
+            </tr>
+            </thead>
+            <tbody>
 
-  <div class="notice"></div>
+            </tbody>
+        </table>
+    </div>
 
+    <div class="session_2">
+          <div class="photo_show">
+              <div class="photo">
+                  <p>사진</p>
+                  <div class="photo_wrap">
+                      <img>
+                  </div>
+              </div>
+          </div>
+
+        <div class="notice_wrap">
+            <p>공지사항</p>
+            <table class="tbl_notice_wrap">
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>게재일</th>
+                        <th>수정</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 </body>

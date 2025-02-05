@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("cms")
+@RequestMapping("/cms")
 public class CmsController {
 
     @GetMapping("/")
     public String cms() {
         return "/cms/main";
+    }
+
+    @GetMapping("/regist")
+    public String cms_regist() {
+        return "/cms/regist";
     }
 
 }
