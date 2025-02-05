@@ -26,4 +26,10 @@ public class UserController {
         return "/login/regist";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "/login/login1";
+    }
+
+
 }

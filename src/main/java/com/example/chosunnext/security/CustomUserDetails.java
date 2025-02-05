@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * packageName    : org.example.chosunnext.security
@@ -20,18 +21,25 @@ import java.util.Collection;
  * 2025-01-22        김재홍       최초 생성
  */
 public class CustomUserDetails implements UserDetails {
+
     private final ResponseUserDto user;
 
     public CustomUserDetails(ResponseUserDto user) {
         this.user = user;
     }
 
+    public String getEmail() {
+        return user.getEmail();
+    }
+
+    public String getNickname() {
+        return user.getNickname();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole()));
-
-        return authorities;
+        // DB에 저장된 역할을 그대로 사용
+        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override
@@ -42,5 +50,25 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUserId();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !"N".equals(user.getStatus());
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return "Y".equals(user.getStatus());
     }
 }

@@ -26,5 +26,4 @@ public interface UserDao {
 
     void signup(RequestUserDto requestUserDto);
 
-
 }

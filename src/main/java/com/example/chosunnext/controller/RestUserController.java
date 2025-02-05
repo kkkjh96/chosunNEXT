@@ -2,10 +2,17 @@ package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.user.request.RequestUserDto;
 import com.example.chosunnext.dto.user.response.ResponseUserDto;
+import com.example.chosunnext.security.CustomUserDetails;
 import com.example.chosunnext.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +37,11 @@ import java.util.Map;
 @Slf4j
 public class RestUserController {
 
+    private final AuthenticationManager authenticationManager;
+
     private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/check-id")
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> request){
@@ -66,6 +77,30 @@ public class RestUserController {
         }
 
         return  ResponseEntity.status(500).body("회원가입에 실패하셨습니다.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody RequestUserDto loginRequest, HttpSession session) {
+        try {
+            // 사용자 인증 수행
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUserId(),
+                            loginRequest.getPassword()
+                    )
+            );
+
+            // 인증 성공 시 SecurityContext에 인증 정보 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // 사용자 정보를 세션에 저장
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            session.setAttribute("user", userDetails);
+
+            return ResponseEntity.ok("로그인 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
     }
 
 }
