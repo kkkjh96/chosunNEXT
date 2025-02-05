@@ -38,8 +38,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // DB에 저장된 역할을 그대로 사용
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+        String[] roles = user.getRole().split(",");  // 콤마로 구분된 역할 목록 처리
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.trim()));
+        }
+
+        return authorities;
     }
 
     @Override
