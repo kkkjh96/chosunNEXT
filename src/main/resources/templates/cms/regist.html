@@ -5,8 +5,9 @@
     <title>대시보드</title>
     <link rel="stylesheet" href="/css/cms/cms_register.css">
 
-    <!-- 네이버 스마트 에디터 관련 CSS 및 JS -->
-    <script type="text/javascript" src="../../javascript/cms/HuskyEZCreator.js" charset="utf-8"></script>
+    <!-- 네이버 스마트 에디터 관련 JS 파일 -->
+    <script type="text/javascript" src="../javascript/cms/HuskyEZCreator.js" charset="utf-8"></script>
+
 
 </head>
 <body>
@@ -94,27 +95,18 @@
     </div>
 </div>
 
-<!-- 네이버 스마트 에디터 초기화 스크립트 -->
-<script type="text/javascript">
 
+<script type="text/javascript">
     var oEditors = [];
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
-        elPlaceHolder: "smarteditor",
-        sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+        elPlaceHolder: "smarteditor",  // ID of the text area where the editor should appear
+        sSkinURI: "C:\Users\dkzld\OneDrive\바탕 화면\chosun\src\main\resources\templates\cms\SmartEditor2Skin.htmll",  // Path to the skin file
         fCreator: "createSEditor2"
     });
-
-    // 폼 제출 시 에디터 내용 전송
-    document.getElementById('article_form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        // 스마트 에디터 내용 동기화
-        oEditors.getById["smarteditor"].exec("UPDATE_CONTENTS_FIELD", []);
-
-        // 폼 제출
-        this.submit();
-    });
 </script>
+
+
+
 </body>
 </html>
