@@ -17,4 +17,9 @@ public class CmsController {
         return "/cms/main";
     }
 
+    @GetMapping("/regist")
+    public String cms_regist() {
+        return "/cms/regist";
+    }
+
 }
