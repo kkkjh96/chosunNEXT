@@ -40,8 +40,7 @@ public class RestUserController {
     private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
-
-    private final PasswordEncoder passwordEncoder;
+    private final CategoryService categoryService;
 
     @PostMapping("/check-id")
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> request){
@@ -79,35 +78,7 @@ public class RestUserController {
         return  ResponseEntity.status(500).body("회원가입에 실패하셨습니다.");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody RequestUserDto loginRequest, HttpSession session) {
-        try {
-            // 사용자 인증 수행
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUserId(),
-                            loginRequest.getPassword()
-                    )
-            );
-
-            // 인증 성공 시 SecurityContext에 인증 정보 저장
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // 사용자 정보를 세션에 저장
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            log.info("User Details : {}", userDetails);
-            session.setAttribute("user", SecurityContextHolder.getContext());
-//            session.setAttribute("user", userDetails);
-
-            return ResponseEntity.ok("로그인 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("로그인 실패: 이메일 또는 비밀번호가 올바르지 않습니다.");
-        }
-    }
-
-    private final CategoryService categoryService;
-
-    @GetMapping("/footer/categories")
+    @GetMapping("/category")
     public ResponseEntity<List<ResponseCategoryDto>> getFooterCategories() {
 
         List<ResponseCategoryDto> responseCategories = categoryService.getCategories();
