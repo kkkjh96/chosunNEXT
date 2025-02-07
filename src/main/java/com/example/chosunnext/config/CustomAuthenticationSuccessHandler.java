@@ -42,6 +42,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 일반 사용자 권한인 경우 메인 페이지로 리다이렉트
             response.sendRedirect("/");
         }
-
-      }
     }
+
+}

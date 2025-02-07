@@ -34,7 +34,9 @@
  */
 const api = {
     client: axios.create({
-        baseURL: 'http://localhost:7070',
+        baseURL: window.location.hostname === 'localhost'
+            ? 'http://localhost:7070'
+            : 'http://192.168.0.15:7070',
         timeout: 5000,
         headers: {
             'Content-Type': 'application/json',

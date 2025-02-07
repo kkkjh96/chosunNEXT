@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
-  <link rel="stylesheet" href="/css/my-news.css">
+  <link rel="stylesheet" href="/css/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/javascript/axios.js"></script>
@@ -16,117 +16,213 @@
 <!-- Main Content -->
 <div class="main-content">
   <!-- 이 섹션 안에 추가 하시면 됩니다. -->
-  <!-- 전체 레이아웃 -->
   <div class="content-grid">
-
-    <!-- 주요 기사 섹션 -->
     <section class="top-news">
-      <h2>주요 기사</h2>
       <div class="main-article">
-        <h3>김용현 "말하기 곤란하지만..."</h3>
-        <img src="/images/top-main-news.jpg" alt="김용현 기사 이미지">
+        <a href="#">
+          <img class="default" src="/images/default.png" alt="김용현 기사 이미지">
+          <h3>김용현 "말하기 곤란하지만..."</h3>
+        </a>
         <p>김용현 의원이 기자회견에서 발언한 내용이 논란이 되고 있습니다...</p>
-        <a href="#">기사 더보기</a>
-      </div>
-      <div class="featured-news">
-        <article>
-          <h4>"폭탄주가 악! 혈묘 싹 낯더라"</h4>
-          <p>이성윤 기검하게 한 연수생...</p>
-          <a href="#">더 보기</a>
-        </article>+
-        <article>
-          <h4>설 연휴 아찔한 귀성길...</h4>
-          <p>월요일부터 눈 퍼붓고 한파 덮친다...</p>
-          <a href="#">더 보기</a>
-        </article>
       </div>
     </section>
-
     <!-- 추천 뉴스 섹션 -->
     <section class="recommended-news">
-      <h2>추천 뉴스</h2>
-      <ul>
-        <li><a href="#">대박: 제철별미자연...</a></li>
-        <li><a href="#">스포츠: 연봉 협상 타결...</a></li>
-        <li><a href="#">문화: 지역 축제 성황리 종료...</a></li>
-        <li><a href="#">오피니언: AI 투자가 중요하다...</a></li>
-      </ul>
+      <div class="recommended-news-articles">
+        <div class="recommended-content">
+          <div class="recommended-body">
+            <strong class="sub-category">문화</strong>
+            <a href="#">
+              <h4>"지역 축제 대박!"</h4>
+            </a>
+          </div>
+          <div class="recommended-images">
+            <a href="#">
+              <img class="recommended-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+        </div>
+        <div class="recommended-content">
+          <div class="recommended-body">
+            <strong class="sub-category">사회</strong>
+            <a href="#">
+              <h4>설날 연휴 교통 대란...</h4>
+            </a>
+          </div>
+          <div class="recommended-images">
+            <a href="#">
+              <img class="recommended-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+        </div>
+        <div class="recommended-content">
+          <div class="recommended-body">
+            <strong class="sub-category">국제</strong>
+            <a href="#">
+              <h4>비밀리에 진행된 회담...</h4>
+            </a>
+          </div>
+          <div class="recommended-images">
+            <a href="#">
+              <img class="recommended-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+        </div>
+        <div class="recommended-content">
+          <div class="recommended-body">
+            <strong class="sub-category">스포츠</strong>
+            <a href="#">
+              <h4>스포츠 스타 인터뷰...</h4>
+            </a>
+          </div>
+          <div class="recommended-images">
+            <a href="#">
+              <img class="recommended-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
+  </div>
+  <h4 class="headline-title">주요 기사</h4>
+  <div class="headline-contain">
+    <div class="headline-news">
+      <div class="headline-content">
+        <div class="headline-body">
+          <a href="#">
+            <img class="headline-img" src="/images/default.png" alt="기본이미지">
+            <h4>"폭탄주가 악! 혈묘 싹 낯더라"</h4>
+          </a>
+          <p>이성윤 기검하게 한 연수생...</p>
+        </div>
+        <div class="headline-body">
+          <a href="#">
+            <img class="headline-img" src="/images/default.png" alt="기본이미지">
+            <h4>설 연휴 아찔한 귀성길...</h4>
+          </a>
+          <p>월요일부터 눈 퍼붓고 한파 덮친다...</p>
+        </div>
+      </div>
+      <div class="headline-side-contain">
+        <div class="headline-side-content">
+          <div class="headline-side-body">
+            <a href="#">
+              <h4>"트럼프 2기 행정 시작"</h4>
+            </a>
+          </div>
+          <div class="headline-side-images">
+            <a href="#">
+              <img class="headline-side-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+          <div class="headline-side-subtitle">
+            <a href="#">
+              <p>미국 도널드 트럼프 2기 행정부 출범 이후....</p>
+            </a>
+          </div>
+        </div>
+        <div class="headline-side-content">
+          <div class="headline-side-body">
+            <a href="#">
+              <h4>"오늘 강한 한파가 시작돼"</h4>
+            </a>
+          </div>
+          <div class="headline-side-images">
+            <a href="#">
+              <img class="headline-side-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+          <div class="headline-side-subtitle">
+            <a href="#">
+              <p>한파가 예상되는 만큼 대비가 필요할 것으로 보여....</p>
+            </a>
+          </div>
+        </div>
+        <div class="headline-side-content">
+          <div class="headline-side-body">
+            <a href="#">
+              <h4>손흥민 활약 강등권 탈출</h4>
+            </a>
+          </div>
+          <div class="headline-side-images">
+            <a href="#">
+              <img class="headline-side-img" src="/images/default.png" alt="기본이미지">
+            </a>
+          </div>
+          <div class="headline-side-subtitle">
+            <a href="#">
+              <p>손흥민 선수의 1자책골 유도, 1도움으로....</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="headline-hot-news">
+      <section class="headline-hot-news">
+        <h2>실시간 핫뉴스</h2>
+        <ol>
+          <li><a href="#">"설 연휴 부담 느낀다" 조회수 폭발...</a></li>
+          <li><a href="#">콘텐츠는 자신있다! 안타양 선수 인터뷰...</a></li>
+          <li><a href="#">사토 내고 돼지 키워 대박? 현실은...</a></li>
+          <li><a href="#">신기술 발표회 성황리에 종료...</a></li>
+          <li><a href="#">대규모 리콜 사태 발생...</a></li>
+          <li><a href="#">긴급 속보: 태풍 북상 중...</a></li>
+        </ol>
+      </section>
+    </div>
+  </div>
 
-    <!-- 에디터 추천 섹션 -->
-    <section class="editor-recommend">
-      <h2>에디터 추천</h2>
-      <div class="editor-category">
-        <article>
-          <h4>방치된 시간 142시간, 베란다 밖의 위험</h4>
-          <img src="/images/editor-recommend-1.jpg" alt="에디터 추천 기사 이미지">
-          <p>베란다 밖의 위험 요소를 방치한 채 수백 시간이 흘러...</p>
-          <a href="#">기사 더보기</a>
-        </article>
-      </div>
-      <div class="editor-category">
-        <h3>광장 한편</h3>
-        <article>
-          <h4>어느날의 평범한 일상 속 작은 발견</h4>
-          <img src="/images/editor-recommend-2.jpg" alt="에디터 추천 기사 이미지">
-          <p>일상의 소소한 발견이 우리의 삶을 변화시키는 순간...</p>
-          <a href="#">기사 더보기</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- 오피니언 섹션 -->
-    <section class="opinion-section">
-      <h2>Opinion</h2>
-      <article>
-        <h4>사설: '이직생 입국제한 생활'</h4>
-        <p>복스헤어가 귀담은 반응...</p>
-      </article>
-      <article>
-        <h4>전문가 칼럼: AI 투자에 대한 고찰</h4>
-        <p>AI 투자는 미래를 결정짓는 중요한 요소...</p>
-      </article>
-      <article>
-        <h4>기자의 시각: 정치적 딜레마</h4>
-        <p>정치적 상황이 복잡해지고 있는 가운데...</p>
-      </article>
-    </section>
-    <!-- 에디터 추천 섹션 -->
-    <section class="editor-recommend">
-      <h2>에디터 추천</h2>
-      <div class="editor-category">
-        <article>
-          <h4>방치된 시간 142시간, 베란다 밖의 위험</h4>
-          <img src="/images/editor-recommend-1.jpg" alt="에디터 추천 기사 이미지">
-          <p>베란다 밖의 위험 요소를 방치한 채 수백 시간이 흘러...</p>
-          <a href="#">기사 더보기</a>
-        </article>
-      </div>
-      <div class="editor-category">
-        <h3>광장 한편</h3>
-        <article>
-          <h4>어느날의 평범한 일상 속 작은 발견</h4>
-          <img src="/images/editor-recommend-2.jpg" alt="에디터 추천 기사 이미지">
-          <p>일상의 소소한 발견이 우리의 삶을 변화시키는 순간...</p>
-          <a href="#">기사 더보기</a>
-        </article>
-      </div>
-    </section>
-
-    <!-- 실시간 핫뉴스 섹션 -->
-    <section class="hot-news">
-      <h2>실시간 핫뉴스</h2>
-      <ol>
-        <li><a href="#">"설 연휴 부담 느낀다" 조회수 폭발...</a></li>
-        <li><a href="#">콘텐츠는 자신있다! 안타양 선수 인터뷰...</a></li>
-        <li><a href="#">사토 내고 돼지 키워 대박? 현실은...</a></li>
-      </ol>
-    </section>
+  <div class="content-wrap">
+    <!-- 에디터 추천과 실시간 핫뉴스 섹션 -->
+    <div class="editor-hotnews-container">
+      <section class="editor-recommend">
+        <h2>에디터 추천</h2>
+        <div class="editor-category">
+          <article class="editor-content">
+            <h4>방치된 시간 142시간, 베란다 밖의 위험</h4>
+            <img class="editor-img" src="/images/default.png" alt="에디터 추천 기사 이미지">
+            <p>베란다 밖의 위험 요소를 방치한 채 수백 시간이 흘러...</p>
+            <a href="#">기사 더보기</a>
+          </article>
+          <article class="editor-content">
+            <h4>숨겨진 명소, 가족 여행의 최종 목적지</h4>
+            <img class="editor-img" src="/images/default.png" alt="에디터 추천 기사 이미지">
+            <p>가족 여행에서 꼭 가봐야 할 명소가 공개되었습니다...</p>
+            <a href="#">기사 더보기</a>
+          </article>
+        </div>
+      </section>
+      <section class="editor-recommend">
+        <h2>에디터 추천</h2>
+        <div class="editor-category">
+          <article class="editor-content">
+            <h4>경제 전문가들의 조언</h4>
+            <img class="editor-img" src="/images/default.png" alt="에디터 추천 기사 이미지">
+            <p>경제 전문가들이 제시한 새로운 투자 전략...</p>
+            <a href="#">기사 더보기</a>
+          </article>
+        </div>
+      </section>
+    </div>
+    <div class="content-hot-news">
+      <section class="hot-news">
+        <h2>실시간 핫뉴스</h2>
+        <ol>
+          <li><a href="#">"설 연휴 부담 느낀다" 조회수 폭발...</a></li>
+          <li><a href="#">콘텐츠는 자신있다! 안타양 선수 인터뷰...</a></li>
+          <li><a href="#">사토 내고 돼지 키워 대박? 현실은...</a></li>
+          <li><a href="#">신기술 발표회 성황리에 종료...</a></li>
+          <li><a href="#">대규모 리콜 사태 발생...</a></li>
+          <li><a href="#">긴급 속보: 태풍 북상 중...</a></li>
+        </ol>
+      </section>
+    </div>
   </div>
 </div>
 
 <!-- Footer Fragment Include -->
 <div th:replace="layout/footer :: footer"></div>
-
+<script src="/javascript/layout/header.js"></script>
+<script src="/javascript/layout/footer.js"></script>
 </body>
 </html>

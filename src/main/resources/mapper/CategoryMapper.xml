@@ -16,7 +16,7 @@
                 FROM tbl_codeinfo
                 WHERE parent_cd = 'MAIN_CATEGORY_CD'  -- main_category_cd의 하위 소분류 조건
             )
-        ORDER BY parent_cd
+        ORDER BY parent_cd, cd_kor
     </select>
 
 </mapper>

@@ -1,0 +1,175 @@
+/* style.css */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.input-field, .select-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.option-container {
+    margin-bottom: 15px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-option-button {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+}
+
+.add-option-button:hover {
+    background-color: #218838;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+.option-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option-content {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.delete-option-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #ff4d4d;
+    cursor: pointer;
+}
+
+.delete-option-icon:hover {
+    color: #ff1a1a;
+}
+
+.question-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delete-question-icon {
+    font-size: 22px;
+    color: #ff4d4d;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-question-icon:hover {
+    color: #ff1a1a;
+}
+
+.option-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option-content {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.delete-option-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #ff4d4d;
+    cursor: pointer;
+}
+
+.delete-option-icon:hover {
+    color: #ff1a1a;
+}
+
+/* 추가된 css */
+
+.title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.label-text {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 10px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.question-list {
+    margin-bottom: 20px;
+}

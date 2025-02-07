@@ -5,6 +5,8 @@
     width: 1200px;
     margin: 0 auto;
     min-width: 320px;
+    position: relative;
+    /*z-index: 10;*/
 
 }
 
@@ -113,25 +115,87 @@
     margin-top: 20px;
 }
 
-.main-nav ul {
+/*.main-nav ul {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.menu-link {*/
+/*    text-decoration: none;*/
+/*    color: #333;*/
+/*    font-weight: bold;*/
+/*    font-size: 1rem;*/
+/*}*/
+
+/*.menu-link:hover {*/
+/*    color: #007bff;*/
+/*}*/
+.main-category-nav {
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.main-category-menu {
+    display: flex;
     list-style: none;
     padding: 0;
-    gap: 20px;
+    margin: 0;
 }
 
-.menu-link {
-    text-decoration: none;
-    color: #333;
+.main-category-item {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.main-category-item:hover {
+    background-color: #f04e45;
+    color: white;
+}
+
+/* 소분류 메뉴 */
+.expanded-menu-container {
+    display: none;
+    position: absolute;
+    top: 100%;  /* nav 아래 */
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.sub-category-wrapper {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.sub-category-column {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.sub-category-title {
     font-weight: bold;
-    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-.menu-link:hover {
-    color: #007bff;
+.sub-category-item {
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
 }
 
+.sub-category-item:hover {
+    background-color: #f04e45;
+    color: white;
+}
 
 /* main */
 body {

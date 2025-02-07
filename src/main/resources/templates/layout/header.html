@@ -5,47 +5,19 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
 </head>
 <body>
 <!-- Header Fragment Section -->
 <header class="main-header">
-<!--    <div class="header-top">-->
-<!--        <div class="logo">-->
-<!--            <img src="/images/logo.png" alt="Logo" class="logo-img">-->
-<!--        </div>-->
-<!--        <div class="header-right">-->
-<!--            <span th:if="${session.user == null}" class="auth-links">-->
-<!--                <a href="/login" class="login-link">로그인</a>-->
-<!--                <a href="/signup" class="signup-link">회원가입</a>-->
-<!--            </span>-->
-<!--            <span th:if="${session.user != null}" class="user-info">-->
-<!--                <a href="/mypage" class="profile-link">마이페이지</a>-->
-<!--                <a href="/logout" class="logout-link">로그아웃</a>-->
-<!--            </span>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="header-bottom">-->
-<!--        <nav class="main-nav">-->
-<!--            <ul>-->
-<!--                <li><a href="/categories/society">사회</a></li>-->
-<!--                <li><a href="/categories/politics">정치</a></li>-->
-<!--                <li><a href="/categories/economy">경제</a></li>-->
-<!--                <li><a href="/categories/culture">문화</a></li>-->
-<!--                <li><a href="/categories/entertainment">연예</a></li>-->
-<!--                <li><a href="/categories/sports">스포츠</a></li>-->
-<!--                <li><a href="/categories/opinion">오피니언</a></li>-->
-<!--                <li><a href="/chosun-next">조선Next</a></li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--    </div>-->
     <!-- 상단 로고와 전체일보/마이일보 -->
     <div class="header-top">
         <div class="logo-wrapper">
 <!--            <div class="logo">朝鮮日報</div>-->
-            <div class="logo">The Prism</div>
+            <div class="logo"><a href="/" class="logo-link">The Prism</a></div>
             <div class="header-links">
-                <a href="#" class="news-link selected">전체일보</a> |
-                <a href="#" class="news-link-mynews">마이일보</a>
+                <a href="/" class="news-link selected">전체일보</a> |
+                <a href="/mynews" class="news-link-mynews">마이일보</a>
                 <!-- 말풍선 -->
                 <span class="recommendation-tooltip">취향따라! 맞춤 콘텐츠 추천 받기</span>
             </div>
@@ -61,10 +33,10 @@
             </span>
             <span th:if="${session.user != null}" class="user-info">
                 <!-- Spring Security 인증 객체 확인 -->
-<span th:if="${#authentication != null}">
-    <p>인증된 사용자: <span th:text="${#authentication.name}">사용자명</span></p>
-    <p>권한 목록: <span th:each="auth : ${#authentication.authorities}" th:text="${auth}">권한</span></p>
-</span>
+<!--                <span th:if="${#authentication != null}">-->
+<!--                    <p>인증된 사용자: <span th:text="${#authentication.name}">사용자명</span></p>-->
+<!--                    <p>권한 목록: <span th:each="auth : ${#authentication.authorities}" th:text="${auth}">권한</span></p>-->
+<!--                </span>-->
                 <a href="/mypage" class="profile-link">마이페이지</a>
                 <a href="/logout" class="logout-link">로그아웃</a>
             </span>
@@ -72,27 +44,24 @@
         <div class="header-icons">
             <a href="#" class="icon-link search-icon">🔍</a>
             <a href="#" class="icon-link bell-icon">🔔</a>
-            <a href="#" class="icon-link menu-icon">☰</a>
+<!--            <a href="#" class="icon-link menu-icon">☰</a>-->
         </div>
-        <span class="current-date">2025년 1월 10일</span>
+        <span id="current-date" class="current-date">2025년 1월 10일</span>
     </div>
 
     <!-- 날짜 및 카테고리 메뉴 -->
-    <div class="header-middle">
-        <nav class="main-nav">
-            <ul>
-                <li><a href="#" class="menu-link">사회</a></li>
-                <li><a href="#" class="menu-link">정치</a></li>
-                <li><a href="#" class="menu-link">경제</a></li>
-                <li><a href="#" class="menu-link">문화</a></li>
-                <li><a href="#" class="menu-link">연예</a></li>
-                <li><a href="#" class="menu-link">스포츠</a></li>
-                <li><a href="#" class="menu-link">오피니언</a></li>
-                <li><a href="#" class="menu-link">조선Next</a></li>
-            </ul>
+<!--    <div class="header-middle">-->
+        <nav class="main-category-nav">
+            <ul id="main-category-list" class="main-category-menu"></ul>
+            <div class="menu-icon-container">
+                <a href="#" class="menu-icon">☰</a>
+            </div>
         </nav>
-    </div>
+        <!-- 펼쳐지는 소분류 메뉴 -->
+        <div class="expanded-menu-container" id="main-menu">
+            <div id="sub-category-wrapper" class="sub-category-wrapper"></div>
+        </div>
+<!--    </div>-->
 </header>
-
 </body>
 </html>
