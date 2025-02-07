@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.SurveyDao">
+
+    <insert id="insertSurveyTitle" useGeneratedKeys="true" keyProperty="titleId">
+        INSERT INTO tbl_survey_title (title, content)
+        VALUES
+        (#{title}, #{content})
+    </insert>
+
+    <insert id="insertSurveyQuestion" useGeneratedKeys="true" keyProperty="surveyId">
+        INSERT INTO tbl_survey_question (title_id, content, type)
+        VALUES
+        (#{titleId}, #{content}, #{type})
+    </insert>
+
+    <insert id="insertSurveyOptions">
+        INSERT INTO tbl_survey_option (survey_id, content)
+        VALUES
+        <foreach collection="options" item="option" separator=",">
+            (#{surveyId}, #{option.content})
+        </foreach>
+    </insert>
+    
+    <select id="getSurveyList" resultType="com.example.chosunnext.dto.survey.response.SurveyTitleResponseDto">
+        SELECT * FROM tbl_survey_title
+    </select>
+
+    <delete id="deleteSurvey">
+        DELETE FROM tbl_survey_title WHERE title_id = #{surveyId}
+    </delete>
+
+    <select id="getSurvey" resultType="com.example.chosunnext.dto.survey.response.SurveyTotalResponseDto">
+        SELECT
+        s.title_id,
+        s.title,
+        s.content,
+        q.survey_id,
+        q.content AS surveyContent,
+        q.type,
+        o.option_id,
+        o.content AS optionContent
+        FROM tbl_survey_title s
+        LEFT JOIN tbl_survey_question q ON s.title_id = q.title_id
+        LEFT JOIN tbl_survey_option o ON q.survey_id = o.survey_id
+        WHERE s.title_id = #{titleId}
+    </select>
+
+</mapper>

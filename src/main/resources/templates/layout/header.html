@@ -16,8 +16,8 @@
 <!--            <div class="logo">朝鮮日報</div>-->
             <div class="logo"><a href="/" class="logo-link">The Prism</a></div>
             <div class="header-links">
-                <a href="#" class="news-link selected">전체일보</a> |
-                <a href="#" class="news-link-mynews">마이일보</a>
+                <a href="/" class="news-link selected">전체일보</a> |
+                <a href="/mynews" class="news-link-mynews">마이일보</a>
                 <!-- 말풍선 -->
                 <span class="recommendation-tooltip">취향따라! 맞춤 콘텐츠 추천 받기</span>
             </div>
@@ -33,10 +33,10 @@
             </span>
             <span th:if="${session.user != null}" class="user-info">
                 <!-- Spring Security 인증 객체 확인 -->
-                <span th:if="${#authentication != null}">
-                    <p>인증된 사용자: <span th:text="${#authentication.name}">사용자명</span></p>
-                    <p>권한 목록: <span th:each="auth : ${#authentication.authorities}" th:text="${auth}">권한</span></p>
-                </span>
+<!--                <span th:if="${#authentication != null}">-->
+<!--                    <p>인증된 사용자: <span th:text="${#authentication.name}">사용자명</span></p>-->
+<!--                    <p>권한 목록: <span th:each="auth : ${#authentication.authorities}" th:text="${auth}">권한</span></p>-->
+<!--                </span>-->
                 <a href="/mypage" class="profile-link">마이페이지</a>
                 <a href="/logout" class="logout-link">로그아웃</a>
             </span>

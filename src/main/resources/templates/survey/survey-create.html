@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/mypage-common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/survey/survey-create.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/mypage-header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+        <h1 class="title">설문조사 등록</h1>
+
+        <div class="form-container">
+            <label class="label-text">설문 제목:</label>
+            <input type="text" id="surveyTitle" class="input-field">
+
+            <label class="label-text">설문 설명:</label>
+            <textarea id="surveyDescription" class="input-field"></textarea>
+
+            <div id="questions" class="question-list"></div>
+
+            <div class="button-group">
+                <button id="addQuestion" class="button add-question-button">질문 추가</button>
+                <button id="submitSurvey" class="button submit-button">설문 등록</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/mypage-footer :: footer"></div>
+
+</body>
+</html>
+<!-- 차트 스크립트 -->
+<script src="/javascript/survey/survey-create.js"></script>

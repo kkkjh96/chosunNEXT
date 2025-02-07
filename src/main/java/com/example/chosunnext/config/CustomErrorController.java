@@ -3,11 +3,9 @@ package com.example.chosunnext.config;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * packageName    : com.example.chosunnext.config
@@ -28,7 +26,7 @@ public class CustomErrorController {
     @GetMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-
+        log.info("Error occurred: status code {}", statusCode);
         if (statusCode != null) {
             log.error("Error occurred: status code {}, request URI: {}", statusCode, request.getRequestURI());
 
