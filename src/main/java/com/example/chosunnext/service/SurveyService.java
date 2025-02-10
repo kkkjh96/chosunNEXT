@@ -1,5 +1,6 @@
 package com.example.chosunnext.service;
 
+import com.example.chosunnext.dto.survey.request.SubmitRequestDto;
 import com.example.chosunnext.dto.survey.request.SurveyRequestDto;
 import com.example.chosunnext.dto.survey.response.SurveyResponseDto;
 import com.example.chosunnext.dto.survey.response.SurveyTitleResponseDto;
@@ -28,4 +29,6 @@ public interface SurveyService {
     SurveyResponseDto getSurvey(int titleId);
 
     void updateSurvey(int titleId, SurveyRequestDto surveyRequest);
+
+    void submitSurvey(int titleId, SubmitRequestDto submitRequestDto);
 }

@@ -1,5 +1,6 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.dto.survey.request.SubmitRequestDto;
 import com.example.chosunnext.dto.survey.request.SurveyRequestDto;
 import com.example.chosunnext.dto.survey.response.SurveyResponseDto;
 import com.example.chosunnext.dto.survey.response.SurveyTitleResponseDto;
@@ -68,11 +69,19 @@ public class RestSurveyController {
 
     @PutMapping("/{surveyId}")
     public ResponseEntity<String> updateSurvey(@PathVariable("surveyId") int surveyId, @RequestBody SurveyRequestDto surveyRequest) {
-        surveyRequest.setTitleId(surveyId);
+        log.info(String.valueOf(surveyRequest));
         surveyService.updateSurvey(surveyId, surveyRequest);
 
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("��문이 수정되지 않��습니다.");
+    @PostMapping("/{titleId}/submit")
+    public ResponseEntity<String> submitSurvey(@PathVariable("titleId") int titleId, @RequestBody SubmitRequestDto submitRequestDto) {
+        log.info("QWERTY " + submitRequestDto);
+
+        surveyService.submitSurvey(titleId, submitRequestDto);
+
+        return ResponseEntity.ok().build();
     }
 
 }

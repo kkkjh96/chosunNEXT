@@ -1,6 +1,7 @@
 package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.survey.request.SurveyRequestDto;
+import com.example.chosunnext.dto.survey.response.SurveyResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,6 @@ public class SurveyController {
     public String surveyEdit(@PathVariable("surveyId") int surveyId) {
         return "/survey/survey-edit";
     }
+
 
 }

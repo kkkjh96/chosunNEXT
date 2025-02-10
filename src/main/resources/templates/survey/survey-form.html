@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>설문조사 진행</title>
+    <link rel="stylesheet" href="/css/mypage-common.css">
+    <link rel="stylesheet" href="/css/survey/survey-form.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+<!-- Header Fragment Include -->
+<div th:replace="layout/mypage-header :: header"></div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <div class="page-title">
+            <h1 class="page-title">설문조사 진행</h1>
+        </div>
+
+        <!-- 설문조사 폼 -->
+        <div id="surveyContent" class="survey-content">
+            <form id="surveyForm">
+                <div id="surveyQuestions" class="questions-list">
+                    <input type="hidden" name="userId" class="userId" th:value="${session.user.username}">
+                    <!-- 질문들이 동적으로 렌더링될 영역 -->
+                </div>
+                <div class="submit-button-wrapper">
+                    <button id="submitSurvey" class="button">설문 제출</button>
+                </div>
+            </form>
+        </div>
+
+        <button id="backButton" class="button">목록으로 돌아가기</button>
+    </div>
+</div>
+
+<!-- Footer Fragment Include -->
+<div th:replace="layout/mypage-footer :: footer"></div>
+</body>
+<script src="/javascript/survey/survey-form.js"></script>
+</html>

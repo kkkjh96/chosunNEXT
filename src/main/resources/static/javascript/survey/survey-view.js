@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
             surveyContent.appendChild(questionElement);
         });
     }
+
+    // 수정 버튼 이벤트 등록
+    document.getElementById('editButton').addEventListener('click', function () {
+        window.location.href = `/survey/edit/${surveyId}`;
+    });
+
     // 목록으로 돌아가기 버튼 이벤트
     document.getElementById('backButton').addEventListener('click', function () {
         window.location.href = '/survey/list';
