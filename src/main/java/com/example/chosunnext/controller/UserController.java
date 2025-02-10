@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * packageName    : com.example.chosunnext.controller
@@ -31,5 +32,9 @@ public class UserController {
         return "/login/login";
     }
 
+    @GetMapping("/survey-form/{surveyId}")
+    public String surveyForm(@PathVariable("surveyId") int surveyId){
+        return "/survey/survey-form";
+    }
 
 }

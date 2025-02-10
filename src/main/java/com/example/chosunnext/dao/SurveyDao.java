@@ -1,11 +1,7 @@
 package com.example.chosunnext.dao;
 
-import com.example.chosunnext.dto.survey.request.OptionRequestDto;
-import com.example.chosunnext.dto.survey.request.QuestionRequestDto;
-import com.example.chosunnext.dto.survey.request.SurveyRequestDto;
-import com.example.chosunnext.dto.survey.response.SurveyResponseDto;
-import com.example.chosunnext.dto.survey.response.SurveyTitleResponseDto;
-import com.example.chosunnext.dto.survey.response.SurveyTotalResponseDto;
+import com.example.chosunnext.dto.survey.request.*;
+import com.example.chosunnext.dto.survey.response.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,5 +32,25 @@ public interface SurveyDao {
     int deleteSurvey(int surveyId);
 
     List<SurveyTotalResponseDto> getSurvey(int titleId);
+
+    void updateSurveyTitle(SurveyRequestDto survey);
+
+    List<QuestionResponseDto> getQuestionByTitleId(@Param("titleId")int titleId);
+
+    void updateQuestion(@Param("question") QuestionRequestDto question);
+
+    List<OptionResponseDto> getOptionBySurveyId(@Param("surveyId")int surveyId);
+
+    void updateOption(@Param("option") OptionRequestDto option);
+
+    void insertOption(@Param("option") OptionRequestDto option);
+
+    void deleteQuestion(int surveyId);
+
+    void deleteOption(int optionId);
+
+    void insertSurveyResult(@Param("result") SubmitRequestDto result);
+
+    void insertSurveyOptionResult(@Param("option") SubmitOptionsRequestDto option);
 
 }

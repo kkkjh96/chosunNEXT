@@ -44,3 +44,13 @@
 .button:hover {
     background-color: #0056b3;
 }
+
+.button.edit-button {
+    background-color: #ffc107;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.button.edit-button:hover {
+    background-color: #e0a800;
+}

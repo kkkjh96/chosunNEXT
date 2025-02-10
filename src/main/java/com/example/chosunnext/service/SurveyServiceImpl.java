@@ -1,9 +1,7 @@
 package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.SurveyDao;
-import com.example.chosunnext.dto.survey.request.OptionRequestDto;
-import com.example.chosunnext.dto.survey.request.QuestionRequestDto;
-import com.example.chosunnext.dto.survey.request.SurveyRequestDto;
+import com.example.chosunnext.dto.survey.request.*;
 import com.example.chosunnext.dto.survey.response.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : com.example.chosunnext.service
@@ -152,8 +152,97 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public void updateSurvey(int titleId, SurveyRequestDto surveyRequest) {
+        log.info(String.valueOf(surveyRequest));
 
-//        surveyDao.updateSurveyTitle(titleId, surveyRequest.getTitle());
+        surveyDao.updateSurveyTitle(surveyRequest);
+
+        List<QuestionResponseDto> oldQuestion = surveyDao.getQuestionByTitleId(titleId);
+
+        for (QuestionRequestDto question : surveyRequest.getQuestions()) {
+            if(question.getSurveyId() != 0){
+                question.setTitleId(surveyRequest.getTitleId());
+                surveyDao.updateQuestion(question);
+                updateOptions(question);
+            } else {
+                question.setTitleId(surveyRequest.getTitleId());
+                surveyDao.insertSurveyQuestion(question);
+                updateOptions(question);
+
+                if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+                    surveyDao.insertSurveyOptions(question.getOptions(), question.getSurveyId());
+                }
+            }
+        }
+
+        // 기존 질문 중 새 요청에 없는 질문은 삭제
+        handleDeletedQuestions(oldQuestion, surveyRequest.getQuestions());
 
     }
+
+    private void updateOptions(QuestionRequestDto question) {
+
+        List<OptionResponseDto> oldOptions = surveyDao.getOptionBySurveyId(question.getSurveyId());
+
+        for (OptionRequestDto option : question.getOptions()){
+            if(option.getOptionId() != 0){
+                option.setSurveyId(question.getSurveyId());
+                surveyDao.updateOption(option);
+            }else{
+                option.setSurveyId(question.getSurveyId());
+                surveyDao.insertOption(option);
+            }
+        }
+
+        handleDeletedOptions(oldOptions, question.getOptions());
+
+    }
+
+    private void handleDeletedQuestions(List<QuestionResponseDto> oldQuestions, List<QuestionRequestDto> newQuestions) {
+        Set<Integer> newQuestionIds = newQuestions.stream()
+                .map(QuestionRequestDto::getSurveyId)
+                .collect(Collectors.toSet());
+
+        for (QuestionResponseDto existingQuestion : oldQuestions) {
+            if (!newQuestionIds.contains(existingQuestion.getSurveyId())) {
+                // 새로운 요청에 없는 기존 질문은 삭제
+                surveyDao.deleteQuestion(existingQuestion.getSurveyId());
+            }
+        }
+    }
+
+    /**
+     * 기존 옵션 목록에서 요청에 없는 옵션을 삭제합니다.
+     *
+     * @param existingOptions 기존 옵션 목록
+     * @param newOptions 요청으로 받은 새로운 옵션 목록
+     */
+    private void handleDeletedOptions(List<OptionResponseDto> oldOptions, List<OptionRequestDto> newOptions) {
+        Set<Integer> newOptionIds = newOptions.stream()
+                .map(OptionRequestDto::getOptionId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        for (OptionResponseDto existingOption : oldOptions) {
+            if (!newOptionIds.contains(existingOption.getOptionId())) {
+                // 새로운 요청에 없는 기존 옵션은 삭제
+                surveyDao.deleteOption(existingOption.getOptionId());
+            }
+        }
+    }
+
+    @Override
+    public void submitSurvey(int titleId, SubmitRequestDto submitRequestDto) {
+
+        surveyDao.insertSurveyResult(submitRequestDto);
+
+        if (submitRequestDto.getSubmitOptionsList() != null) {
+            for (SubmitOptionsRequestDto optionsRequestDto : submitRequestDto.getSubmitOptionsList()) {
+                optionsRequestDto.setResultId(submitRequestDto.getResultId());
+                optionsRequestDto.setJoinedValues(String.join(",", optionsRequestDto.getOptionValue()));
+                surveyDao.insertSurveyOptionResult(optionsRequestDto);
+            }
+        }
+
+    }
+
 }

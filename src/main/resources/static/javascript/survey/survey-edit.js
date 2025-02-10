@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 설문 폼 렌더링
     function renderSurveyForm(survey) {
+        document.querySelector('#surveyId').value = survey.titleId;
         document.querySelector('#surveyTitle').value = survey.title;
         document.querySelector('#surveyDescription').value = survey.content;
 
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="delete-question-icon">&times;</span>
             </div>
             <input type="text" class="input-field question-content" value="${questionData ? questionData.content : ''}">
+            <input type="hidden" class="input-field question-surveyId" value="${questionData.surveyId !== 0 ? questionData.surveyId : 0}">
             <label class="label-text">질문 유형:</label>
             <select class="input-field select-field">
                 <option value="">--선택--</option>
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         optionItem.innerHTML = `
             <div class="option-wrapper">
                 <input type="text" class="input-field option-content" value="${optionData ? optionData.content : ''}">
+                <input type="hidden" class="input-field option-id" value="${optionData ? optionData.optionId : 0}">
                 <span class="delete-option-icon">&times;</span>
             </div>
         `;
@@ -109,8 +112,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // 설문조사 저장
     document.getElementById('submitSurvey').addEventListener('click', function () {
         const surveyData = {
+            titleId: document.querySelector('#surveyId').value.trim(),
             title: document.querySelector('#surveyTitle').value.trim(),
-            description: document.querySelector('#surveyDescription').value.trim(),
+            content: document.querySelector('#surveyDescription').value.trim(),
             questions: []
         };
 
@@ -133,29 +137,37 @@ document.addEventListener('DOMContentLoaded', function () {
         // 질문 및 옵션 데이터 수집
         document.querySelectorAll('.question-container').forEach((questionContainer, questionIndex) => {
             const questionContent = questionContainer.querySelector('.question-content').value.trim();
+            const questionSurveyId = questionContainer.querySelector('.question-surveyId').value;
             const questionType = questionContainer.querySelector('.select-field').value;
+
+            console.log("aaa" + questionSurveyId);
 
             if (!questionContent) {
                 isValid = false;
                 validationMessages.push(`질문 ${questionIndex + 1}의 내용이 비어 있습니다.`);
             }
 
-            if (!questionType) {
+            if (!questionType) {``
                 isValid = false;
                 validationMessages.push(`질문 ${questionIndex + 1}의 유형이 선택되지 않았습니다.`);
             }
 
             const questionData = {
                 content: questionContent,
+                surveyId: questionSurveyId,
                 type: questionType,
                 options: []
             };
 
             // 옵션 수집
-            questionContainer.querySelectorAll('.option-content').forEach(optionInput => {
-                const optionContent = optionInput.value.trim();
+            questionContainer.querySelectorAll('.option-wrapper').forEach(optionInput => {
+                const optionContent = optionInput.querySelector(".option-content").value.trim();
+                const optionId = optionInput.querySelector(".option-id").value;
                 if (optionContent) {
-                    questionData.options.push({ content: optionContent });
+                    questionData.options.push({
+                        content: optionContent,
+                        optionId: optionId  // optionId: 0 -> ���� option
+                    });
                 }
             });
 
