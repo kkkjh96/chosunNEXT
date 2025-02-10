@@ -5,10 +5,9 @@
     <title>대시보드</title>
     <link rel="stylesheet" href="/css/cms/cms_register.css">
 
-    <!-- 네이버 스마트 에디터 관련 JS 파일 -->
-    <script type="text/javascript" src="../javascript/cms/HuskyEZCreator.js" charset="utf-8"></script>
-
-
+    <!-- Toast UI Editor CSS 및 JS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -16,10 +15,10 @@
     <!-- 사이드바 영역 -->
     <div class="side_bar">
         <div class="logo">
-            <img src="../images/logo.png" alt="로고">
+            <img src="/images/logo.png" alt="로고">
         </div>
         <div class="profile">
-            <img src="../images/myprofile.png" alt="프로필">
+            <img src="/images/myprofile.png" alt="프로필">
             <div class="user_info">
                 <div class="user_id">박미정</div>
                 <div class="department">디지털 사업부</div>
@@ -44,8 +43,9 @@
                 <input type="text" name="title" placeholder="제목을 입력하세요" required> <br>
                 <input type="text" name="sub_title" placeholder="부제목을 입력하세요" required>
 
-                <!-- 스마트 에디터 영역 -->
-                <textarea id="smarteditor" name="content" style="width:100%; height:300px;"></textarea>
+                <!-- Toast UI Editor 영역 -->
+                <div id="editor"></div>
+                <textarea id="editor_content" name="content" style="display:none;" required></textarea>
             </div>
 
             <div class="section_2">
@@ -61,23 +61,30 @@
                 <div class="category">
                     <p>카테고리 선택</p>
 
-                    <!-- 대분류 선택 -->
-                    <label for="main_category_cd">대분류</label>
-                    <select id="main_category_cd" name="main_category_cd" required>
+                    <label for="main_category">대분류</label>
+                    <select id="main_category" name="main_category_cd" required>
                         <option value="">대분류를 선택하세요</option>
-                        <option value="사회">사회</option>
-                        <option value="경제">경제</option>
-                        <option value="정치">정치</option>
-                    </select><br>
+                        <!-- 대분류만 출력 (parentCd가 'MAIN_CATEGORY_CD'인 경우) -->
+                        <th:block th:each="category : ${categories}">
+                            <option th:if="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                                    th:value="${category.cd}"
+                                    th:text="${category.cdKor}">
+                            </option>
+                        </th:block>
+                    </select>
 
                     <!-- 소분류 선택 -->
-                    <label for="sub_category_cd">소분류</label>
-                    <select id="sub_category_cd" name="sub_category_cd" required>
+                    <label for="sub_category">소분류</label>
+                    <select id="sub_category" name="sub_category_cd" required>
                         <option value="">소분류를 선택하세요</option>
-                        <option value="사회일반">사회일반</option>
-                        <option value="사건사고">사건사고</option>
-                        <option value="복지">복지</option>
-                    </select><br>
+                        <!-- 소분류만 출력 (대분류가 아닌 경우) -->
+                        <th:block th:each="category : ${categories}">
+                            <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                                    th:value="${category.cd}"
+                                    th:text="${category.cdKor}">
+                            </option>
+                        </th:block>
+                    </select>
 
                     <!-- 바이라인 선택 -->
                     <label for="user_id">바이라인</label>
@@ -95,18 +102,26 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
-    var oEditors = [];
-    nhn.husky.EZCreator.createInIFrame({
-        oAppRef: oEditors,
-        elPlaceHolder: "smarteditor",  // ID of the text area where the editor should appear
-        sSkinURI: "C:\Users\dkzld\OneDrive\바탕 화면\chosun\src\main\resources\templates\cms\SmartEditor2Skin.htmll",  // Path to the skin file
-        fCreator: "createSEditor2"
+    // Toast UI Editor 초기화
+    const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        height: '400px',
+        initialEditType: 'wysiwyg',
+        previewStyle: 'vertical'
+    });
+
+    // 폼 제출 시 에디터 내용 동기화
+    document.getElementById('article_form').addEventListener('submit', function(event) {
+        const content = editor.getHTML();  // 에디터 내용 가져오기
+        document.getElementById('editor_content').value = content;
+
+        if (!content.trim()) {
+            alert('내용을 입력하세요.');
+            event.preventDefault();  // 폼 제출 방지
+        }
     });
 </script>
-
-
 
 </body>
 </html>
