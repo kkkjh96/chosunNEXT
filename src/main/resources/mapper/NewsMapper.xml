@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.NewsDao">
+    <insert id="insertNews">
+        insert into tbl_news
+        value(#{title}, #{sub_title}, #{main_category_cd}, #{sub_category_cd}, #{reservation_time}, #{news_type})
+    </insert>
+
+</mapper>
