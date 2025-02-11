@@ -1,7 +1,9 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.dto.NewsDto;
 import com.example.chosunnext.dto.category.response.ResponseCategoryDto;
 import com.example.chosunnext.dto.user.request.ReporterDto;
+import com.example.chosunnext.dto.user.response.ResponseReporterDto;
 import com.example.chosunnext.service.CategoryService;
 import com.example.chosunnext.service.ReporterService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -32,16 +35,23 @@ public class CmsController {
     public String cmsRegistPage(Model model) {
 
         List<ResponseCategoryDto> responseCategories = categoryService.getCategories();
-        List<ReporterDto>  reporters = reporterService.getReporter();
+        List<ResponseReporterDto>  reporters = reporterService.getReporter();
         // 로깅
         log.info("카테고리 목록: {}", responseCategories);
 
         model.addAttribute("categories", responseCategories);
         model.addAttribute("reporters", reporters);
+        System.out.println(reporters+"sdfsdfsdfsdf");
 
         return "cms/regist";
     }
 
+    @PostMapping("/article_form")
+    public String cmsArticleForm(NewsDto newsDto) {
+        System.out.println("sdfsdf");
+        NewsDto news= reporterService.saveNews(newsDto);
+        return "cms/main";
+    }
 
 
 
