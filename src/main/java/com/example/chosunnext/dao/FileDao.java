@@ -20,4 +20,5 @@ public interface FileDao {
 
     int uploadsFile(FileDto file);
 
+    int deleteFileByFileName(String fileName);
 }
