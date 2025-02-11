@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>대시보드</title>
+
+    <!-- CSS 스타일 -->
     <link rel="stylesheet" href="/css/cms/cms_register.css">
 
-    <!-- Toast UI Editor CSS 및 JS -->
+    <!-- Toast UI Editor 최신 버전 CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+    <!-- Editor 스타일 추가 -->
+    <style>
+        #editor {
+            height: 400px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="wrap">
@@ -37,89 +46,99 @@
     <!-- 기사 작성 영역 -->
     <div class="article_regist_wrap">
         <p>기사 작성</p>
+        <form id="article_form" action="/cms/article_form" method="post">
+        <input type="hidden" name="user_id" th:value="${session.user.username}">
+            <div class="form_wrap">
+                <div class="content_wrap">
+                    <input type="text" name="title" placeholder="제목을 입력하세요" required> <br>
+                    <input type="text" name="sub_title" placeholder="부제목을 입력하세요" required>
 
-        <form id="article_form">
-            <div class="content_wrap">
-                <input type="text" name="title" placeholder="제목을 입력하세요" required> <br>
-                <input type="text" name="sub_title" placeholder="부제목을 입력하세요" required>
-
-                <!-- Toast UI Editor 영역 -->
-                <div id="editor"></div>
-                <textarea id="editor_content" name="content" style="display:none;" required></textarea>
-            </div>
-
-            <div class="section_2">
-                <div class="reservation_type">
-                    예약배포 : <input type="datetime-local" name="reservation_time">
-                    <div style="margin: 10px 0;">
-                        <p>news_type</p>
-                        <label><input type="radio" name="news_type" value="속보" required> 속보</label>
-                        <label><input type="radio" name="news_type" value="단독"> 단독</label>
-                    </div>
+                    <!-- Toast UI Editor 영역 -->
+                    <div id="editor"></div>
+                    <textarea id="editor-content" name="content" style="display:none;" required></textarea>
                 </div>
 
-                <div class="category">
-                    <p>카테고리 선택</p>
+                <div class="section_2">
 
-                    <label for="main_category">대분류</label>
-                    <select id="main_category" name="main_category_cd" required>
-                        <option value="">대분류를 선택하세요</option>
-                        <!-- 대분류만 출력 (parentCd가 'MAIN_CATEGORY_CD'인 경우) -->
-                        <th:block th:each="category : ${categories}">
-                            <option th:if="${category.parentCd == 'MAIN_CATEGORY_CD'}"
-                                    th:value="${category.cd}"
-                                    th:text="${category.cdKor}">
-                            </option>
-                        </th:block>
-                    </select>
+                    <div class="reservation_type">
+                        예약배포 : <input type="datetime-local" name="reservation_time">
+                        <div style="margin: 10px 0;">
+                            <p>news_type</p>
+                            <label><input type="radio" name="news_type" value="속보" required> 속보</label>
+                            <label><input type="radio" name="news_type" value="단독"> 단독</label>
+                        </div>
+                    </div>
 
-                    <!-- 소분류 선택 -->
-                    <label for="sub_category">소분류</label>
-                    <select id="sub_category" name="sub_category_cd" required>
-                        <option value="">소분류를 선택하세요</option>
-                        <!-- 소분류만 출력 (대분류가 아닌 경우) -->
-                        <th:block th:each="category : ${categories}">
-                            <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
-                                    th:value="${category.cd}"
-                                    th:text="${category.cdKor}">
-                            </option>
-                        </th:block>
-                    </select>
+                    <div class="category">
+                        <p>카테고리 선택</p>
 
-                    <!-- 바이라인 선택 -->
-                    <label for="user_id">바이라인</label>
-                    <select id="user_id" name="user_id" required>
-                        <option value="">기자명을 선택하세요</option>
-                        <option value="기자1">기자1</option>
-                        <option value="기자2">기자2</option>
-                        <option value="기자3">기자3</option>
-                    </select><br>
+                        <label for="main_category">대분류</label>
+                        <select id="main_category" name="main_category_cd" required>
+                            <option value="">대분류를 선택하세요</option>
+                            <th:block th:each="category : ${categories}">
+                                <option th:if="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                                        th:value="${category.cd}"
+                                        th:text="${category.cdKor}"></option>
+                            </th:block>
+                        </select>
+
+                        <label for="sub_category">소분류</label>
+                        <select id="sub_category" name="sub_category_cd" required>
+                            <option value="">소분류를 선택하세요</option>
+                            <th:block th:each="category : ${categories}">
+                                <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                                        th:value="${category.cd}"
+                                        th:text="${category.cdKor}"></option>
+                            </th:block>
+                        </select>
+
+                        <label for="reporter">바이라인</label>
+                        <select id="reporter" name="writer" required>
+                            <option value="">기자를 선택하세요</option>
+                            <th:block th:each="reporter : ${reporters}">
+                                <option th:value="${reporter.name}" th:text="${reporter.name}"></option>
+                            </th:block>
+                        </select>
+
+                    </div>
 
                     <button type="submit" style="margin-top: 10px;">저장</button>
+
                 </div>
+
             </div>
         </form>
     </div>
 </div>
 
+<!-- Toast UI Editor 스크립트 -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
 <script type="text/javascript">
-    // Toast UI Editor 초기화
-    const editor = new toastui.Editor({
-        el: document.querySelector('#editor'),
-        height: '400px',
-        initialEditType: 'wysiwyg',
-        previewStyle: 'vertical'
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Toast UI Editor 초기화 시작');
 
-    // 폼 제출 시 에디터 내용 동기화
-    document.getElementById('article_form').addEventListener('submit', function(event) {
-        const content = editor.getHTML();  // 에디터 내용 가져오기
-        document.getElementById('editor_content').value = content;
+        // Toast UI Editor 초기화
 
-        if (!content.trim()) {
-            alert('내용을 입력하세요.');
-            event.preventDefault();  // 폼 제출 방지
-        }
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '800px',  // 높이 800px로 설정
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical'
+        });
+
+        console.log('Toast UI Editor 초기화 완료');
+
+        // 폼 제출 시 내용 동기화
+        document.getElementById('article_form').addEventListener('submit', function(event) {
+            const content = editor.getHTML();  // 에디터 내용 가져오기
+            document.getElementById('editor-content').value = content;
+
+            if (!content.trim()) {
+                alert('내용을 입력하세요.');
+                event.preventDefault();  // 폼 제출 방지
+            }
+        });
     });
 </script>
 
