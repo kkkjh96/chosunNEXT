@@ -5,9 +5,15 @@
 <mapper namespace="com.example.chosunnext.dao.FileDao">
 
     <insert id="uploadsFile">
-        INSERT INTO (file_gbn_cd, file_ref_id, file_name, file_url, inst_id, inst_dt)
+        INSERT INTO tbl_file (file_gbn_cd, file_name, file_url, inst_id, inst_dt)
         VALUES
-        (#{fileGbnCd}, #{fileRefId}, #{fileName}, #{fileUrl}, #{instId}, NOW());
+        (#{fileGbnCd}, #{fileName}, #{fileUrl}, #{instId}, NOW());
     </insert>
+
+    <delete id="deleteFileByFileName">
+        DELETE
+            FROM tbl_file
+        WHERE file_name = #{fileName}
+    </delete>
 
 </mapper>

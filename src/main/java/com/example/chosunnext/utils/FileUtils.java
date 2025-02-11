@@ -134,4 +134,27 @@ public class FileUtils {
         // 고유 파일 이름 생성 (원본 이름 + 타임스탬프 + 확장자)
         return originalFileName + "_" + timestamp + extension;
     }
+
+    public void deleteFile(String fileUrl) {
+        // 파일 이름 추출
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+
+        // 데이터베이스에서 파일 정보 삭제
+        int deletedRows = fileDao.deleteFileByFileName(fileName);
+
+        if (deletedRows > 0) {
+            // 파일이 실제로 존재하는 경우 삭제
+            Path filePath = Paths.get(System.getProperty("user.dir") + "/uploads/" + fileName);
+            try {
+                Files.deleteIfExists(filePath);
+                log.info("파일 삭제 성공: {}", filePath);
+            } catch (IOException e) {
+                log.error("파일 삭제 실패: {}", filePath, e);
+                throw new RuntimeException("파일 삭제 중 오류가 발생했습니다.");
+            }
+        } else {
+            throw new RuntimeException("삭제할 파일이 데이터베이스에 존재하지 않습니다.");
+        }
+    }
+
 }

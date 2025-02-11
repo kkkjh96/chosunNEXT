@@ -24,7 +24,8 @@
 
             <label for="title">제목</label>
             <input type="text" id="title" class="input-field" name="title" placeholder="제목을 입력하세요.">
-
+            <input type="hidden" id="instId" name="instId" th:value="${session.user.username}">
+            <img src="/uploads/aaa_20250211_174704767.jpg" alt="aa">
             <label for="editor">내용</label>
             <div id="editor" class="editor-wrapper" style="height: 500px;"></div>
 

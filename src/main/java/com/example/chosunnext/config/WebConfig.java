@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
         // 정적 리소스 핸들러 추가
         // '/uploads/**'로 시작하는 요청을 프로젝트 루트의 'uploads' 폴더로 매핑
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
+                .addResourceLocations("classpath:/static/uploads/");
     }
 
 }

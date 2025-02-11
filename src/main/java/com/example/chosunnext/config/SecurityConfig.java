@@ -83,7 +83,7 @@ public class SecurityConfig {
                 )
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**" ).permitAll()
+                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**", "/uploads/**" ).permitAll()
                         .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 접두사 없이 권한 검사
                         .anyRequest().authenticated()
                 )
