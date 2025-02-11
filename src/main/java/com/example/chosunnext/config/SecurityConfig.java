@@ -75,13 +75,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin())  // 동일 출처에서 iframe 허용
+                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)  // 요청이 있을 때만 세션 생성
                 )
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**", "/cms/**", "/error/**", "/survey/**" ).permitAll()
-                        .requestMatchers("/mypage/**", "/survey-form/**").hasAuthority("USER")  // 접두사 없이 권한 검사
+                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**" ).permitAll()
+                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 접두사 없이 권한 검사
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

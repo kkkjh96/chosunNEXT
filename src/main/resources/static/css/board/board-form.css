@@ -1,0 +1,95 @@
+/* 기본 폼 스타일 */
+.form-wrapper {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: bold;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.editor-wrapper {
+    height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.submit-button-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* 입력 필드와 에디터 스타일 */
+.input-field, .editor-wrapper {
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* 에디터 내부 스타일 초기화 */
+.editor-wrapper .toastui-editor-defaultUI {
+    border: none;
+}
+
+/* 라벨과 입력 필드 사이 여백 추가 */
+label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* 입력 필드 사이 여백 조정 */
+.input-field, .toastui-editor-defaultUI {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* 등록 버튼 조정 */
+.submit-button-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+}
