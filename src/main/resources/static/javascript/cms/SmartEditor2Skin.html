@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartEditor2 Skin</title>
+    <style>
+        /* 에디터 기본 스타일 정의 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .smart_editor_area {
+            border: 1px solid #ddd;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .tool_bar {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .content_area {
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="smart_editor_area">
+    <!-- 툴바 영역 -->
+    <div class="tool_bar">
+        <!-- 글꼴, 크기, 색상 등의 에디터 기능 버튼 추가 -->
+        <button onclick="execCommand('bold')">굵게</button>
+        <button onclick="execCommand('italic')">기울임</button>
+        <button onclick="execCommand('underline')">밑줄</button>
+    </div>
+
+    <!-- 에디터 내용 입력 영역 -->
+    <div class="content_area" contenteditable="true" id="editor_content">
+        여기에 내용을 입력하세요.
+    </div>
+</div>
+
+<script>
+    // 에디터 명령 실행 함수
+    function execCommand(command) {
+        document.execCommand(command, false, null);
+    }
+</script>
+</body>
+</html>

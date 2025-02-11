@@ -30,7 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<ResponseCategoryDto> getCategories() {
 
         List<ResponseCategoryDto> categories = codeDao.getCategories();
-
         return categories;
     }
 }

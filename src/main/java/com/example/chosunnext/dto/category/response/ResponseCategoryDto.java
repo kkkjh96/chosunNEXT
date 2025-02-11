@@ -24,3 +24,4 @@ public class ResponseCategoryDto {
     private String parentCd;
 
 }
+
