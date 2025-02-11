@@ -98,7 +98,7 @@
 
     <insert id="insertSurveyOptionResult">
         INSERT INTO tbl_survey_result_questions (result_id, survey_id, content)
-        VALUES (#{option.resultId}, #{option.surveyId}, #{option.content})
+        VALUES (#{option.resultId}, #{option.surveyId}, #{option.joinedValues})
     </insert>
 
 </mapper>

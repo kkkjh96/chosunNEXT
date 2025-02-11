@@ -213,7 +213,7 @@ public class SurveyServiceImpl implements SurveyService {
     /**
      * 기존 옵션 목록에서 요청에 없는 옵션을 삭제합니다.
      *
-     * @param existingOptions 기존 옵션 목록
+     * @param oldOptions 기존 옵션 목록
      * @param newOptions 요청으로 받은 새로운 옵션 목록
      */
     private void handleDeletedOptions(List<OptionResponseDto> oldOptions, List<OptionRequestDto> newOptions) {
@@ -231,14 +231,17 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional
     public void submitSurvey(int titleId, SubmitRequestDto submitRequestDto) {
 
         surveyDao.insertSurveyResult(submitRequestDto);
 
         if (submitRequestDto.getSubmitOptionsList() != null) {
             for (SubmitOptionsRequestDto optionsRequestDto : submitRequestDto.getSubmitOptionsList()) {
+                log.info("ASDF " +optionsRequestDto);
                 optionsRequestDto.setResultId(submitRequestDto.getResultId());
                 optionsRequestDto.setJoinedValues(String.join(",", optionsRequestDto.getOptionValue()));
+                log.info("ZXCV " +optionsRequestDto);
                 surveyDao.insertSurveyOptionResult(optionsRequestDto);
             }
         }

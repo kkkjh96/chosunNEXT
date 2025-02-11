@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 설문 제출 버튼 이벤트
     document.getElementById('submitSurvey').addEventListener('click', function (e) {
-        // e.preventDefault(); // �� 기본 동작 방지
+        e.preventDefault(); // �� 기본 동작 방지
         const formData = new FormData(surveyForm);
         const surveyResponses = {
             userId : userId,
