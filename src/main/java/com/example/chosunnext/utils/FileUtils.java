@@ -12,9 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Component  // Spring의 컴포넌트로 등록하여 의존성 주입이 가능하도록 설정
 @RequiredArgsConstructor  // Lombok을 사용하여 final 필드에 대한 생성자를 자동으로 생성
@@ -25,7 +23,7 @@ public class FileUtils {
     private final FileDao fileDao;
 
     // 프로젝트 루트 경로에 'uploads' 폴더를 생성하여 파일을 저장할 경로 설정
-    private final String fileStoragePath = System.getProperty("user.dir") + "/uploads/";
+    private final String fileStoragePath = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
 
     // 브라우저에서 업로드된 파일에 접근할 수 있는 URL 경로 설정
     private final String fileAccessUrl = "/uploads/";
@@ -101,8 +99,8 @@ public class FileUtils {
      */
     private void validateFile(MultipartFile file) {
         // 파일 크기 제한 (5MB 초과 시 예외 발생)
-        if (file.getSize() > 10 * 1024 * 1024) {
-            throw new IllegalArgumentException("파일 크기가 10MB를 초과합니다.");
+        if (file.getSize() > 5 * 1024 * 1024) {
+            throw new IllegalArgumentException("파일 크기가 5MB를 초과합니다.");
         }
 
         // 파일 이름을 가져옴

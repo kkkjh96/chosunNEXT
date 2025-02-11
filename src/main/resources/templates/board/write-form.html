@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/board/board-form.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/javascript/axios.js"></script>
@@ -15,10 +18,27 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+
+        <div class="form-wrapper">
+            <h1 class="page-title">게시글 작성</h1>
+
+            <label for="title">제목</label>
+            <input type="text" id="title" class="input-field" name="title" placeholder="제목을 입력하세요.">
+
+            <label for="editor">내용</label>
+            <div id="editor" class="editor-wrapper" style="height: 500px;"></div>
+
+            <div class="submit-button-wrapper">
+                <button id="submitPost" class="button">게시글 등록</button>
+            </div>
+        </div>
+
     </div>
 
     <!-- Footer Fragment Include -->
     <div th:replace="layout/footer :: footer"></div>
+
+    <script src="/javascript/board/board-editor.js"></script>
     <script src="/javascript/layout/header.js"></script>
     <script src="/javascript/layout/footer.js"></script>
 </body>

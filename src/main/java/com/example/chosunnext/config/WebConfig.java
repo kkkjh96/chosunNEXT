@@ -20,10 +20,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     public void addConfiguration(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:7070", "http://192.168.0.15:7070")  // 여러 Origin 추가
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowCredentials(true);  // 인증 정보를 포함할 경우 true로 설정
+//        registry.addMapping("/api/**")
+//                .allowedOrigins("http://localhost:7070", "http://192.168.0.15:7070")  // 여러 Origin 추가
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                .allowCredentials(true);  // 인증 정보를 포함할 경우 true로 설정
+        registry.addMapping("/**")             // 모든 경로에 대해 CORS 설정
+                .allowedOrigins("*")           // 모든 출처 허용
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 허용할 HTTP 메서드
+                .allowedHeaders("*")           // 모든 요청 헤더 허용
+                .allowCredentials(true)        // 인증 정보(쿠키, Authorization 등) 허용
+                .maxAge(3600);
     }
 
     @Override
