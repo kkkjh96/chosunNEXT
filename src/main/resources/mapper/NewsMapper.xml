@@ -29,9 +29,9 @@
         );
     </insert>
 
-
-
-
+    <select id="getAllList" resultType="com.example.chosunnext.dto.NewsDto">
+        SELECT * FROM tbl_news
+    </select>
 
 
 

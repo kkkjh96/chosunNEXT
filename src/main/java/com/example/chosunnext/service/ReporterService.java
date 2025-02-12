@@ -29,4 +29,11 @@ public class ReporterService {
     public void saveNews(NewsDto newsDto) {
         newsDao.insertNews(newsDto);
     }
+
+    public List<NewsDto> getNewsList() {
+        List<NewsDto> newList = newsDao.getAllList();
+        System.out.println("리스트 찍어 볼게요"+newList);
+        return newList;
+
+    }
 }

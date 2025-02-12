@@ -4,36 +4,17 @@
     <meta charset="UTF-8">
     <title>대시보드</title>
   <link rel="stylesheet" href="/css/cms/cms_main.css">
+    <link rel="stylesheet" href="/css/cms/sidebar.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
 <div class="wrap">
-
-  <div class="side_bar">
-      <div class="logo">
-          <img src="../images/logo.png">
-      </div>
-      <div class="profile">
-          <img src="../images/myprofile.png">
-          <div class="user_info">
-              <div class="user_id">박미정</div>
-              <div class="department"> 디지털 사업부</div>
-          </div>
-      </div>
-
-      <ul>
-          <li><a href="#">뉴스 룸</a></li>
-          <li><a href="#">뉴스 데스크</a></li>
-          <li><a href="#">독자 투고</a></li>
-          <li><a href="#">통계</a></li>
-          <li><a href="#">WCMS</a></li>
-      </ul>
-  </div>
-
-    <!-- 로그아웃 -->
-
+    <div th:replace="~{layout/cms/side_menu :: side_menu}"></div>
     <div class="dash_board">
         <p>기사 목록</p>
+        <div class="news_reg"><a href="/cms/regist">기사등록</a></div>
         <table class="news_list_wrap">
             <thead>
             <tr>
@@ -66,11 +47,11 @@
                         <th>제목</th>
                         <th>작성자</th>
                         <th>게재일</th>
-                        <th>수정</th>
-                        <th>삭제</th>
                     </tr>
                 </thead>
                 <tbody>
+
+
 
                 </tbody>
             </table>
@@ -78,5 +59,43 @@
     </div>
 
 </div>
+<script>
+    window.onload = function () {
+        getAllNews();
+    };
+
+    async function getAllNews() {
+        try {
+            let response = await axios.get('/api/cms/list');
+            console.log("불러온 데이터:", response.data);
+
+            if (response.data.length === 0) {
+                alert("불러올 뉴스가 없습니다.");
+                return;
+            }
+
+            updateNewsTable(response.data); // 테이블 업데이트 함수 호출
+        } catch (error) {
+            console.error("불러오기 실패:", error);
+            alert("불러오기 실패");
+        }
+    }
+
+    function updateNewsTable(newsList) {
+        let tbody = document.querySelector(".news_list_wrap tbody");
+        tbody.innerHTML = ""; // 기존 데이터 초기화
+
+        newsList.forEach(news => {
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                <td><a href="/cms/news/${news.id}">${news.title}</a></td>
+                <td>${news.writer}</td>
+                <td>${news.credate_dt}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+</script>
+
 </body>
 </html>

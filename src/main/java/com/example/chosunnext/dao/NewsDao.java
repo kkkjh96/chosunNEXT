@@ -3,6 +3,8 @@ package com.example.chosunnext.dao;
 import com.example.chosunnext.dto.NewsDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * packageName    : com.example.chosunnext.dao
  * fileName       : NewsDao
@@ -17,5 +19,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface NewsDao {
     NewsDto insertNews(NewsDto newsDto);
+    List<NewsDto> getAllList();
 
 }
