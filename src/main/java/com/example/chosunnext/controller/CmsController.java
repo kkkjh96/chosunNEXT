@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -36,22 +37,13 @@ public class CmsController {
 
         List<ResponseCategoryDto> responseCategories = categoryService.getCategories();
         List<ResponseReporterDto>  reporters = reporterService.getReporter();
-        // 로깅
-        log.info("카테고리 목록: {}", responseCategories);
 
         model.addAttribute("categories", responseCategories);
         model.addAttribute("reporters", reporters);
-        System.out.println(reporters+"sdfsdfsdfsdf");
 
         return "cms/regist";
     }
 
-    @PostMapping("/article_form")
-    public String cmsArticleForm(NewsDto newsDto) {
-        System.out.println("sdfsdf");
-        NewsDto news= reporterService.saveNews(newsDto);
-        return "cms/main";
-    }
 
 
 
