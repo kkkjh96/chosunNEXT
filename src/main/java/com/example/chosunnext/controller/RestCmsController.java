@@ -5,10 +5,9 @@ import com.example.chosunnext.service.ReporterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cms")
@@ -28,4 +27,10 @@ public class RestCmsController {
     }
 
 
+    @GetMapping("list")
+    public ResponseEntity<List<NewsDto>> getAllNews() {
+        List<NewsDto> newsList = reporterService.getNewsList();
+
+        return ResponseEntity.ok(newsList);  // JSON 데이터 반환
+    }
 }

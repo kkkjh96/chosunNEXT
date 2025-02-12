@@ -5,7 +5,11 @@
     <title>대시보드</title>
 
     <!-- CSS 스타일 -->
+    <link rel="stylesheet" href="/css/cms/sidebar.css">
     <link rel="stylesheet" href="/css/cms/cms_register.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
     <!-- Toast UI Editor 최신 버전 CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
@@ -26,27 +30,7 @@
 <body>
 <div class="wrap">
 
-    <!-- 사이드바 영역 -->
-    <div class="side_bar">
-        <div class="logo">
-            <img src="/images/logo.png" alt="로고">
-        </div>
-        <div class="profile">
-            <img src="/images/myprofile.png" alt="프로필">
-            <div class="user_info">
-                <div class="user_id">박미정</div>
-                <div class="department">디지털 사업부</div>
-            </div>
-        </div>
-
-        <ul>
-            <li><a href="#">뉴스 룸</a></li>
-            <li><a href="#">뉴스 데스크</a></li>
-            <li><a href="#">독자 투고</a></li>
-            <li><a href="#">통계</a></li>
-            <li><a href="#">WCMS</a></li>
-        </ul>
-    </div>
+    <div th:replace="~{layout/cms/side_menu :: side_menu}"></div>
 
     <!-- 기사 작성 영역 -->
     <div class="article_regist_wrap">
