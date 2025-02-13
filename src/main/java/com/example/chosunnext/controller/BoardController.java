@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -27,6 +28,12 @@ public class BoardController {
     public String boardRegist() {
         log.info("BoardController.boardRegist()");
         return "/board/write-form";
+    }
+
+    @GetMapping("/detail/{tugoId}")
+    public String boardDetail(@PathVariable("tugoId") int tugoId) {
+        log.info("BoardController.boardDetail({})", tugoId);
+        return "/board/detail";
     }
 
 }

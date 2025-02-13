@@ -1,9 +1,13 @@
 package com.example.chosunnext.dao;
 
 import com.example.chosunnext.dto.file.request.FileDto;
+import com.example.chosunnext.dto.file.response.FileResponseDto;
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.dto.tugo.response.TugoResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.chosunnext.dao
@@ -22,5 +26,11 @@ public interface TugoDao {
     void registTugo(@Param("tugo") TugoRequestDto tugoRequestDto);
 
     int uploadsFile(FileDto file);
+
+    int countLike(int tugoId);
+
+    TugoResponseDto getTugoById(int tugoId);
+
+    List<FileResponseDto> getFileTugoById(int tugoId);
 
 }

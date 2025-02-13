@@ -2,7 +2,9 @@ package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.TugoDao;
 import com.example.chosunnext.dto.file.request.FileDto;
+import com.example.chosunnext.dto.file.response.FileResponseDto;
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.dto.tugo.response.TugoResponseDto;
 import com.example.chosunnext.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,15 +40,37 @@ public class TugoServiceImpl implements TugoService {
 
         tugoDao.registTugo(tugoRequestDto);
 
-        for(MultipartFile file : files){
-            FileDto dto = new FileDto();
-            dto.setTugoId(tugoRequestDto.getTugoId());
-            dto.setFile(file);
-            dto.setInstId(tugoRequestDto.getUserId());
-            dto.setFileGbnCd("400");
+        if (files != null && !files.isEmpty()) {
+            for(MultipartFile file : files){
+                FileDto dto = new FileDto();
+                dto.setTugoId(tugoRequestDto.getTugoId());
+                dto.setFile(file);
+                dto.setInstId(tugoRequestDto.getUserId());
+                dto.setFileGbnCd("400");
 
-            fileUtils.uploadFileTUgo(dto);
+                fileUtils.uploadFileTUgo(dto);
+            }
         }
+
+    }
+
+    @Override
+    @Transactional
+    public TugoResponseDto getTugoById(int tugoId) {
+
+        TugoResponseDto tugoResponseDto = tugoDao.getTugoById(tugoId);
+        tugoResponseDto.setLike(tugoDao.countLike(tugoId));
+
+        List<FileResponseDto> fileResponseDtoList;
+
+        fileResponseDtoList = tugoDao.getFileTugoById(tugoId);
+
+        log.info("file : {}", fileResponseDtoList);
+
+
+        tugoResponseDto.setFiles(fileResponseDtoList);
+
+        return tugoResponseDto;
 
     }
 }

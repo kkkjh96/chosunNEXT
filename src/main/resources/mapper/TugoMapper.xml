@@ -15,4 +15,22 @@
         (#{fileGbnCd}, #{tugoId}, #{fileName}, #{fileUrl}, #{instId}, NOW());
     </insert>
 
+    <select id="countLike" resultType="Integer">
+        SELECT count(*) FROM tbl_tugo_ddabong WHERE tugo_id = #{tugoId}
+    </select>
+
+    <select id="getTugoById" resultType="com.example.chosunnext.dto.tugo.response.TugoResponseDto">
+        SELECT
+            user_id, title, contents, create_dt
+        FROM tbl_tugo
+            WHERE tugo_id = #{tugoId}
+    </select>
+
+    <select id="getFileTugoById" resultType="com.example.chosunnext.dto.file.response.FileResponseDto">
+        SELECT
+            file_url, file_name
+        FROM tbl_file
+            WHERE file_gbn_cd = 400 AND file_ref_id = #{tugoId}
+    </select>
+
 </mapper>
