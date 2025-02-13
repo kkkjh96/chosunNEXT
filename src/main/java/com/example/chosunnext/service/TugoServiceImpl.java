@@ -1,0 +1,51 @@
+package com.example.chosunnext.service;
+
+import com.example.chosunnext.dao.TugoDao;
+import com.example.chosunnext.dto.file.request.FileDto;
+import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.utils.FileUtils;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+/**
+ * packageName    : com.example.chosunnext.service
+ * fileName       : TugoServiceImpl
+ * author         : 김재홍
+ * date           : 25. 2. 13.
+ * description    :
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 25. 2. 13.        김재홍       최초 생성
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class TugoServiceImpl implements TugoService {
+
+    private final FileUtils fileUtils;
+    private final TugoDao tugoDao;
+
+    @Override
+    @Transactional
+    public void registTugo(TugoRequestDto tugoRequestDto, List<MultipartFile> files) {
+
+        tugoDao.registTugo(tugoRequestDto);
+
+        for(MultipartFile file : files){
+            FileDto dto = new FileDto();
+            dto.setTugoId(tugoRequestDto.getTugoId());
+            dto.setFile(file);
+            dto.setInstId(tugoRequestDto.getUserId());
+            dto.setFileGbnCd("400");
+
+            fileUtils.uploadFileTUgo(dto);
+        }
+
+    }
+}

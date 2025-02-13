@@ -25,7 +25,7 @@ public class FileDto {
 
     private int fileId;
     private String fileGbnCd;
-    private String fileRefId;
+    private int tugoId;
     private String fileName;
     private String fileUrl;
     private String instId;

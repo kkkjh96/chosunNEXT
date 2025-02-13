@@ -42,31 +42,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('submitPost').addEventListener('click', function() {
         const title = document.getElementById('title').value;
-
-        // HTML 태그를 포함한 전체 내용
-        const fullContent = editor.getHTML();
-
-        // HTML 태그 제거 후 순수 텍스트만 추출
-        const content = editor.getMarkdown().replace(/[#>*_`~\[\](){}<>-]/g, '').trim();
-
-        // FormData를 활용하여 데이터 전송
-        const data = new FormData();
-        data.append('title', title);
-        data.append('userId', instId);
-        data.append('content', content); // 텍스트 내용
-
-        // 🔹 최종 등록 시 이미지 파일을 실제 업로드
-        uploadedImages.forEach((blob, index) => {
-            data.append(`file${index}`, blob);
-        });
+        const fullContent = editor.getMarkdown().replace(/[#>*_`~\[\](){}<>-]/g, '').trim();
+        const content = fullContent.replace(/<img[^>]*>/g, '').trim();
 
         if (!title || !content) {
             alert('제목과 내용을 입력하세요.');
             return;
         }
 
-        // 게시글 데이터 전송
-        axios.post('/api/board', data, {
+        // DTO 데이터 (JSON 형식)
+        const postData = {
+            title: title,
+            userId: instId,
+            content: content
+        };
+
+        // FormData 생성
+        const formData = new FormData();
+
+        // 🔹 JSON 데이터를 Blob으로 변환하여 FormData에 추가
+        formData.append('data', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
+
+        // 🔹 업로드된 이미지 파일 추가
+        uploadedImages.forEach((blob, index) => {
+            formData.append('files', blob, `image${index}.jpg`);  // 파일명 지정
+        });
+
+        console.log("📌 FormData 확인:", formData); // 디버깅 로그 추가
+
+        // 서버로 전송
+        axios.post('/api/board', formData, {
             headers: { "Content-Type": "multipart/form-data" },
             withCredentials: true // 세션 유지
         })
@@ -79,4 +84,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('게시글 등록에 실패했습니다.');
             });
     });
+
 });
