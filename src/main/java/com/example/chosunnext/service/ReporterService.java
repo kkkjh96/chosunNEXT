@@ -23,14 +23,17 @@ public class ReporterService {
 
     public List<ResponseReporterDto> getReporter() {
         List<ResponseReporterDto> reporters = reporterDao.getReporterDto();
-        
-        System.out.println("리스트 ㅇㅇㅇ"+reporters);
         return reporters;
     }
 
-    public NewsDto saveNews(NewsDto newsDto) {
-        NewsDto news = newsDao.insertNews(newsDto);
-        System.out.println("디비 들어가나 "+news);
-        return news;
+    public void saveNews(NewsDto newsDto) {
+        newsDao.insertNews(newsDto);
+    }
+
+    public List<NewsDto> getNewsList() {
+        List<NewsDto> newList = newsDao.getAllList();
+        System.out.println("리스트 찍어 볼게요"+newList);
+        return newList;
+
     }
 }

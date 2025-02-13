@@ -19,55 +19,6 @@ a {
     gap: 20px;
 }
 
-/* 사이드바 스타일 */
-.side_bar {
-    width: 15%;
-    height: 100vh;
-    background-color: #f0f0f0;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 150px;
-    background-color: #e0e0e0;
-    margin-bottom: 20px;
-}
-
-.logo img {
-    width: 100px;
-    height: 100px;
-}
-
-.profile {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.profile img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-}
-
-.user_info {
-    font-size: 14px;
-    color: #333;
-}
-
-/* 메뉴 스타일 */
-ul li {
-    height: 50px;
-    font-size: 16px;
-    line-height: 50px;
-    padding-left: 10px;
-    border-bottom: 1px solid #ddd;
-}
 
 /* 기사 작성 영역 스타일 */
 .article_regist_wrap {

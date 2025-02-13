@@ -5,7 +5,11 @@
     <title>대시보드</title>
 
     <!-- CSS 스타일 -->
+    <link rel="stylesheet" href="/css/cms/sidebar.css">
     <link rel="stylesheet" href="/css/cms/cms_register.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
     <!-- Toast UI Editor 최신 버전 CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
@@ -16,62 +20,46 @@
             height: 400px;
             margin-bottom: 10px;
         }
+        /* textarea 가 required 체크에 걸리지 않도록 visibility 사용 */
+        #editor-content {
+            visibility: hidden;
+            height: 1px;
+        }
     </style>
 </head>
 <body>
 <div class="wrap">
 
-    <!-- 사이드바 영역 -->
-    <div class="side_bar">
-        <div class="logo">
-            <img src="/images/logo.png" alt="로고">
-        </div>
-        <div class="profile">
-            <img src="/images/myprofile.png" alt="프로필">
-            <div class="user_info">
-                <div class="user_id">박미정</div>
-                <div class="department">디지털 사업부</div>
-            </div>
-        </div>
-
-        <ul>
-            <li><a href="#">뉴스 룸</a></li>
-            <li><a href="#">뉴스 데스크</a></li>
-            <li><a href="#">독자 투고</a></li>
-            <li><a href="#">통계</a></li>
-            <li><a href="#">WCMS</a></li>
-        </ul>
-    </div>
+    <div th:replace="~{layout/cms/side_menu :: side_menu}"></div>
 
     <!-- 기사 작성 영역 -->
     <div class="article_regist_wrap">
         <p>기사 작성</p>
         <form id="article_form" action="/cms/article_form" method="post">
-        <input type="hidden" name="user_id" th:value="${session.user.username}">
+            <input type="hidden" id="user_id" name="user_id" th:value="${session.user.username}">
             <div class="form_wrap">
                 <div class="content_wrap">
-                    <input type="text" name="title" placeholder="제목을 입력하세요" required> <br>
-                    <input type="text" name="sub_title" placeholder="부제목을 입력하세요" required>
+                    <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required> <br>
+                    <input type="text" id="sub_title" name="sub_title" placeholder="부제목을 입력하세요" required>
 
                     <!-- Toast UI Editor 영역 -->
                     <div id="editor"></div>
-                    <textarea id="editor-content" name="content" style="display:none;" required></textarea>
+                    <textarea id="editor-content" name="content" required></textarea>
                 </div>
 
                 <div class="section_2">
-
                     <div class="reservation_type">
-                        예약배포 : <input type="datetime-local" name="reservation_time">
+                        예약배포 : <input type="datetime-local" name="reservation_time" id="reservation_time">
+
                         <div style="margin: 10px 0;">
                             <p>news_type</p>
-                            <label><input type="radio" name="news_type" value="속보" required> 속보</label>
+                            <label><input type="radio" name="news_type" value="속보" > 속보</label>
                             <label><input type="radio" name="news_type" value="단독"> 단독</label>
                         </div>
                     </div>
 
                     <div class="category">
                         <p>카테고리 선택</p>
-
                         <label for="main_category">대분류</label>
                         <select id="main_category" name="main_category_cd" required>
                             <option value="">대분류를 선택하세요</option>
@@ -93,7 +81,7 @@
                         </select>
 
                         <label for="reporter">바이라인</label>
-                        <select id="reporter" name="writer" required>
+                        <select id="reporter" name="reporter" required>
                             <option value="">기자를 선택하세요</option>
                             <th:block th:each="reporter : ${reporters}">
                                 <option th:value="${reporter.name}" th:text="${reporter.name}"></option>
@@ -102,7 +90,7 @@
 
                     </div>
 
-                    <button type="submit" style="margin-top: 10px;">저장</button>
+                    <button type="submit" style="margin-top: 10px;" id="submitBtn">저장</button>
 
                 </div>
 
@@ -119,25 +107,56 @@
         console.log('Toast UI Editor 초기화 시작');
 
         // Toast UI Editor 초기화
-
         const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
-            height: '800px',  // 높이 800px로 설정
+            height: '800px',
             initialEditType: 'wysiwyg',
             previewStyle: 'vertical'
         });
 
         console.log('Toast UI Editor 초기화 완료');
 
-        // 폼 제출 시 내용 동기화
-        document.getElementById('article_form').addEventListener('submit', function(event) {
+        // 버튼 클릭 시 AJAX로 서버에 데이터 전송/////////////////////////////////////////////////////
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 폼 제출 막기
+
             const content = editor.getHTML();  // 에디터 내용 가져오기
             document.getElementById('editor-content').value = content;
 
-            if (!content.trim()) {
-                alert('내용을 입력하세요.');
-                event.preventDefault();  // 폼 제출 방지
-            }
+            const user_id = document.getElementById('user_id') ? document.getElementById('user_id').value : "";
+            const newsTypeElement = document.querySelector('input[name="news_type"]:checked');
+            const news_type = newsTypeElement ? newsTypeElement.value : null;
+            const writerElement = document.getElementById('reporter');
+            const writer = writerElement ? writerElement.value : null;
+
+            const newsData = {
+                user_id: user_id,
+                title: document.getElementById('title').value,
+                sub_title: document.getElementById('sub_title').value,
+                content: content,
+                reservation_time: document.getElementById('reservation_time').value,
+                news_type: news_type,
+                main_category_cd: document.getElementById('main_category').value,
+                sub_category_cd: document.getElementById('sub_category').value,
+                writer: writer
+            };
+
+            fetch('/api/cms/news', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newsData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("저장 성공!");
+                    window.location.href = "/cms/";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("저장 실패!");
+                });
         });
     });
 </script>
