@@ -20,6 +20,10 @@ import java.util.List;
 @Mapper
 public interface NewsDao {
     NewsDto insertNews(NewsDto newsDto);
+
     List<NewsDto> getAllList();
+
     NewsDto findNewsById(@Param("news_id") Long news_id);
+
+    int updateNews(NewsDto updatedNews);
 }

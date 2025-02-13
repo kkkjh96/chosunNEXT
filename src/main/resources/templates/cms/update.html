@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>기사 등록</title>
+  <link rel="stylesheet" href="/css/cms/sidebar.css">
+  <link rel="stylesheet" href="/css/cms/register.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+  <style>
+    #editor {
+      height: 400px;
+      margin-bottom: 10px;
+    }
+    #editor-content {
+      visibility: hidden;
+      height: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <div th:replace="~{layout/cms/side_menu :: side_menu}"></div>
+
+  <div class="article_regist_wrap">
+    <p>기사 수정</p>
+    <form id="article_form">
+      <input type="hidden" id="user_id" name="user_id" th:value="${session.user.username}">
+      <input type="hidden" id="news_id" name="news_id" th:value="${news.news_id}">
+
+      <div class="form_wrap">
+        <div class="content_wrap">
+          <input type="text" id="title" name="title" th:value="${news.title}" placeholder="제목을 입력하세요" required> <br>
+          <input type="text" id="sub_title" name="sub_title" th:value="${news.sub_title}" placeholder="부제목을 입력하세요" required>
+
+          <!-- Toast UI Editor 영역 -->
+          <div id="editor"></div>
+          <textarea id="editor-content" name="content" required th:text="${news.content}"></textarea>
+        </div>
+
+        <div class="section_2">
+          <div class="reservation_type">
+            예약배포 : <input type="datetime-local" name="reservation_time" id="reservation_time" th:value="${news.reservation_time}">
+
+            <div style="margin: 10px 0;">
+              <p>news_type</p>
+              <label><input type="radio" name="news_type" value="속보" th:checked="${news.news_type == '속보'}"> 속보</label>
+              <label><input type="radio" name="news_type" value="단독" th:checked="${news.news_type == '단독'}"> 단독</label>
+            </div>
+          </div>
+
+          <div class="category">
+            <p>카테고리 선택</p>
+            <label for="main_category">대분류</label>
+            <select id="main_category" name="main_category_cd" required>
+              <option value="">대분류를 선택하세요</option>
+              <th:block th:each="category : ${categories}">
+                <option th:if="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                        th:value="${category.cd}"
+                        th:text="${category.cdKor}"
+                        th:selected="${news.main_category_cd == category.cd}">
+                </option>
+              </th:block>
+            </select>
+
+            <label for="sub_category">소분류</label>
+            <select id="sub_category" name="sub_category_cd" required>
+              <option value="">소분류를 선택하세요</option>
+              <th:block th:each="category : ${categories}">
+                <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
+                        th:value="${category.cd}"
+                        th:text="${category.cdKor}"
+                        th:selected="${news.sub_category_cd == category.cd}">
+                </option>
+              </th:block>
+            </select>
+
+            <label for="reporter">바이라인</label>
+            <select id="reporter" name="reporter" required>
+              <option value="">기자를 선택하세요</option>
+              <th:block th:each="reporter : ${reporters}">
+                <option th:value="${reporter.name}"
+                        th:text="${reporter.name}"
+                        th:selected="${news.writer == reporter.name}">
+                </option>
+              </th:block>
+            </select>
+          </div>
+
+          <button type="submit" style="margin-top: 10px;" id="submitBtn">수정</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast UI Editor 스크립트 -->
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    const newsIdElement = document.getElementById('news_id');
+    if (!newsIdElement || newsIdElement.value.trim() === "") {
+      alert("잘못된 접근입니다.");
+      window.location.href = "/cms/news_List"; // 목록 페이지로 리디렉션
+    }
+
+    // Toast UI Editor 초기화
+    const editor = new toastui.Editor({
+      el: document.querySelector('#editor'),
+      height: '800px',
+      initialEditType: 'wysiwyg',
+      previewStyle: 'vertical'
+    });
+
+    // 기존 뉴스 내용 넣기
+    editor.setHTML(document.getElementById('editor-content').textContent.trim());
+
+    // 수정 버튼 클릭 시 데이터 전송
+    document.getElementById('submitBtn').addEventListener('click', function (event) {
+      event.preventDefault(); // 기본 폼 제출 막기
+
+      // Toast UI Editor에서 HTML 내용 가져오기
+      const content = editor.getHTML();
+      document.getElementById('editor-content').value = content;
+
+      // 값 가져오기
+      const news_id = document.getElementById('news_id').value;
+      const user_id = document.getElementById('user_id').value;
+      const title = document.getElementById('title').value;
+      const sub_title = document.getElementById('sub_title').value;
+      const reservation_time = document.getElementById('reservation_time').value;
+      const main_category_cd = document.getElementById('main_category').value;
+      const sub_category_cd = document.getElementById('sub_category').value;
+      const writer = document.getElementById('reporter').value;
+
+      const newsTypeElement = document.querySelector('input[name="news_type"]:checked');
+      const news_type = newsTypeElement ? newsTypeElement.value : null;
+
+      // JSON 데이터 생성
+      const newsData = {
+        user_id: user_id,
+        news_id: news_id,
+        title: title,
+        sub_title: sub_title,
+        content: content,
+        reservation_time: reservation_time,
+        news_type: news_type,
+        main_category_cd: main_category_cd,
+        sub_category_cd: sub_category_cd,
+        writer: writer
+      };
+
+      fetch(`/api/cms/news/${news_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newsData)
+      })
+              .then(response => response.text()) // 응답이 JSON이 아닐 경우 대비
+              .then(data => {
+                alert("✅ 수정이 완료되었습니다!");
+                window.location.href = "/cms/";  // 수정 완료 후 리다이렉트
+              })
+              .catch(error => {
+                console.error('❌ 수정 실패:', error);
+                alert("수정에 실패했습니다.");
+              });
+    });
+  });
+</script>
+
+</body>
+</html>

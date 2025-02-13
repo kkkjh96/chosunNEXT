@@ -25,7 +25,6 @@ public class RestCmsController {
 
         System.out.println("다들어갓나?"+newsDto);
         reporterService.saveNews(newsDto);
-
         return ResponseEntity.ok("기사 등록 성공!");
     }
 
@@ -40,8 +39,18 @@ public class RestCmsController {
     @GetMapping("/news/{news_id}")
     public ResponseEntity<?> getNewsDetail(@PathVariable("news_id") Long news_id) {
         NewsDto news = newsService.getNewsById(news_id);
-        System.out.println("뉴스아이디"+news);
+        System.out.println("뉴스서브 타이틀zz"+news);
         return ResponseEntity.ok(news);
+    }
+
+    @PutMapping("/news/{news_id}")
+    public ResponseEntity<String> updateNews(@PathVariable int news_id,@RequestBody NewsDto newsDto) {
+        boolean isUpdate = newsService.updateNews(news_id,newsDto);
+        if(isUpdate) {
+            return ResponseEntity.ok("뉴스가 성공적으로 수정");
+        }else{
+            return ResponseEntity.ok("수정 실패");
+        }
     }
 
 }
