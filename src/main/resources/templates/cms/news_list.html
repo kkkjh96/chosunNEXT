@@ -41,6 +41,8 @@
         <div class="new_detail">
 
         </div>
+
+
     </div>
 
 
@@ -81,7 +83,7 @@
             <td>${news.writer || 'N/A'}</td>
             <td>${news.credate_dt || 'N/A'}</td>
             <td><div class="btn release-btn">출고</div></td>
-            <td><div class="btn edit-btn">수정</div></td>
+            <td><div class="btn edit-btn"><a href="/cms/update/${news.news_id}">수정</a></div></td>
             <td><i class="fas fa-trash"></i></td>
         `;
             tbody.appendChild(row);
@@ -100,18 +102,29 @@
         try {
             let response = await axios.get(`/api/cms/news/${newsId}`);
             let news = response.data;
+            console.log(news);
 
             document.querySelector(".new_detail").innerHTML = `
-            <h2>${news.title}</h2>
+            <div class="close-btn" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i></div>
+            <h1>${news.title}</h1>
+            <h2>${news.sub_title || '부제목 없음'}</h2>
             <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
             <p><strong>작성일:</strong> ${news.credate_dt || 'N/A'}</p>
-            <div>${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
+            <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
         `;
 
             document.querySelector(".new_detail").style.display = "block";
         } catch (error) {
-            console.error("📌 상세보기 불러오기 실패:", error);
+            console.error("상세보기 불러오기 실패:", error);
             alert("기사 상세를 불러오지 못했습니다.");
+        }
+    }
+
+
+    function closeDetail() {
+        const newsDetail = document.querySelector(".new_detail");
+        if (newsDetail) {
+            newsDetail.style.display = "none";
         }
     }
 

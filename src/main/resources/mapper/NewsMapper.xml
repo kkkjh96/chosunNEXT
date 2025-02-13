@@ -10,16 +10,16 @@
         (user_id, title, sub_title, main_category_cd, sub_category_cd, content, credate_dt, update_dt, writer, news_type, reservation_time)
         VALUES
         (
-            #{user_id},
-            #{title},
-            #{sub_title},
-            #{main_category_cd},
-            #{sub_category_cd},
-            #{content},
-            NOW(),
-            NOW(),
-            #{writer},
-            #{news_type},
+        #{user_id},
+        #{title},
+        #{sub_title},
+        #{main_category_cd},
+        #{sub_category_cd},
+        #{content},
+        NOW(),
+        NOW(),
+        #{writer},
+        #{news_type},
         <if test="reservation_time != null and reservation_time != ''">
             #{reservation_time}
         </if>
@@ -36,7 +36,6 @@
         FROM tbl_news
         ORDER BY credate_dt DESC
     </select>
-
     <resultMap id="NewsResultMap" type="com.example.chosunnext.dto.NewsDto">
         <id property="news_id" column="news_id"/>
         <result property="user_id" column="user_id"/>
@@ -50,13 +49,26 @@
         <result property="writer" column="writer"/>
         <result property="credate_dt" column="credate_dt"/>
         <result property="update_dt" column="update_dt"/>
-
     </resultMap>
 
-
-    <select id="findNewsById" resultType="com.example.chosunnext.dto.NewsDto">
+    <select id="findNewsById" resultMap="NewsResultMap">
         SELECT * FROM tbl_news WHERE news_id = #{news_id}
     </select>
 
 
+
+    <update id="updateNews" parameterType="com.example.chosunnext.dto.NewsDto">
+        UPDATE tbl_news
+        SET
+        title = #{title},
+        sub_title = #{sub_title},
+        content = #{content},
+        reservation_time = #{reservation_time},
+        news_type = #{news_type},
+        main_category_cd = #{main_category_cd},
+        sub_category_cd = #{sub_category_cd},
+        writer = #{writer},
+        update_dt = NOW()
+        WHERE news_id = #{newsId}
+    </update>
 </mapper>
