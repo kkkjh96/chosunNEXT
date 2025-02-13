@@ -1,6 +1,7 @@
 package com.example.chosunnext.utils;
 
 import com.example.chosunnext.dao.FileDao;
+import com.example.chosunnext.dao.TugoDao;
 import com.example.chosunnext.dto.file.request.FileDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class FileUtils {
 
     // 파일 정보를 데이터베이스에 저장하거나 조회하는 DAO 객체
     private final FileDao fileDao;
+    private final TugoDao tugoDao;
 
     // 프로젝트 루트 경로에 'uploads' 폴더를 생성하여 파일을 저장할 경로 설정
     private final String fileStoragePath = System.getProperty("user.dir") + "/src/main/resources/static/uploads/";
@@ -71,6 +73,45 @@ public class FileUtils {
         // 업로드된 파일의 URL 경로 반환
         return fileAccessUrl + fileName;
     }
+
+    public String uploadFileTUgo(FileDto fileDto) {
+        // DTO에서 파일 객체를 가져옴
+        MultipartFile file = fileDto.getFile();
+
+        // 파일 유효성 검사 (크기 및 확장자 검증)
+        validateFile(file);
+
+        // 고유 파일명 생성 (원본 파일 이름에 타임스탬프를 추가)
+        String fileName = generateUniqueFileName(file.getOriginalFilename());
+
+        // 파일이 저장될 전체 경로 설정
+        String filePath = fileStoragePath + fileName;
+
+        try {
+            // 파일을 경로에 저장
+            saveFile(file, filePath);
+
+            // DTO에 저장된 파일 이름과 URL 설정
+            fileDto.setFileName(fileName);
+            fileDto.setFileUrl(fileAccessUrl + fileName);
+
+            // 데이터베이스에 파일 정보를 저장
+            int result = tugoDao.uploadsFile(fileDto);
+
+            // 데이터베이스에 파일 저장이 실패하면 예외를 발생시킴
+            if (result == 0) {
+                throw new RuntimeException("파일 저장 실패");
+            }
+        } catch (IOException e) {
+            // 파일 저장 중 예외가 발생하면 로그를 출력하고 예외를 다시 던짐
+            log.error("파일 업로드 실패: {}", file.getOriginalFilename(), e);
+            throw new RuntimeException("파일 업로드에 실패했습니다.");
+        }
+
+        // 업로드된 파일의 URL 경로 반환
+        return fileAccessUrl + fileName;
+    }
+
 
     /**
      * 파일 저장 메서드

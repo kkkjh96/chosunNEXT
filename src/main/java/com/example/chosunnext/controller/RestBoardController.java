@@ -1,13 +1,14 @@
 package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.service.TugoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.chosunnext.controller
@@ -26,11 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class RestBoardController {
 
+    private final TugoService tugoService;
+
     @PostMapping
-    public ResponseEntity<String> registTugo(@RequestBody TugoRequestDto tugoRequestDto){
+    public ResponseEntity<String> registTugo(
+            @RequestPart("data") TugoRequestDto tugoRequestDto,
+            @RequestPart("files") List<MultipartFile> files
+    ) {
         log.info("tugoRequestDto : {}", tugoRequestDto);
-        // TODO: TugoService.registTugo() 호출
-        // TODO: 성공시 "게시�� 등록 성공" 반환, 실��시 "게시�� 등록 실��" 반환
+        log.info("files : {}", files);
+
+        tugoService.registTugo(tugoRequestDto, files);
+
         return ResponseEntity.ok().build();
     }
 
