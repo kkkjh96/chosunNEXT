@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class NewsDto {
+    private int news_id;
     private String user_id;
     private String title;
     private String sub_title;
@@ -36,6 +37,7 @@ public class NewsDto {
     private LocalDateTime  update_dt;
     private String filename;
 
+
     public LocalDateTime getCredate_dt() {
         return credate_dt == null ? LocalDateTime.now() : credate_dt;
     }
@@ -43,4 +45,6 @@ public class NewsDto {
     public LocalDateTime getUpdate_dt() {
         return update_dt == null ? LocalDateTime.now() : update_dt;
     }
+
+
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -32,8 +33,7 @@ public class ReporterService {
 
     public List<NewsDto> getNewsList() {
         List<NewsDto> newList = newsDao.getAllList();
-        System.out.println("리스트 찍어 볼게요"+newList);
+        System.out.println("리스트 찍어 볼게요: " + newList);
         return newList;
-
     }
 }

@@ -46,5 +46,10 @@ public class CmsController {
 
 
 
+    @GetMapping("/news_List")
+    public String cmsListPage() {
+        return "cms/news_list";
+    }
+
 
 }
