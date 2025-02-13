@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const instId = document.getElementById('instId').value;
 
     // Toast UI Editor 초기화
@@ -40,10 +40,15 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadedImages.push(blob);
     }
 
-    document.getElementById('submitPost').addEventListener('click', function() {
+    document.getElementById('submitPost').addEventListener('click', function () {
         const title = document.getElementById('title').value;
-        const fullContent = editor.getMarkdown().replace(/[#>*_`~\[\](){}<>-]/g, '').trim();
-        const content = fullContent.replace(/<img[^>]*>/g, '').trim();
+        let fullContent = editor.getHTML();
+
+        // 🔹 blob 미리보기 이미지 제거
+        fullContent = fullContent.replace(/<img[^>]*src=["']blob:[^"']*["'][^>]*>/g, '');
+
+        // 🔹 HTML 태그 제거 후 순수 텍스트만 추출
+        let content = fullContent.replace(/<\/?[^>]+(>|$)/g, "").trim();
 
         if (!title || !content) {
             alert('제목과 내용을 입력하세요.');
@@ -63,10 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // 🔹 JSON 데이터를 Blob으로 변환하여 FormData에 추가
         formData.append('data', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
 
-        // 🔹 업로드된 이미지 파일 추가
-        uploadedImages.forEach((blob, index) => {
-            formData.append('files', blob, `image${index}.jpg`);  // 파일명 지정
-        });
+        // 🔹 업로드된 이미지가 있을 경우만 추가
+        if (uploadedImages.length > 0) {
+            uploadedImages.forEach((blob, index) => {
+                formData.append('files', blob, `image${index}.jpg`);  // 파일명 지정
+            });
+        }
 
         console.log("📌 FormData 확인:", formData); // 디버깅 로그 추가
 
@@ -84,5 +91,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('게시글 등록에 실패했습니다.');
             });
     });
-
 });

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/board/detail.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+
+        <div class="container">
+            <div class="post-card">
+                <h1 id="title"></h1>
+                <p class="author">작성자: <span id="nickname"></span></p>
+                <p class="date">작성일: <span id="instDt"></span></p>
+                <div id="contents" class="post-content"></div>
+
+                <!-- 첨부 파일 섹션 -->
+                <h3>첨부 파일</h3>
+                <div id="fileList" class="file-container"></div>
+
+                <!-- 좋아요 / 싫어요 버튼 -->
+                <div class="like-buttons">
+                    <button id="like-button" class="btn like">👍 좋아요 (<span id="like-count">0</span>)</button>
+<!--                    <button id="dislike-button" class="btn dislike">👎 싫어요 (<span id="dislike-count">0</span>)</button>-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/footer :: footer"></div>
+    <script src="/javascript/layout/header.js"></script>
+    <script src="/javascript/layout/footer.js"></script>
+    <script src="/javascript/board/detail.js"></script>
+</body>
+</html>

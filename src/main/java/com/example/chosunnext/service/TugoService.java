@@ -1,6 +1,7 @@
 package com.example.chosunnext.service;
 
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.dto.tugo.response.TugoResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -19,5 +20,7 @@ import java.util.List;
 public interface TugoService {
 
     void registTugo(TugoRequestDto tugoRequestDto, List<MultipartFile> files);
+
+    TugoResponseDto getTugoById(int tugoid);
 
 }
