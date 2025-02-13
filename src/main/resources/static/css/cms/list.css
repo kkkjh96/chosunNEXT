@@ -1,0 +1,201 @@
+/* 🟢 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: 'Arial', "Noto Sans", sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* 🟢 전체 페이지 레이아웃 */
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 🟢 대시보드 메인 콘텐츠 */
+.dash_board {
+    width: 40%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.dash_board p {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+/* 🟢 기사 등록 버튼 */
+.news_reg {
+    width: 120px;
+    height: 50px;
+    background-color: #d9eeec;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #111;
+    float: right; /* 오른쪽 정렬 */
+    margin-top: 40px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.news_reg:hover {
+    background-color: #bce2df;
+}
+
+/* 🟢 뉴스 리스트 테이블 */
+.news_list_wrap {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.news_list_wrap th, .news_list_wrap td {
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+}
+
+.news_list_wrap th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.news_list_wrap td {
+    font-size: 16px;
+    color: #333;
+}
+
+/* 🟢 버튼 스타일 */
+.btn {
+    width: 70px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+/* 🟢 출고 버튼 */
+.release-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.release-btn:hover {
+    background-color: #388E3C;
+}
+
+/* 🟢 수정 버튼 */
+.edit-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #1976D2;
+}
+
+/* 🟢 삭제 버튼 */
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* 🟢 삭제 아이콘 */
+.delete-btn i {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 🟢 기사 상세 보기 */
+.new_detail {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border-radius: 8px;
+    display: none; /* 기본적으로 숨김 */
+}
+
+/* 🟢 반응형 디자인 */
+@media (max-width: 1024px) {
+    .dash_board {
+        width: 100%;
+    }
+
+    .news_reg {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .news_list_wrap th, .news_list_wrap td {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dash_board, .session {
+        width: 100%;
+    }
+
+    .news_reg {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .btn {
+        width: 80px;
+        font-size: 12px;
+    }
+
+    .news_list_wrap th, .news_list_wrap td {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

@@ -2,6 +2,7 @@ package com.example.chosunnext.dao;
 
 import com.example.chosunnext.dto.NewsDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ import java.util.List;
 public interface NewsDao {
     NewsDto insertNews(NewsDto newsDto);
     List<NewsDto> getAllList();
-
+    NewsDto findNewsById(@Param("news_id") Long news_id);
 }

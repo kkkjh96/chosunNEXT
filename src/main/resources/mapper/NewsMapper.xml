@@ -10,16 +10,16 @@
         (user_id, title, sub_title, main_category_cd, sub_category_cd, content, credate_dt, update_dt, writer, news_type, reservation_time)
         VALUES
         (
-        #{user_id},
-        #{title},
-        #{sub_title},
-        #{main_category_cd},
-        #{sub_category_cd},
-        #{content},
-        NOW(),
-        NOW(),
-        #{writer},
-        #{news_type},
+            #{user_id},
+            #{title},
+            #{sub_title},
+            #{main_category_cd},
+            #{sub_category_cd},
+            #{content},
+            NOW(),
+            NOW(),
+            #{writer},
+            #{news_type},
         <if test="reservation_time != null and reservation_time != ''">
             #{reservation_time}
         </if>
@@ -29,10 +29,34 @@
         );
     </insert>
 
-    <select id="getAllList" resultType="com.example.chosunnext.dto.NewsDto">
-        SELECT * FROM tbl_news ORDER BY credate_dt DESC;
+    <select id="getAllList" resultMap="NewsResultMap">
+        SELECT news_id, user_id, title, sub_title, content,
+        main_category_cd, sub_category_cd, reservation_time,
+        news_type, writer, credate_dt, update_dt
+        FROM tbl_news
+        ORDER BY credate_dt DESC
     </select>
 
+    <resultMap id="NewsResultMap" type="com.example.chosunnext.dto.NewsDto">
+        <id property="news_id" column="news_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="sub_title" column="sub_title"/>
+        <result property="content" column="content"/>
+        <result property="main_category_cd" column="main_category_cd"/>
+        <result property="sub_category_cd" column="sub_category_cd"/>
+        <result property="reservation_time" column="reservation_time"/>
+        <result property="news_type" column="news_type"/>
+        <result property="writer" column="writer"/>
+        <result property="credate_dt" column="credate_dt"/>
+        <result property="update_dt" column="update_dt"/>
+
+    </resultMap>
+
+
+    <select id="findNewsById" resultType="com.example.chosunnext.dto.NewsDto">
+        SELECT * FROM tbl_news WHERE news_id = #{news_id}
+    </select>
 
 
 </mapper>

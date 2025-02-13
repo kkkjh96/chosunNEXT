@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>대시보드</title>
+    <link rel="stylesheet" href="/css/cms/list.css">
+    <link rel="stylesheet" href="/css/cms/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="~{layout/cms/side_menu :: side_menu}"></div>
+
+    <div class="dash_board">
+        <p>기사 목록</p>
+        <div class="news_reg"><a href="/cms/regist">기사등록</a></div>
+        <div class="news_reg"><a href="/cms/delete">삭제</a></div>
+        <div class="news_reg"><a href="/cms/delete">출고</a></div>
+        <table class="news_list_wrap">
+            <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>제목</th>
+                <th>기자명</th>
+                <th>작성일시</th>
+                <th>상태</th>
+                <th>편집</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="session">
+        <div class="new_detail">
+
+        </div>
+    </div>
+
+
+
+<script>
+    window.onload = function () {
+        getAllNews();
+    };
+
+    async function getAllNews() {
+        try {
+            let response = await axios.get('/api/cms/news');
+            console.log("불러온 데이터:", response.data);
+
+            if (response.data.length === 0) {
+                alert("불러올 뉴스가 없습니다.");
+                return;
+            }
+
+            updateNewsTable(response.data);
+        } catch (error) {
+            console.error("불러오기 실패:", error);
+            alert("불러오기 실패");
+        }
+    }
+
+    function updateNewsTable(newsList) {
+        let tbody = document.querySelector(".news_list_wrap tbody");
+        tbody.innerHTML = "";
+
+        newsList.forEach(news => {
+            let newsId = news.news_id ? news.news_id : "N/A";
+            let row = document.createElement("tr");
+
+            row.innerHTML = `
+            <td><input type="checkbox"></td>
+            <td><a href="#" class="news-link" onclick="loadNewsDetail(${news.news_id})">${news.title}</a></td>
+            <td>${news.writer || 'N/A'}</td>
+            <td>${news.credate_dt || 'N/A'}</td>
+            <td><div class="btn release-btn">출고</div></td>
+            <td><div class="btn edit-btn">수정</div></td>
+            <td><i class="fas fa-trash"></i></td>
+        `;
+            tbody.appendChild(row);
+        });
+
+
+    }
+
+    async function loadNewsDetail(newsId) {
+        if (!newsId || isNaN(Number(newsId)) || Number(newsId) === 0) {
+            console.error("❌ 잘못된 뉴스 ID:", newsId);
+            alert("잘못된 뉴스 ID 요청입니다.");
+            return;
+        }
+
+        try {
+            let response = await axios.get(`/api/cms/news/${newsId}`);
+            let news = response.data;
+
+            document.querySelector(".new_detail").innerHTML = `
+            <h2>${news.title}</h2>
+            <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
+            <p><strong>작성일:</strong> ${news.credate_dt || 'N/A'}</p>
+            <div>${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
+        `;
+
+            document.querySelector(".new_detail").style.display = "block";
+        } catch (error) {
+            console.error("📌 상세보기 불러오기 실패:", error);
+            alert("기사 상세를 불러오지 못했습니다.");
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
