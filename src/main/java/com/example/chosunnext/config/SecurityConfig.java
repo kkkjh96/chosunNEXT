@@ -9,12 +9,14 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 /**
  * packageName    : com.example.chosunnext.config
@@ -75,33 +77,54 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.sameOrigin())  // 동일 출처에서 iframe 허용
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)  // 요청이 있을 때만 세션 생성
-                )
-                .csrf(csrf -> csrf.disable())
+                // 🔹 정적 리소스에 대한 보안 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/", "/register", "/api/**", "/css/**", "/javascript/**","/images/**", "/uploads/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**", "/uploads/**", "/admin/**" ).permitAll()
-                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 접두사 없이 권한 검사
+                        .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
+                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**", "/admin/**").permitAll()
+                        .requestMatchers("/login", "/", "/register", "/api/**").permitAll()
+                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 사용자 권한 검사
                         .anyRequest().authenticated()
                 )
+
+                // 🔹 이미지 요청 시 새로운 세션 생성 방지
+                .sessionManagement(session -> session
+                        .sessionFixation().none()  // 기존 세션 유지
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // 필요할 때만 세션 생성
+                )
+
+                // 🔹 보안 헤더 설정
+                .headers(headers -> headers
+//                        .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy",
+//                                "default-src 'self'; " +
+//                                        "img-src 'self' data: http://localhost:7070/uploads/; " +
+//                                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:; " +
+//                                        "style-src 'self' 'unsafe-inline' http: https:;"))
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin) // 동일 출처에서 iframe 허용
+                )
+
+                // 🔹 CSRF 보호 비활성화
+                .csrf(csrf -> csrf.disable())
+
+                // 🔹 로그인 설정
                 .formLogin(login -> login
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .usernameParameter("user_id")        // 아이디 필드명을 'user_id'로 변경
-                        .passwordParameter("password")       // 비밀번호 필드명을 'password'로 설정
-                        .successHandler(customAuthenticationSuccessHandler())
+                        .usernameParameter("user_id")  // 사용자 아이디 필드명 설정
+                        .passwordParameter("password") // 비밀번호 필드명 설정
+                        .successHandler(customAuthenticationSuccessHandler()) // 로그인 성공 핸들러 설정
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
+
+                // 🔹 로그아웃 설정 (세션 유지)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
+                        .invalidateHttpSession(true)  // 🔥 로그아웃 시 세션 유지
                         .deleteCookies("JSESSIONID")
                 )
+
+                // 🔹 예외 처리 설정
                 .exceptionHandling(ex -> ex
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect("/error");
