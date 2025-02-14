@@ -46,6 +46,7 @@ public class RestCmsController {
     @PutMapping("/news/{news_id}")
     public ResponseEntity<String> updateNews(@PathVariable int news_id,@RequestBody NewsDto newsDto) {
         boolean isUpdate = newsService.updateNews(news_id,newsDto);
+        System.out.println(isUpdate+"sdf");
         if(isUpdate) {
             return ResponseEntity.ok("뉴스가 성공적으로 수정");
         }else{

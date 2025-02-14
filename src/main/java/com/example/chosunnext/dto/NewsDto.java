@@ -28,9 +28,14 @@ public class NewsDto {
     private String title;
     private String sub_title;
     private String content;
+
+    public int getNews_id() {
+        return news_id;
+    }
+
     private String main_category_cd;
     private String sub_category_cd;
-    private String reservation_time;
+    private LocalDateTime reservation_time;
     private String news_type;
     private String writer;
     private LocalDateTime credate_dt;

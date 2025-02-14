@@ -10,7 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-
     <!-- Toast UI Editor 최신 버전 CDN -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
 
@@ -53,7 +52,7 @@
 
                         <div style="margin: 10px 0;">
                             <p>news_type</p>
-                            <label><input type="radio" name="news_type" value="속보" > 속보</label>
+                            <label><input type="radio" name="news_type" value="속보"> 속보</label>
                             <label><input type="radio" name="news_type" value="단독"> 단독</label>
                         </div>
                     </div>
@@ -73,11 +72,6 @@
                         <label for="sub_category">소분류</label>
                         <select id="sub_category" name="sub_category_cd" required>
                             <option value="">소분류를 선택하세요</option>
-                            <th:block th:each="category : ${categories}">
-                                <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
-                                        th:value="${category.cd}"
-                                        th:text="${category.cdKor}"></option>
-                            </th:block>
                         </select>
 
                         <label for="reporter">바이라인</label>
@@ -101,12 +95,12 @@
 
 <!-- Toast UI Editor 스크립트 -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<script type="application/json" id="categoryData" th:utext="${categoriesJson}"></script>
 
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        console.log('Toast UI Editor 초기화 시작');
 
-        // Toast UI Editor 초기화
+        // ✅ Toast UI Editor 초기화
         const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
             height: '800px',
@@ -114,9 +108,35 @@
             previewStyle: 'vertical'
         });
 
-        console.log('Toast UI Editor 초기화 완료');
+        const categoryDataElement = document.getElementById("categoryData");
+        let categories = [];
 
-        // 버튼 클릭 시 AJAX로 서버에 데이터 전송/////////////////////////////////////////////////////
+        try {
+            categories = JSON.parse(categoryDataElement.textContent.trim());
+            console.log("✅ 카테고리 데이터:", categories);
+        } catch (error) {
+            console.error("❌ JSON 파싱 오류:", error);
+            return;
+        }
+
+        const mainCategory = document.getElementById("main_category");
+        const subCategory = document.getElementById("sub_category");
+
+        mainCategory.addEventListener("change", function () {
+            const selectedMainCategory = mainCategory.value;
+            subCategory.innerHTML = '<option value="">소분류를 선택하세요</option>'; // 초기화
+
+            // ✅ 선택한 대분류에 해당하는 소분류 필터링
+            const filteredSubCategories = categories.filter(cat => cat.parentCd === selectedMainCategory);
+
+            filteredSubCategories.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat.cd;
+                option.textContent = cat.cdKor;
+                subCategory.appendChild(option);
+            });
+        });
+        // ✅ 버튼 클릭 시 AJAX로 서버에 데이터 전송
         document.getElementById('submitBtn').addEventListener('click', function(event) {
             event.preventDefault(); // 기본 폼 제출 막기
 
