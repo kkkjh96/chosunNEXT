@@ -134,13 +134,12 @@
             alert("잘못된 뉴스 ID입니다.");
             return;
         }
-
         if (!confirm("정말 삭제하시겠습니까?")) {
             return;
         }
 
         try {
-            let response = await axios.delete(`/api/cms/news/${newsId}`);
+            await axios.delete(`/api/cms/news/${newsId}`);
             alert("삭제 완료");
             getAllNews(); // 삭제 후 목록 새로고침
         } catch (error) {
