@@ -77,4 +77,11 @@
         update_dt = NOW()
         WHERE news_id = #{news_id}
     </update>
+
+
+    <delete id="deleteNews">
+        delete from tbl_news
+        where news_id =#{news_id}
+    </delete>
+
 </mapper>

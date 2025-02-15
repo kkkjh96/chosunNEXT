@@ -200,6 +200,16 @@ body {
     border-top: 1px solid #ddd;
     margin-top: 10px;
 }
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover i {
+    color: red;
+}
 
 /* 🟢 반응형 디자인 */
 @media (max-width: 1024px) {

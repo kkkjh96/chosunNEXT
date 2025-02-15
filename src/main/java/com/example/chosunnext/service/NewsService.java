@@ -22,6 +22,11 @@ public class NewsService {
         int result = newsDao.updateNews(updatedNews);
         return result > 0;
     }
+
+    public int deleteNews(int news_id) {
+        int result = newsDao.deleteNews(news_id);
+        return result;
+    }
 }
 
 

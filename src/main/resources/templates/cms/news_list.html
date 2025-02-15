@@ -84,7 +84,7 @@
             <td>${news.credate_dt || 'N/A'}</td>
             <td><div class="btn release-btn">출고</div></td>
             <td><div class="btn edit-btn"><a href="/cms/update/${news.news_id}">수정</a></div></td>
-            <td><i class="fas fa-trash"></i></td>
+            <td><button onclick="deleteBtn(${news.news_id})"><i class="fas fa-trash"></i></button></td>
         `;
             tbody.appendChild(row);
         });
@@ -127,6 +127,28 @@
             newsDetail.style.display = "none";
         }
     }
+
+
+    async function deleteBtn(newsId) {
+        if (!newsId || isNaN(Number(newsId))) {
+            alert("잘못된 뉴스 ID입니다.");
+            return;
+        }
+
+        if (!confirm("정말 삭제하시겠습니까?")) {
+            return;
+        }
+
+        try {
+            let response = await axios.delete(`/api/cms/news/${newsId}`);
+            alert("삭제 완료");
+            getAllNews(); // 삭제 후 목록 새로고침
+        } catch (error) {
+            console.error("삭제 실패:", error);
+            alert("삭제 실패");
+        }
+    }
+
 
 
 </script>

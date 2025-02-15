@@ -108,6 +108,8 @@
             previewStyle: 'vertical'
         });
 
+
+
         const categoryDataElement = document.getElementById("categoryData");
         let categories = [];
 
@@ -136,7 +138,10 @@
                 subCategory.appendChild(option);
             });
         });
-        // ✅ 버튼 클릭 시 AJAX로 서버에 데이터 전송
+
+
+
+        //////////////////////////////////////////////////
         document.getElementById('submitBtn').addEventListener('click', function(event) {
             event.preventDefault(); // 기본 폼 제출 막기
 
