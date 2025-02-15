@@ -63,12 +63,25 @@
         title = #{title},
         sub_title = #{sub_title},
         content = #{content},
-        reservation_time = #{reservation_time},
+        reservation_time =
+        <if test="reservation_time != null and reservation_time !=''">
+                #{reservationTime}
+        </if>
+        <if test="reservation_time == null or reservation_time ==''">
+            null
+        </if>,
         news_type = #{news_type},
         main_category_cd = #{main_category_cd},
         sub_category_cd = #{sub_category_cd},
         writer = #{writer},
         update_dt = NOW()
-        WHERE news_id = #{newsId}
+        WHERE news_id = #{news_id}
     </update>
+
+
+    <delete id="deleteNews">
+        delete from tbl_news
+        where news_id =#{news_id}
+    </delete>
+
 </mapper>

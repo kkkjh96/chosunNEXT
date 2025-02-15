@@ -46,11 +46,30 @@ public class RestCmsController {
     @PutMapping("/news/{news_id}")
     public ResponseEntity<String> updateNews(@PathVariable int news_id,@RequestBody NewsDto newsDto) {
         boolean isUpdate = newsService.updateNews(news_id,newsDto);
+        System.out.println(isUpdate+"sdf");
         if(isUpdate) {
             return ResponseEntity.ok("뉴스가 성공적으로 수정");
         }else{
             return ResponseEntity.ok("수정 실패");
         }
     }
+
+
+    @DeleteMapping("/news/{news_id}")
+    public ResponseEntity<String> deleteNews(@PathVariable int news_id) {
+         int news = newsService.deleteNews(news_id);
+         if(news > 0) {
+             System.out.println("삭제 성공");
+             log.info("뉴스 삭제 성공");
+            }
+        return ResponseEntity.ok("수정 성공");
+    }
+
+
+
+
+
+
+
 
 }

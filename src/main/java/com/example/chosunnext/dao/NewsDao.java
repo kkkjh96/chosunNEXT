@@ -25,5 +25,7 @@ public interface NewsDao {
 
     NewsDto findNewsById(@Param("news_id") Long news_id);
 
-    int updateNews(NewsDto updatedNews);
+    int updateNews(NewsDto newsDto);
+
+    int deleteNews(int newsId);
 }

@@ -17,9 +17,15 @@ public class NewsService {
     public NewsDto getNewsById(Long news_id) {
             return newsDao.findNewsById(news_id); // newsDao의 함수도 적절한 이름으로 변경
         }
-    public boolean updateNews(int newsId, NewsDto updatedNews) {
+    public boolean updateNews(int news_id, NewsDto updatedNews) {
+        updatedNews.setNews_id(news_id);
         int result = newsDao.updateNews(updatedNews);
         return result > 0;
+    }
+
+    public int deleteNews(int news_id) {
+        int result = newsDao.deleteNews(news_id);
+        return result;
     }
 }
 
