@@ -104,4 +104,9 @@ public class TugoServiceImpl implements TugoService {
         return tugoDao.getTotalBoardCount();
     }
 
+    @Override
+    public void deleteTugo(int tugoId) {
+        tugoDao.deleteTugo(tugoId);
+    }
+
 }

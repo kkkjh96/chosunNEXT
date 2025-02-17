@@ -133,4 +133,10 @@ public class RestBoardController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{tugoId}")
+    public ResponseEntity<String> deleteTugo(@PathVariable("tugoId") int tugoId) {
+        tugoService.deleteTugo(tugoId);
+        return ResponseEntity.ok().build();
+    }
+
 }

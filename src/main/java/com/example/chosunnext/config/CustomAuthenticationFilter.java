@@ -28,7 +28,9 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
         HttpSession session = request.getSession();
 
         String requestURI = request.getRequestURI();
-        if (!requestURI.startsWith("/login") && !requestURI.startsWith("/css") && !requestURI.startsWith("/javascript") && !requestURI.startsWith("/api") && !requestURI.startsWith("/upload")) {
+        if (!requestURI.startsWith("/login") && !requestURI.startsWith("/css") && !requestURI.startsWith("/javascript")
+                && !requestURI.startsWith("/api") && !requestURI.startsWith("/upload") && !requestURI.startsWith("/images")
+                && !requestURI.startsWith("/")) {
             session.setAttribute("redirectAfterLogin", request.getRequestURI());
         }
 

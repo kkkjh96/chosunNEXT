@@ -42,4 +42,10 @@ public class BoardController {
         return "/board/list";
     }
 
+    @GetMapping("/edit/{tugoId}")
+    public String boardEdit(@PathVariable("tugoId") int tugoId) {
+        log.info("BoardController.boardEdit({})", tugoId);
+        return "/board/edit";
+    }
+
 }
