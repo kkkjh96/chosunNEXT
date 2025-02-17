@@ -2,10 +2,15 @@ package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
 import com.example.chosunnext.dto.tugo.response.TugoResponseDto;
+import com.example.chosunnext.security.CustomUserDetails;
 import com.example.chosunnext.service.TugoService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,5 +67,18 @@ public class RestBoardController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @PostMapping("/{tugoId}/like")
+    public ResponseEntity<String> likeTugo(@PathVariable("tugoId") int tugoId, HttpSession session) {
+
+        CustomUserDetails authentication = (CustomUserDetails)SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("유저 정보1:{}", authentication.getUsername());
+
+        log.info("�� 좋아요 - tugoId : {}", tugoId);
+
+        tugoService.likeTugo(tugoId);
+
+        return ResponseEntity.ok().build();
+    }
 
 }

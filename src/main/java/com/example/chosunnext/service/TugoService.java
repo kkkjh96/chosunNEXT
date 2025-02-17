@@ -23,4 +23,5 @@ public interface TugoService {
 
     TugoResponseDto getTugoById(int tugoid);
 
+    void likeTugo(int tugoId);
 }

@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('like-button').addEventListener('click', function () {
         api.post(`/api/board/${tugoId}/like`, {}, { withCredentials: true })
             .then(() => fetchPost())
-            .catch(() => alert("로그인이 필요합니다."));
+            .catch(() => alert("로그인이 필요합니다."), location.href = "/login");
     });
 
     // document.getElementById('dislike-button').addEventListener('click', function () {

@@ -73,4 +73,9 @@ public class TugoServiceImpl implements TugoService {
         return tugoResponseDto;
 
     }
+
+    @Override
+    public void likeTugo(int tugoId) {
+
+    }
 }
