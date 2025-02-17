@@ -90,3 +90,46 @@ h1 {
 .dislike:hover {
     background: #c82333;
 }
+
+.edit-delete-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.edit {
+    background: #ffc107;
+    color: black;
+}
+
+.edit:hover {
+    background: #e0a800;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+}
+
+.delete:hover {
+    background: #c82333;
+}
+
+.back-btn {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.back-btn:hover {
+    background-color: #0056b3;
+}

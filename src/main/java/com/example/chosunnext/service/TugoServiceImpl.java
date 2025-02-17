@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,14 +58,13 @@ public class TugoServiceImpl implements TugoService {
     public TugoResponseDto getTugoById(int tugoId) {
 
         TugoResponseDto tugoResponseDto = tugoDao.getTugoById(tugoId);
-        tugoResponseDto.setLike(tugoDao.countLike(tugoId));
+        tugoResponseDto.setLikeCount(tugoDao.countLike(tugoId));
 
         List<FileResponseDto> fileResponseDtoList;
 
         fileResponseDtoList = tugoDao.getFileTugoById(tugoId);
 
         log.info("file : {}", fileResponseDtoList);
-
 
         tugoResponseDto.setFiles(fileResponseDtoList);
 
@@ -75,7 +73,35 @@ public class TugoServiceImpl implements TugoService {
     }
 
     @Override
-    public void likeTugo(int tugoId) {
-
+    public void likeTugo(int tugoId, String userId) {
+        tugoDao.likeTugo(tugoId, userId);
     }
+
+    @Override
+    public boolean likeTugoStatus(int tugoId, String userId) {
+
+        int result = tugoDao.likeTugoStatus(tugoId, userId);
+
+        boolean status;
+
+        status = result > 0;
+
+        return status;
+    }
+
+    @Override
+    public void deleteLike(int tugoId, String userId) {
+        tugoDao.deleteLike(tugoId, userId);
+    }
+
+    @Override
+    public List<TugoResponseDto> getTugoList(int page, int size, int offset, String sort) {
+        return tugoDao.getTugoList(page, size, offset, sort);
+    }
+
+    @Override
+    public int getTotalBoardCount() {
+        return tugoDao.getTotalBoardCount();
+    }
+
 }

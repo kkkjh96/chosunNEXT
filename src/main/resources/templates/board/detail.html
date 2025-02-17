@@ -28,10 +28,18 @@
                 <h3>첨부 파일</h3>
                 <div id="fileList" class="file-container"></div>
 
+                <!-- 좋아요 버튼 위에 뒤로가기 버튼 추가 -->
+                <button id="back-button" class="back-btn">🔙 뒤로가기</button>
+
                 <!-- 좋아요 / 싫어요 버튼 -->
                 <div class="like-buttons">
-                    <button id="like-button" class="btn like">👍 좋아요 (<span id="like-count">0</span>)</button>
-<!--                    <button id="dislike-button" class="btn dislike">👎 싫어요 (<span id="dislike-count">0</span>)</button>-->
+                    <button id="like-button" class="btn like">👍 추천 (<span id="like-count"></span>)</button>
+                </div>
+
+                <!-- 수정 및 삭제 버튼 (작성자와 로그인한 유저가 같을 때 표시) -->
+                <div id="edit-delete-buttons" class="edit-delete-buttons" style="display: none;">
+                    <button id="edit-button" class="btn edit">✏️ 수정</button>
+                    <button id="delete-button" class="btn delete">🗑️ 삭제</button>
                 </div>
             </div>
         </div>

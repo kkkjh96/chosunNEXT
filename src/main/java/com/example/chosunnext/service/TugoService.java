@@ -23,5 +23,13 @@ public interface TugoService {
 
     TugoResponseDto getTugoById(int tugoid);
 
-    void likeTugo(int tugoId);
+    void likeTugo(int tugoId, String userId);
+
+    boolean likeTugoStatus(int tugoId, String userId);
+
+    void deleteLike(int tugoId, String userId);
+
+    List<TugoResponseDto> getTugoList(int page, int size, int offset, String sort);
+
+    int getTotalBoardCount();
 }

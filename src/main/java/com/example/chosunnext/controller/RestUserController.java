@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +87,18 @@ public class RestUserController {
         log.info(responseCategories.toString());
 
         return ResponseEntity.ok(responseCategories);
+    }
+
+    @GetMapping("/user/me")
+    public ResponseEntity<String> getMe(Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
+        String userId = authentication.getName();
+
+        return ResponseEntity.ok(userId);
     }
 
 }
