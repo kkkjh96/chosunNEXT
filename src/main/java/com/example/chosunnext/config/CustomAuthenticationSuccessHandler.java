@@ -1,5 +1,6 @@
 package com.example.chosunnext.config;
 
+import com.example.chosunnext.security.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         // 인증된 사용자 정보 가져오기
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         // 사용자 정보를 세션에 저장
         HttpSession session = request.getSession();
