@@ -27,7 +27,7 @@ public class BoardController {
     @GetMapping("/write")
     public String boardRegist() {
         log.info("BoardController.boardWrite()");
-        return "/board/write-form";
+        return "/board/write";
     }
 
     @GetMapping("/detail/{tugoId}")
