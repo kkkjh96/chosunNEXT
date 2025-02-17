@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -32,17 +31,23 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         HttpSession session = request.getSession();
         session.setAttribute("user", userDetails);
 
-        // 사용자 권한 확인 및 리다이렉트 경로 설정
-        boolean isReporter = userDetails.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("REPORTER"));
+        // 저장된 요청 정보 확인 (Spring Security가 저장한 이전 요청 URL)
+        String savedRequest = (String) session.getAttribute("redirectAfterLogin");
+        String redirectUrl = "/"; // 기본값 (메인 페이지)
 
-        if (isReporter) {
-            // 리포터 권한이 있는 경우 '/cms'로 리다이렉트
-            response.sendRedirect("/cms");
+        if (savedRequest != null) {
+            session.removeAttribute("redirectAfterLogin");// 로그인 이전 페이지 URL로 설정
+
+            response.sendRedirect(savedRequest);
         } else {
-            // 일반 사용자 권한인 경우 메인 페이지로 리다이렉트
-            response.sendRedirect("/");
+            // 저장된 URL이 없으면 역할에 따라 기본 이동 페이지 설정
+            boolean isReporter = userDetails.getAuthorities().stream()
+                    .anyMatch(auth -> auth.getAuthority().equals("REPORTER"));
+
+            redirectUrl = isReporter ? "/cms/" : "/";
+
+            // 로그인 후 이전 페이지 또는 기본 페이지로 이동
+            response.sendRedirect(redirectUrl);
         }
     }
-
 }

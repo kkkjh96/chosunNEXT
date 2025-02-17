@@ -22,12 +22,13 @@ import java.util.List;
 @Builder
 public class TugoResponseDto {
 
+    private String tugoId;
     private String userId;
     private String title;
     private String contents;
     private String createDt;
 
-    private int like;
+    private int likeCount;
     private int dislike;
 
     private List<FileResponseDto> files;

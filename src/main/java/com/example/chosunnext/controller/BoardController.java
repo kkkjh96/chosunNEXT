@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class BoardController {
 
-    @GetMapping("/regist")
+    @GetMapping("/write")
     public String boardRegist() {
-        log.info("BoardController.boardRegist()");
+        log.info("BoardController.boardWrite()");
         return "/board/write-form";
     }
 
@@ -34,6 +34,12 @@ public class BoardController {
     public String boardDetail(@PathVariable("tugoId") int tugoId) {
         log.info("BoardController.boardDetail({})", tugoId);
         return "/board/detail";
+    }
+
+    @GetMapping("/list")
+    public String boardList() {
+        log.info("BoardController.boardList()");
+        return "/board/list";
     }
 
 }

@@ -33,4 +33,14 @@ public interface TugoDao {
 
     List<FileResponseDto> getFileTugoById(int tugoId);
 
+    int likeTugoStatus(@Param("tugoId") int tugoId, @Param("userId") String userId);
+
+    void likeTugo(@Param("tugoId") int tugoId, @Param("userId") String userId);
+
+    void deleteLike(@Param("tugoId") int tugoId, @Param("userId") String userId);
+
+    List<TugoResponseDto> getTugoList(@Param("page") int page, @Param("size") int size, @Param("offset") int offset, @Param("sort") String sort);
+
+    int getTotalBoardCount();
+
 }

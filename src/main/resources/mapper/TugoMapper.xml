@@ -33,4 +33,37 @@
             WHERE file_gbn_cd = 400 AND file_ref_id = #{tugoId}
     </select>
 
+    <select id="likeTugoStatus" resultType="Integer">
+        SELECT
+            count(*)
+        FROM tbl_tugo_ddabong
+            WHERE tugo_id = #{tugoId} AND user_id = #{userId}
+    </select>
+
+    <insert id="likeTugo">
+        INSERT INTO tbl_tugo_ddabong (tugo_id, user_id)
+        VALUES (#{tugoId}, #{userId})
+    </insert>
+
+    <delete id="deleteLike">
+        DELETE FROM tbl_tugo_ddabong
+            WHERE tugo_id = #{tugoId} AND user_id = #{userId}
+    </delete>
+
+    <select id="getTugoList" resultType="com.example.chosunnext.dto.tugo.response.TugoResponseDto">
+        SELECT tugo_id, user_id, title, create_dt,
+            (SELECT COUNT(*) FROM tbl_tugo_ddabong WHERE tugo_id = tbl_tugo.tugo_id) AS likeCount
+        FROM tbl_tugo
+        ORDER BY
+            <choose>
+                <when test="sort == 'popular'"> likeCount DESC, create_dt DESC </when>
+                <otherwise> create_dt DESC </otherwise>
+            </choose>
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getTotalBoardCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_tugo
+    </select>
+
 </mapper>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/board/list.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+
+        <div class="container">
+            <h1>📢 투고 게시판</h1>
+
+            <!-- 정렬 옵션 -->
+            <div class="filter-container">
+                <label for="sort">정렬 기준:</label>
+                <select id="sort">
+                    <option value="latest">최신순</option>
+                    <option value="popular">추천순</option>
+                </select>
+            </div>
+
+            <!-- 게시글 리스트 -->
+            <div id="board-list" class="board-list"></div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button id="prev-page" disabled>◀ 이전</button>
+                <span id="page-info"></span>
+                <button id="next-page">다음 ▶</button>
+            </div>
+
+            <!-- 글쓰기 버튼 -->
+            <button id="write-post" class="write-btn">✏️ 글쓰기</button>
+        </div>
+
+
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/footer :: footer"></div>
+    <script src="/javascript/layout/header.js"></script>
+    <script src="/javascript/layout/footer.js"></script>
+    <script src="/javascript/board/list.js"></script>
+</body>
+</html>
