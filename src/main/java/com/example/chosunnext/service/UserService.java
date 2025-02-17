@@ -2,6 +2,7 @@ package com.example.chosunnext.service;
 
 import com.example.chosunnext.dto.user.request.RequestUserDto;
 import com.example.chosunnext.dto.user.response.ResponseUserDto;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * packageName    : com.example.chosunnext.service
@@ -22,4 +23,5 @@ public interface UserService {
 
     ResponseUserDto getUser(String userId);
 
+    String getUserProfileImage(@Param("userId") String userId);
 }

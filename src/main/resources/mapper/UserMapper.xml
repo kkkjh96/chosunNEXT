@@ -18,4 +18,11 @@
         (#{userId}, #{userId}, #{password}, #{nickname})
     </insert>
 
+
+    <select id="findProfileImageByUserId" resultType="String">
+        SELECT file_url
+        FROM tbl_file
+        WHERE inst_id = #{userId} AND file_gbn_cd = 10
+        LIMIT 1
+    </select>
 </mapper>

@@ -23,6 +23,7 @@ body {
 
 /* 🟢 전체 페이지 레이아웃 */
 .wrap {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -44,9 +45,14 @@ body {
     margin-bottom: 10px;
 }
 
+
+.btn_zip{
+    margin-left: 200px;
+}
 /* 🟢 기사 등록 버튼 */
 .news_reg {
-    width: 120px;
+    margin-left: 10px;
+    width: 100px;
     height: 50px;
     background-color: #d9eeec;
     text-align: center;
@@ -132,8 +138,8 @@ body {
 
 /* 🟢 삭제 아이콘 */
 .delete-btn i {
-    margin-left: 500px;
-    font-size: 16px;
+    margin-left: 300px;
+    font-size: 28px;
     cursor: pointer;
 }
 
@@ -151,14 +157,15 @@ body {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     border: 1px solid #ddd;
-    display: block; /* 기본적으로 숨김 */
+    display: none; /* 기본적으로 숨김 */
 }
 
 .fa-solid {
     width: 90px;
     height: 90px;
-    margin-left: 1100px;
+    margin-left: 900px;
     margin-top: 30px;
+    font-size: 28px;
 }
 /* 🟢 기사 제목 스타일 */
 .new_detail h1 {
@@ -210,6 +217,58 @@ button {
 button:hover i {
     color: red;
 }
+/* 페이지네이션 컨테이너 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 버튼 기본 스타일 */
+.pagination button {
+    padding: 8px 15px;
+    margin: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* 비활성화된 버튼 스타일 */
+.pagination button:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+    border-color: #bbb;
+}
+
+/* 활성화된 버튼에 마우스를 올렸을 때 */
+.pagination button:hover:not(:disabled) {
+    background-color: #ddd;
+}
+
+/* 현재 페이지 번호 강조 */
+.pagination button[style*="font-weight: bold"] {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+}
+
+/* 페이지 번호 버튼의 크기 */
+.pagination button {
+    font-size: 16px;
+}
+
+/* "이전" 및 "다음" 버튼 스타일 */
+.pagination button:first-child,
+.pagination button:last-child {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+}
+
 
 /* 🟢 반응형 디자인 */
 @media (max-width: 1024px) {

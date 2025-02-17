@@ -1,5 +1,6 @@
 package com.example.chosunnext.controller;
 
+
 import com.example.chosunnext.dto.category.response.ResponseCategoryDto;
 import com.example.chosunnext.dto.user.request.RequestUserDto;
 import com.example.chosunnext.dto.user.response.ResponseUserDto;
@@ -13,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -100,5 +103,7 @@ public class RestUserController {
 
         return ResponseEntity.ok(userId);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.chosunnext.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,32 +24,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class NewsDto {
-    private int news_id;
-    private String user_id;
+
+    private int newsId;
+    private String userId;
     private String title;
-    private String sub_title;
+    private String subTitle;
     private String content;
 
-    public int getNews_id() {
-        return news_id;
-    }
-
-    private String main_category_cd;
-    private String sub_category_cd;
-    private LocalDateTime reservation_time;
-    private String news_type;
+    private String mainCategoryCd;
+    private String subCategoryCd;
+    private LocalDateTime reservationTime;
+    private String newsType;
     private String writer;
-    private LocalDateTime credate_dt;
-    private LocalDateTime  update_dt;
-    private String filename;
+    private LocalDateTime credateDt;
+    private LocalDateTime updateDt;
+    private String fileName;
 
 
     public LocalDateTime getCredate_dt() {
-        return credate_dt == null ? LocalDateTime.now() : credate_dt;
+        return credateDt == null ? LocalDateTime.now() : credateDt;
     }
 
     public LocalDateTime getUpdate_dt() {
-        return update_dt == null ? LocalDateTime.now() : update_dt;
+        return updateDt == null ? LocalDateTime.now() : updateDt;
     }
 
 
