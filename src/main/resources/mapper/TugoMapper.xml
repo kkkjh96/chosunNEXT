@@ -66,4 +66,9 @@
         SELECT COUNT(*) FROM tbl_tugo
     </select>
 
+    <delete id="deleteTugo">
+        DELETE FROM tbl_tugo
+        WHERE tugo_id = #{tugo_id}
+    </delete>
+
 </mapper>

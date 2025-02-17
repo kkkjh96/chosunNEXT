@@ -43,4 +43,6 @@ public interface TugoDao {
 
     int getTotalBoardCount();
 
+    void deleteTugo(int tugoId);
+
 }

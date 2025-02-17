@@ -32,4 +32,6 @@ public interface TugoService {
     List<TugoResponseDto> getTugoList(int page, int size, int offset, String sort);
 
     int getTotalBoardCount();
+
+    void deleteTugo(int tugoId);
 }

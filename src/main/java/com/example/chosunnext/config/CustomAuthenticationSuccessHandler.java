@@ -4,6 +4,7 @@ import com.example.chosunnext.security.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
  * -----------------------------------------------------------
  * 25. 2. 5.        김재홍       최초 생성
  */
+@Slf4j
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
@@ -35,6 +37,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String savedRequest = (String) session.getAttribute("redirectAfterLogin");
         String redirectUrl = "/"; // 기본값 (메인 페이지)
 
+        log.info("savedRequest : {}", savedRequest);
+
         if (savedRequest != null) {
             session.removeAttribute("redirectAfterLogin");// 로그인 이전 페이지 URL로 설정
 
@@ -43,6 +47,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             // 저장된 URL이 없으면 역할에 따라 기본 이동 페이지 설정
             boolean isReporter = userDetails.getAuthorities().stream()
                     .anyMatch(auth -> auth.getAuthority().equals("REPORTER"));
+
+            log.info("isReporter :{}", isReporter);
 
             redirectUrl = isReporter ? "/cms/" : "/";
 
