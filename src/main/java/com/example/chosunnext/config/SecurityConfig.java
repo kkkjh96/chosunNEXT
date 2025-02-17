@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 /**
@@ -81,9 +80,9 @@ public class SecurityConfig {
                 // 🔹 정적 리소스에 대한 보안 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
-                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/cms/**", "/error/**", "/survey/**", "/smarteditor/**", "/admin/**", "/board/detail/**", "/board/list").permitAll()
+                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**", "/survey/**", "/smarteditor/**", "/admin/**").permitAll()
                         .requestMatchers("/login", "/", "/register", "/api/**").permitAll()
-                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/write", "/board/delete/**", "/board/edit/**").hasAuthority("USER")  // 사용자 권한 검사
+                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 사용자 권한 검사
                         .anyRequest().authenticated()
                 )
 
@@ -130,9 +129,7 @@ public class SecurityConfig {
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect("/error");
                         })
-                )
-
-                .addFilterBefore(new CustomAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                );
 
         return http.build();
     }

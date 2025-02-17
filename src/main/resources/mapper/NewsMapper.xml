@@ -47,18 +47,18 @@
         UPDATE tbl_news
         SET
         title = #{title},
-        sub_title = #{sub_title},
+        sub_title = #{subTitle},
         content = #{content},
         reservation_time =
-        <if test="reservation_time != null and reservation_time !=''">
+        <if test="reservationTime != null and reservationTime !=''">
                 #{reservationTime}
         </if>
-        <if test="reservation_time == null or reservation_time ==''">
+        <if test="reservationTime == null or reservationTime ==''">
             null
         </if>,
-        news_type = #{news_type},
-        main_category_cd = #{main_category_cd},
-        sub_category_cd = #{sub_category_cd},
+        news_type = #{newsType},
+        main_category_cd = #{mainCategoryCd},
+        sub_category_cd = #{subCategoryCd},
         writer = #{writer},
         update_dt = NOW()
         WHERE news_id = #{newsId}

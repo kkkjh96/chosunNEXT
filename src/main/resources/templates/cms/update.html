@@ -33,7 +33,7 @@
       <div class="form_wrap">
         <div class="content_wrap">
           <input type="text" id="title" name="title" th:value="${news.title}" placeholder="제목을 입력하세요" required> <br>
-          <input type="text" id="sub_title" name="sub_title" th:value="${news.subTitle}" placeholder="부제목을 입력하세요" required>
+          <input type="text" id="sub_title" name="subTitle" th:value="${news.subTitle}" placeholder="부제목을 입력하세요" required>
 
           <!-- Toast UI Editor 영역 -->
           <div id="editor"></div>
@@ -42,12 +42,12 @@
 
         <div class="section_2">
           <div class="reservation_type">
-            예약배포 : <input type="datetime-local" name="reservation_time" id="reservation_time" th:value="${news.reservationTime}">
+            예약배포 : <input type="datetime-local" name="reservationTime" id="reservation_time" th:value="${news.reservationTime}">
 
             <div style="margin: 10px 0;">
               <p>news_type</p>
-              <label><input type="radio" name="news_type" value="속보" th:checked="${news.newsType == '속보'}"> 속보</label>
-              <label><input type="radio" name="news_type" value="단독" th:checked="${news.newsType == '단독'}"> 단독</label>
+              <label><input type="radio" name="newsType" value="속보" th:checked="${news.newsType == '속보'}"> 속보</label>
+              <label><input type="radio" name="newsType" value="단독" th:checked="${news.newsType == '단독'}"> 단독</label>
             </div>
           </div>
 
@@ -57,7 +57,7 @@
             <select id="main_category" name="mainCategoryCd" required>
               <option value="">대분류를 선택하세요</option>
               <th:block th:each="category : ${categories}">
-                <option th:if="${category.parentCd == 'mainCategoryCd'}"
+                <option th:if="${category.parentCd == 'MAIN_CATEGORY_CD'}"
                         th:value="${category.cd}"
                         th:text="${category.cdKor}"
                         th:selected="${news.mainCategoryCd == category.cd}">
@@ -69,7 +69,7 @@
             <select id="sub_category" name="subCategoryCd" required>
               <option value="">소분류를 선택하세요</option>
               <th:block th:each="category : ${categories}">
-                <option th:unless="${category.parentCd == 'mainCategoryCd'}"
+                <option th:unless="${category.parentCd == 'MAIN_CATEGORY_CD'}"
                         th:value="${category.cd}"
                         th:text="${category.cdKor}"
                         th:selected="${news.subCategoryCd == category.cd}">
@@ -132,24 +132,24 @@
       const title = document.getElementById('title').value;
       const sub_title = document.getElementById('sub_title').value;
       const reservation_time = document.getElementById('reservation_time').value;
-      const main_category_cd = document.getElementById('main_category').value;
-      const sub_category_cd = document.getElementById('sub_category').value;
+      const mainCategory = document.getElementById("main_category").value;
+      const subCategory = document.getElementById("sub_category").value;
       const writer = document.getElementById('reporter').value;
 
-      const newsTypeElement = document.querySelector('input[name="news_type"]:checked');
+      const newsTypeElement = document.querySelector('input[name="newsType"]:checked');
       const news_type = newsTypeElement ? newsTypeElement.value : null;
 
       // JSON 데이터 생성
       const newsData = {
-        user_id: user_id,
-        news_id: news_id,
+        userId: user_id,
+        newsId: news_id,
         title: title,
-        sub_title: sub_title,
+        subTitle: sub_title,
         content: content,
-        reservation_time: reservation_time,
-        news_type: news_type,
-        main_category_cd: main_category_cd,
-        sub_category_cd: sub_category_cd,
+        reservationTime: reservation_time,
+        newsType: news_type,
+        mainCategoryCd: mainCategory,
+        subCategoryCd: subCategory,
         writer: writer
       };
 

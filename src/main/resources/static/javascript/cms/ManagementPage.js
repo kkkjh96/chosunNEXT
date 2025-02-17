@@ -99,9 +99,9 @@ function updatePagination(currentPage, totalPages) {
     document.querySelector(".new_detail").innerHTML = `
             <div class="close-btn" onclick="closeDetail()"><i class="fa-solid fa-xmark"></i></div>
             <h1>${news.title}</h1>
-            <h2>${news.sub_title || '부제목 없음'}</h2>
+            <h2>${news.subTitle || '부제목 없음'}</h2>
             <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
-            <p><strong>작성일:</strong> ${news.credate_dt || 'N/A'}</p>
+            <p><strong>작성일:</strong> ${news.credateDt || 'N/A'}</p>
             <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
         `;
 
@@ -121,7 +121,7 @@ function updatePagination(currentPage, totalPages) {
 }
 
 
-    async function deleteBtn(newsId) {
+async function deleteBtn(newsId) {
     if (!newsId || isNaN(Number(newsId))) {
     alert("잘못된 뉴스 ID입니다.");
     return;
@@ -133,7 +133,7 @@ function updatePagination(currentPage, totalPages) {
     try {
     await axios.delete(`/api/cms/news/${newsId}`);
     alert("삭제 완료");
-    getAllNews(); // 삭제 후 목록 새로고침
+    getAllNews(currentPage); // 삭제 후 목록 새로고침
 } catch (error) {
     console.error("삭제 실패:", error);
     alert("삭제 실패");
