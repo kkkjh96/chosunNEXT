@@ -27,6 +27,7 @@ public class ResponseUserDto {
     private String role;
     private String email;
     private String name;
+    private String nickname;
     private String status;
 
 }
