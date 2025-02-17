@@ -1,8 +1,12 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.security.CustomUserDetails;
+import com.example.chosunnext.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Slf4j
 public class UserController {
 
+    private final UserService userService;
+
     @GetMapping("/register")
     public String register(){
         return "/login/regist";
@@ -36,5 +42,14 @@ public class UserController {
     public String surveyForm(@PathVariable("surveyId") int surveyId){
         return "/survey/survey-form";
     }
+
+    @GetMapping("/side_menu")
+    public String index(){
+        return "/layout/cms/side_menu";
+    }
+
+
+
+
 
 }

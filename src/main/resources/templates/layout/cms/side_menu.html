@@ -20,7 +20,7 @@
         <img src="../images/logo.png">
     </div>
     <div class="profile">
-        <img src="../images/myprofile.png">
+        <img th:src="${session.profileImage}" alt="프로필 이미지">
         <div class="user_info">
             <div class="user_id" th:text="${session.user.nickname}"></div>
             <div class="department">디지털 사업부</div>
@@ -39,7 +39,7 @@
             <a href="#">뉴스 데스크</a>
             <ul class="sub-menu">
                 <li><a href="/cms/regist">기사 작성</a></li>
-                <li><a href="#">기사 관리</a></li>
+                <li><a href="/cms/news_List">기사 관리</a></li>
             </ul>
         </li>
         <li><a href="#">독자 투고</a></li>

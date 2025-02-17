@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cms")
@@ -33,16 +35,38 @@ public class RestCmsController {
         return ResponseEntity.ok(newsList);  // JSON 데이터 반환
     }
 
-    @GetMapping("/news/{news_id}")
-    public ResponseEntity<?> getNewsDetail(@PathVariable("news_id") Long news_id) {
-        NewsDto news = newsService.getNewsById(news_id);
+    @GetMapping("/news/{newsId}")
+    public ResponseEntity<?> getNewsDetail(@PathVariable("newsId") Long newsId) {
+        NewsDto news = newsService.getNewsById(newsId);
         return ResponseEntity.ok(news);
     }
 
+    @GetMapping("/news/paged")
+    public ResponseEntity<Map<String, Object>> getPageNews(
+            @RequestParam("currentPage") int currentPage,
+            @RequestParam("size") int size) {
 
-    @PutMapping("/news/{news_id}")
-    public ResponseEntity<String> updateNews(@PathVariable int news_id,@RequestBody NewsDto newsDto) {
-        boolean isUpdate = newsService.updateNews(news_id,newsDto);
+        int totalCount = reporterService.getTotalCount();
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        int offset = (currentPage - 1) * size;
+        List<NewsDto> newsList = reporterService.getPageNews(offset, size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalCount", totalCount);
+        response.put("totalPages", totalPages);
+        response.put("currentPage", currentPage);
+        response.put("newsList", newsList);
+        response.put("offset", offset);
+        response.put("size", size);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    @PutMapping("/news/{newsId}")
+    public ResponseEntity<String> updateNews(@PathVariable int newsId,@RequestBody NewsDto newsDto) {
+        boolean isUpdate = newsService.updateNews(newsId,newsDto);
         if(isUpdate) {
             return ResponseEntity.ok("뉴스가 성공적으로 수정");
         }else{

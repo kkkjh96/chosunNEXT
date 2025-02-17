@@ -4,13 +4,17 @@ import com.example.chosunnext.dto.NewsDto;
 import com.example.chosunnext.dto.category.response.ResponseCategoryDto;
 import com.example.chosunnext.dto.user.request.ReporterDto;
 import com.example.chosunnext.dto.user.response.ResponseReporterDto;
+import com.example.chosunnext.security.CustomUserDetails;
 import com.example.chosunnext.service.CategoryService;
 import com.example.chosunnext.service.NewsService;
 import com.example.chosunnext.service.ReporterService;
+import com.example.chosunnext.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +30,26 @@ public class CmsController {
     private final CategoryService categoryService;
     private final ReporterService reporterService;
     private final NewsService newsService;
+    private final UserService userService;
+
+
 
     @GetMapping("/")
-    public String cms() {
+    public String mainPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, HttpSession session) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        if (session.getAttribute("profileImage") == null) {
+            String profileImageUrl = userService.getUserProfileImage(userDetails.getUsername());
+            session.setAttribute("profileImage", profileImageUrl);
+        }
+
+        model.addAttribute("profileImage", session.getAttribute("profileImage"));
+
         return "/cms/main";
     }
+
 
 
     @GetMapping("/regist")
@@ -40,10 +59,11 @@ public class CmsController {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            String categoriesJson = objectMapper.writeValueAsString(categories); // ✅ JSON 변환
+            String categoriesJson = objectMapper.writeValueAsString(categories);
             model.addAttribute("categoriesJson", categoriesJson);
         } catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("categoriesJson", "[]");
         }
 
         model.addAttribute("categories", categories);
@@ -51,6 +71,7 @@ public class CmsController {
 
         return "/cms/regist";
     }
+
 
     @GetMapping("/news_List")
     public String cmsListPage() {

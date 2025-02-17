@@ -27,6 +27,11 @@
 
             </tbody>
         </table>
+        <div class="pagination">
+            <button id="prevPage">이전</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">다음</button>
+        </div>
     </div>
 
     <div class="session_2">
@@ -55,18 +60,22 @@
 
                 </tbody>
             </table>
+
         </div>
     </div>
 
 </div>
 <script>
+    let currentPage = 1;
+    const pageSize = 5;
+
     window.onload = function () {
-        getAllNews();
+        getAllNews(currentPage);
     };
 
-    async function getAllNews() {
+    async function getAllNews(currentPage) {
         try {
-            let response = await axios.get('/api/cms/news');
+            let response = await axios.get(`/api/cms/news/paged?currentPage=${currentPage}&size=${pageSize}`);
             console.log("불러온 데이터:", response.data);
 
             if (response.data.length === 0) {
@@ -74,11 +83,46 @@
                 return;
             }
 
-            updateNewsTable(response.data); // 테이블 업데이트 함수 호출
+            updateNewsTable(response.data.newsList);
+            let totalPages = response.data.totalPages;
+            updatePagination(response.data.currentPage, totalPages);
         } catch (error) {
             console.error("불러오기 실패:", error);
             alert("불러오기 실패");
         }
+    }
+    function updatePagination(currentPage, totalPages) {
+        let paginationContainer = document.querySelector(".pagination");
+        paginationContainer.innerHTML = ""; // 기존 버튼 초기화
+
+        let prevButton = document.createElement("button");
+        prevButton.innerText = "이전";
+        prevButton.disabled = currentPage === 1;
+        prevButton.onclick = function () {
+            if (currentPage > 1) getAllNews(--currentPage);
+        };
+        paginationContainer.appendChild(prevButton);
+
+        // 페이지 번호 추가
+        for (let i = 1; i <= totalPages; i++) {
+            let pageButton = document.createElement("button");
+            pageButton.innerText = i;
+            if (i === currentPage) {
+                pageButton.style.fontWeight = "bold"; // 현재 페이지 강조
+            }
+            pageButton.onclick = function () {
+                getAllNews(i);
+            };
+            paginationContainer.appendChild(pageButton);
+        }
+
+        let nextButton = document.createElement("button");
+        nextButton.innerText = "다음";
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.onclick = function () {
+            if (currentPage < totalPages) getAllNews(++currentPage);
+        };
+        paginationContainer.appendChild(nextButton);
     }
 
     function updateNewsTable(newsList) {
@@ -89,9 +133,9 @@
             let row =
                 document.createElement("tr");
             row.innerHTML = `
-                <td><a href="/cms/news/${news.id}">${news.title}</a></td>
+                <td><a href="/cms/news/${news.newsId}">${news.title}</a></td>
                 <td>${news.writer}</td>
-                <td>${news.credate_dt}</td>
+                <td>${news.credateDt}</td>
             `;
             tbody.appendChild(row);
         });

@@ -23,9 +23,15 @@ public interface NewsDao {
 
     List<NewsDto> getAllList();
 
-    NewsDto findNewsById(@Param("news_id") Long news_id);
+    NewsDto findNewsById(@Param("newsId") Long newsId);
 
     int updateNews(NewsDto newsDto);
 
     int deleteNews(int newsId);
+
+    int getTotalCount();
+
+    List<NewsDto> getPageNews(int offset, int size);
 }
+
+

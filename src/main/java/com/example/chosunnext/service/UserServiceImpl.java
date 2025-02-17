@@ -57,4 +57,10 @@ public class UserServiceImpl implements UserService {
         return userDto;
 
     }
+
+
+    public String getUserProfileImage(String userId) {
+        String profileImage = userDao.findProfileImageByUserId(userId);
+        return (profileImage != null) ? profileImage : "/images/default.png"; // 기본 이미지 반환
+    }
 }

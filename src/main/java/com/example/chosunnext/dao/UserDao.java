@@ -26,4 +26,5 @@ public interface UserDao {
 
     void signup(RequestUserDto requestUserDto);
 
+    String findProfileImageByUserId(@Param("userId") String userId);
 }
