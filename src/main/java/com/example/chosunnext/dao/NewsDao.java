@@ -36,6 +36,9 @@ public interface NewsDao {
     int countNewsByCategory(String category);
 
     List<NewsDto> getCategoryNews(String category, int offset, int size);
+
+    void updateImageSrc(@Param("url") String url, @Param("blob") String blob, @Param("newsId") int newsId);
+
 }
 
 

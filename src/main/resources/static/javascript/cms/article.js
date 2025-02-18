@@ -21,24 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // ✅ 불필요한 HTML 태그 제거 후 순수 텍스트 추출
-    function cleanEditorContent() {
-        let fullContent = editor.getHTML();
-
-        console.log("📌 원본 HTML 내용:", fullContent);
-
-        // 🔹 블롭 미리보기 이미지 제거
-        fullContent = fullContent.replace(/<img[^>]*src=["']blob:[^"']*["'][^>]*>/g, '');
-
-        // 🔹 HTML 태그 제거 후 순수 텍스트만 추출
-        let cleanedContent = fullContent.replace(/<\/?[^>]+(>|$)/g, "").trim();
-
-        console.log("📌 정제된 내용 (HTML 제거됨):", cleanedContent);
-
-        return cleanedContent;
-    }
-
-    // ✅ 업로드할 이미지 파일 리스트
     let uploadedImages = [];
 
     /**
@@ -48,6 +30,23 @@ document.addEventListener('DOMContentLoaded', function () {
     function addImageToTrack(blob) {
         console.log("📌 업로드된 이미지 추가됨:", blob);
         uploadedImages.push(blob);
+    }
+
+    /**
+     * ✅ HTML에서 이미지 태그의 src 속성만 추출하는 함수
+     * @returns {Array} 이미지 src URL 목록
+     */
+    function extractImageSrc() {
+        const editorContent = editor.getHTML();
+        const imgTagRegex = /<img[^>]+src=["']([^"']+)["']/g;
+        let matches, imageSrcList = [];
+
+        while ((matches = imgTagRegex.exec(editorContent)) !== null) {
+            imageSrcList.push(matches[1]);
+        }
+
+        console.log("📌 추출된 이미지 src 목록:", imageSrcList);
+        return imageSrcList;
     }
 
     // ✅ 카테고리 데이터 파싱
@@ -65,11 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // ✅ 카테고리 선택 이벤트 추가
     initCategorySelection(categories);
 
-    // ✅ 제출 버튼 이벤트 리스너 추가
-    document.getElementById('submitBtn').addEventListener('click', submitNews);
-
     /**
-     * ✅ 대분류 선택 시 소분류 로드 함수
+     * ✅ 대분류 선택 시 소분류 로드 함수 (복구된 기능)
      */
     function initCategorySelection(categories) {
         const mainCategory = document.getElementById("main_category");
@@ -92,31 +88,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * ✅ 기사 제출 함수 (Axios + FormData + 이미지 포함)
+     * ✅ 기사 제출 함수 (Axios + FormData + JSON + 이미지 포함)
      */
     function submitNews(event) {
-        event.preventDefault(); // 기본 폼 제출 막기
+        event.preventDefault();
 
-        const title = document.getElementById('title').value;
-        const cleanedContent = cleanEditorContent();
+        const title = document.getElementById('title').value.trim() || "기사 제목 없음";
+        const subTitle = document.getElementById('sub_title').value.trim() || "기사 제목 없음";
+        const editorContent = editor.getHTML();
+        const imageSrcList = extractImageSrc();
 
-        if (!title || !cleanedContent) {
+        if (!title || !editorContent) {
             alert('제목과 내용을 입력하세요.');
             return;
         }
 
-        document.getElementById('editor-content').value = cleanedContent;
-
         const userId = document.getElementById('user_id') ? document.getElementById('user_id').value : "";
         const newsTypeElement = document.querySelector('input[name="newsType"]:checked');
         const newsType = newsTypeElement ? newsTypeElement.value : null;
-        const writerElement = document.getElementById('reporter');
-        const writer = writerElement ? writerElement.value : null;
+        const writer = document.getElementById('reporter')?.value;
 
         const mainCategory = document.getElementById("main_category");
         const subCategory = document.getElementById("sub_category");
 
-        // ✅ 필수 값 검증
         if (!mainCategory.value) {
             alert("대분류를 선택하세요.");
             return;
@@ -126,23 +120,26 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // ✅ 전송할 데이터 객체 생성
+        // ✅ 서버로 보낼 JSON 데이터
         const newsData = {
             userId: userId,
             title: title,
-            subTitle: document.getElementById('sub_title').value,
-            content: cleanedContent,
+            subTitle: subTitle,
+            content: editorContent,
             reservationTime: document.getElementById('reservation_time').value,
             newsType: newsType,
             mainCategoryCd: mainCategory.value,
             subCategoryCd: subCategory.value,
-            writer: writer
+            writer: writer,
+            images: imageSrcList // 🟢 추출된 이미지 URL 추가
         };
 
-        console.log("📌 서버로 전송할 데이터:", newsData);
+        console.log("📌 서버로 전송할 JSON 데이터:", newsData);
 
         // ✅ FormData 생성
         const formData = new FormData();
+
+        // 🔹 JSON 데이터를 Blob으로 변환해서 추가
         formData.append('data', new Blob([JSON.stringify(newsData)], { type: 'application/json' }));
 
         // 🔹 업로드된 이미지 추가
@@ -161,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(pair[0] + ": ", pair[1]);
         }
 
-        // ✅ Axios를 이용한 데이터 전송 (이미지 포함)
+        // ✅ Axios를 이용한 데이터 전송 (이미지 + JSON 포함)
         axios.post('/api/cms/news', formData, {
             headers: { "Content-Type": "multipart/form-data" }
         })
@@ -175,4 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert("저장 실패!");
             });
     }
+
+    // ✅ 제출 버튼 이벤트 리스너 추가
+    document.getElementById('submitBtn').addEventListener('click', submitNews);
 });

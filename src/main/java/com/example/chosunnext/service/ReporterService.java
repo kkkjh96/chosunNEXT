@@ -35,6 +35,8 @@ public class ReporterService {
     public void saveNews(NewsDto newsDto, List<MultipartFile> files) {
         newsDao.insertNews(newsDto);
 
+        List<String> list = newsDto.getImages();
+        int i =  0;
         if (files != null && !files.isEmpty()) {
             for(MultipartFile file : files){
                 FileDto dto = new FileDto();
@@ -43,7 +45,14 @@ public class ReporterService {
                 dto.setInstId(newsDto.getUserId());
                 dto.setFileGbnCd("100");
 
-                fileUtils.uploadFile(dto);
+                String url = fileUtils.uploadFile(dto);
+
+                String blob = list.get(i);
+
+                newsDao.updateImageSrc(url, blob, dto.getTugoId());
+
+                i++;
+
             }
         }
     }

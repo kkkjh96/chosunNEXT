@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * packageName    : com.example.chosunnext.dto
@@ -30,6 +31,8 @@ public class NewsDto {
     private String title;
     private String subTitle;
     private String content;
+
+    private List<String> images;
 
     private String mainCategoryCd;
     private String subCategoryCd;
