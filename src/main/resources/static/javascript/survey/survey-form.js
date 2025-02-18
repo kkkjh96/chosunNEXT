@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const optionElement = document.createElement('div');
                     optionElement.classList.add('option');
                     optionElement.innerHTML = `
-                        <input type="radio" name="questions[${index}]" value="${option.optionId}">
+                        <input type="radio" name="questions[${index}]" value="${option.content}">
                         <label>${option.content}</label>
                     `;
                     questionContainer.appendChild(optionElement);
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const optionElement = document.createElement('div');
                     optionElement.classList.add('option');
                     optionElement.innerHTML = `
-                        <input type="checkbox" name="questions[${index}]" value="${option.optionId}">
+                        <input type="checkbox" name="questions[${index}]" value="${option.content}">
                         <label>${option.content}</label>
                     `;
                     questionContainer.appendChild(optionElement);
@@ -85,57 +85,65 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 설문 제출 버튼 이벤트
     document.getElementById('submitSurvey').addEventListener('click', function (e) {
-        e.preventDefault(); // �� 기본 동작 방지
+        e.preventDefault(); // 기본 동작 방지
+
+        console.log("🚀 설문 제출 버튼 클릭됨");
+
         const formData = new FormData(surveyForm);
         const surveyResponses = {
-            userId : userId,
-            titleId : titleId,
-            submitOptionsList : []
+            userId: userId,
+            titleId: titleId,
+            submitOptionsList: []
         };
-        let idx = 0;
-        const x = document.querySelector(`.surveyId[data-index="${idx}"]`).value;
-        console.log("aaaa" + x);
-        formData.forEach((value, key) => {
-            const inputElement = document.querySelector(`[name="${key}"]`);
 
-            if (inputElement) {
-                if (inputElement.type === 'checkbox' && inputElement.checked) {
-                    // 체크박스는 선택된 항목만 추가
-                    surveyResponses.submitOptionsList.push({
-                        surveyId: document.querySelector(`.surveyId[data-index="${idx}"]`).value,
-                        optionValue: [value]
-                    });
-                    idx++;
-                } else if (inputElement.type === 'radio' && inputElement.checked) {
-                    // 라디오 버튼 처리
-                    surveyResponses.submitOptionsList.push({
-                        surveyId: document.querySelector(`.surveyId[data-index="${idx}"]`).value,
-                        optionValue: [value]
-                    });
-                    idx++;
-                } else if (inputElement.type === 'text') {
-                    // 텍스트 응답 처리
-                    surveyResponses.submitOptionsList.push({
-                        surveyId: document.querySelector(`.surveyId[data-index="${idx}"]`).value,
-                        optionValue: [value]
-                    });
+        console.log("📌 FormData 값 확인:");
+        formData.forEach((value, key) => console.log(`${key}: ${value}`));
 
+        // 설문 데이터 수집
+        document.querySelectorAll('.surveyId').forEach((surveyElement, index) => {
+            const surveyId = surveyElement.value;
+            const questionName = `questions[${index}]`;
+            const inputElements = document.getElementsByName(questionName);
+
+            let selectedValues = [];
+
+            console.log(`📌 질문 ${index + 1} - surveyId: ${surveyId}`);
+
+            inputElements.forEach(input => {
+                if ((input.type === 'checkbox' && input.checked) || (input.type === 'radio' && input.checked)) {
+                    selectedValues.push(input.value);
+                } else if (input.tagName === 'TEXTAREA' && input.value.trim() !== '') {
+                    selectedValues.push(input.value);
                 }
+            });
+
+            if (selectedValues.length > 0) {
+                console.log(`✅ 응답 데이터 추가 - 질문 ${index + 1}:`, selectedValues);
+                surveyResponses.submitOptionsList.push({
+                    surveyId: surveyId,
+                    optionValue: selectedValues
+                });
+            } else {
+                console.warn(`⚠️ 질문 ${index + 1} 응답 없음`);
             }
         });
 
-        console.log(surveyResponses);
+        console.log("🚀 최종 제출 데이터:", surveyResponses);
 
+        // 설문 제출 API 호출
         api.post(`/api/survey/${titleId}/submit`, surveyResponses)
             .then(() => {
-                console.log(surveyResponses);
+                console.log("✅ 설문조사 제출 성공", surveyResponses);
                 alert('설문조사가 성공적으로 제출되었습니다.');
-                window.location.href = '/survey/list';
+                if (titleId === '8') {
+                    window.location.href = '/mynews';
+                } else {
+                    window.location.href = '/survey/list';
+                }
             })
             .catch(error => {
-                console.error('설문조사 제출에 실패했습니다.', error);
+                console.error('❌ 설문조사 제출 실패:', error);
                 alert('설문조사 제출에 실패했습니다.');
-                console.log(surveyResponses);
             });
     });
 });

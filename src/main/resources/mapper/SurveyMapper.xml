@@ -101,4 +101,10 @@
         VALUES (#{option.resultId}, #{option.surveyId}, #{option.joinedValues})
     </insert>
 
+    <select id="countSurveyStatus" resultType="Integer">
+        SELECT COUNT(*)
+            FROM tbl_survey_result
+        WHERE title_id = #{titleId} AND participant = #{userId}
+    </select>
+
 </mapper>

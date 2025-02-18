@@ -139,4 +139,17 @@ public class RestBoardController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{tugoId}")
+    public ResponseEntity<String> updateTugo(
+            @PathVariable("tugoId") int tugoId,
+            @RequestPart("data") TugoRequestDto tugoRequestDto,
+            @RequestPart(value = "files", required = false)  List<MultipartFile> files) {
+
+        log.info("tugoRequestDto-put : {}", tugoRequestDto);
+        log.info("files-put : {}", files);
+
+        tugoService.updateTugo(tugoId, tugoRequestDto);
+        return ResponseEntity.ok().build();
+    }
+
 }

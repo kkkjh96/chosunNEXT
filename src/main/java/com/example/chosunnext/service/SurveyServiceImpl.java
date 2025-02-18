@@ -248,4 +248,12 @@ public class SurveyServiceImpl implements SurveyService {
 
     }
 
+    @Override
+    public boolean surveyStatus(String userId) {
+
+        int result = surveyDao.countSurveyStatus(userId, 8);
+
+        return result == 0;
+    }
+
 }

@@ -31,4 +31,6 @@ public interface SurveyService {
     void updateSurvey(int titleId, SurveyRequestDto surveyRequest);
 
     void submitSurvey(int titleId, SubmitRequestDto submitRequestDto);
+
+    boolean surveyStatus(String userId);
 }

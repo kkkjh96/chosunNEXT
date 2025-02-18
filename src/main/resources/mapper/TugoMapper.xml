@@ -28,7 +28,7 @@
 
     <select id="getFileTugoById" resultType="com.example.chosunnext.dto.file.response.FileResponseDto">
         SELECT
-            file_url, file_name
+            file_id, file_url, file_name
         FROM tbl_file
             WHERE file_gbn_cd = 400 AND file_ref_id = #{tugoId}
     </select>
