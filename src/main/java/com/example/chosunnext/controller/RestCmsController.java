@@ -122,7 +122,7 @@ public class RestCmsController {
              System.out.println("삭제 성공");
              log.info("뉴스 삭제 성공");
             }
-        return ResponseEntity.ok("수정 성공");
+        return ResponseEntity.ok("삭제 성공");
     }
 
 

@@ -16,10 +16,15 @@
 <body>
 <div class="wrap">
     <div th:replace="layout/header :: header"></div>
+    <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
 
     <div class="news_list_container">
-        <p>기사 목록</p>
-        <div id="newsList"></div> <!-- 뉴스 리스트 추가될 곳 -->
+        <h1>사회</h1>
+        <hr>
+        <div id="newsList">
+
+
+        </div>
         <div class="pagination">
             <button id="prevPage">이전</button>
             <span id="pageInfo"></span>
@@ -31,14 +36,14 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let currentPage = 1;
-        const pageSize = 5;
+        const pageSize = 7;
         let totalItems = 0;
 
         const pathSegments = window.location.pathname.split('/');
         const category = pathSegments[pathSegments.length - 1];
 
         if (!category) {
-            console.error("❌ 오류 발생: 카테고리 값이 없습니다.");
+            console.error(" 오류 발생: 카테고리 값이 없습니다.");
             return;
         }
 
@@ -58,23 +63,22 @@
             }
         });
 
+
+        document.getElementById('nextPage').addEventListener('change',function (){
+
+        });
+
         function getCategoryNews(category) {
             axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
                 .then(response => {
-                    console.log("✅ API 응답 데이터:", response.data);
+                    console.log("API 응답 데이터:", response.data);
                     const { newsList, totalCount } = response.data;
-
-                    if (!Array.isArray(newsList)) {
-                        console.error("❌ newsList가 배열이 아닙니다.");
-                        return;
-                    }
-
                     totalItems = totalCount;
                     renderNews(newsList);
                     updatePagination();
                 })
                 .catch(error => {
-                    console.error("❌ 뉴스 목록을 가져오는 중 오류 발생:", error);
+                    console.error("뉴스 목록을 가져오는 중 오류 발생:", error);
                 });
         }
 
@@ -91,8 +95,11 @@
             <div class="image_wrap"><img src="${news.fileName || '/images/default.jpg'}" alt="뉴스 이미지"></div>
             <div class="title">${news.title || '제목 없음'}</div>
             <div class="content">${truncateContent(removeImages(news.content))}</div>
-            <div class="date">${news.updateDt || '날짜 없음'}</div>
-            <div class="book-mark">⭐</div>
+            <div class="date_wrap">
+                  <div class="date">${news.updateDt || '날짜 없음'}</div>
+                <div class="book-mark"><i class="fa-regular fa-bookmark bookmark-icon" data-news-id="${news.newsId}"></i></div>
+            </div>
+
         </div>
         `).join('');
         }
@@ -106,15 +113,15 @@
             const maxLines = 3;
             const words = content.split(' ');
 
-            if (words.length > maxLines * 10) {
-                return words.slice(0, maxLines * 10).join(' ') + '...';
+            if (words.length > maxLines * 8) {
+                return words.slice(0, maxLines * 8).join(' ') + '...';
             }
 
             return content;
         }
 
         /**
-         * 🖼 뉴스 내용(content)에서 <img> 태그 제거
+         *  뉴스 내용(content)에서 <img> 태그 제거
          */
         function removeImages(content) {
             if (!content) return '내용 없음';
@@ -127,7 +134,7 @@
             const pageInfoElement = document.getElementById('pageInfo');
 
             if (!pageInfoElement) {
-                console.error("❌ 오류 발생: `pageInfo` 요소를 찾을 수 없습니다.");
+                console.error("오류 발생: `pageInfo` 요소를 찾을 수 없습니다.");
                 return;
             }
 

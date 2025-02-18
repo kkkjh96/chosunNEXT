@@ -20,6 +20,10 @@
     margin-bottom: 15px;
 }
 
+
+.date_wrap{
+    display: flex;
+}
 /* 개별 뉴스 항목 */
 .news_content {
 
@@ -47,7 +51,7 @@
 
 /* 뉴스 제목 */
 .title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     flex-grow: 1;
@@ -55,22 +59,24 @@
 
 /* 뉴스 내용 */
 .content {
-    font-size: 14px;
+    font-size: 15px;
     color: #666;
     flex-grow: 2;
 }
 
 /* 날짜 */
 .date {
-    font-size: 12px;
-    color: #999;
+    width: 500px;
+    font-size: 18px;
+    color: #666;
 }
 
 /* 북마크 아이콘 */
 .book-mark {
-    font-size: 18px;
+    font-size: 024px;
     color: gold;
     cursor: pointer;
+    margin-left: 1030px;
 }
 
 /* 페이지네이션 스타일 */
@@ -80,16 +86,17 @@
 }
 
 .pagination button {
-    background: #007bff;
+    background: #97a7bc;
+
     color: white;
     border: none;
     padding: 8px 12px;
     margin: 0 5px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 .pagination button:hover {
-    background: #0056b3;
+    background: #496585;
 }
 

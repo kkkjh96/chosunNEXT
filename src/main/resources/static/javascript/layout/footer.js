@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         // ✅ 서브 카테고리 클릭 이벤트 추가
                         subItem.addEventListener('click', () => {
-                            window.location.href = `/category/${mainCategory.cd}/${subCategory.cd}`;
+                            window.location.href = `/categoryNews/${mainCategory.cd}/${subCategory.cd}`;
                         });
 
                         subCategoryColumn.appendChild(subItem);
