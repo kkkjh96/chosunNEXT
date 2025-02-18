@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,22 @@ public class RestCmsController {
     private final NewsService newsService;
 
     @PostMapping("/news")
-    public ResponseEntity<String> createNews(@RequestBody NewsDto newsDto) {
-        reporterService.saveNews(newsDto);
+    public ResponseEntity<String> createNews(
+            @RequestPart("data") NewsDto newsDto,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files) {
+
+        log.info("📝 Received JSON Data: {}", newsDto);
+
+        if (files != null && !files.isEmpty()) {
+            for (MultipartFile file : files) {
+                log.info("📸 Uploaded File: {} (size: {} bytes)", file.getOriginalFilename(), file.getSize());
+            }
+        } else {
+            log.info("⚠️ No files uploaded.");
+        }
+
+        reporterService.saveNews(newsDto, files);
+
         return ResponseEntity.ok("기사 등록 성공!");
     }
 

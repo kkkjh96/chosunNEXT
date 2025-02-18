@@ -99,101 +99,102 @@
 <script type="application/json" id="categoryData" th:utext="${categoriesJson}"></script>
 
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function () {
-
-        // ✅ Toast UI Editor 초기화
-        const editor = new toastui.Editor({
-            el: document.querySelector('#editor'),
-            height: '800px',
-            initialEditType: 'wysiwyg',
-            previewStyle: 'vertical'
-        });
-
-
-
-        const categoryDataElement = document.getElementById("categoryData");
-        let categories = [];
-
-        try {
-            categories = JSON.parse(categoryDataElement.textContent.trim());
-            console.log("✅ 카테고리 데이터:", categories);
-        } catch (error) {
-            console.error("JSON 파싱 오류:", error);
-            return;
-        }
-
-        const mainCategory = document.getElementById("main_category");
-        const subCategory = document.getElementById("sub_category");
-
-        mainCategory.addEventListener("change", function () {
-            const selectedMainCategory = mainCategory.value;
-            subCategory.innerHTML = '<option value="">소분류를 선택하세요</option>'; // 초기화
-
-            // ✅ 선택한 대분류에 해당하는 소분류 필터링
-            const filteredSubCategories = categories.filter(cat => cat.parentCd === selectedMainCategory);
-
-            filteredSubCategories.forEach(cat => {
-                const option = document.createElement("option");
-                option.value = cat.cd;
-                option.textContent = cat.cdKor;
-                subCategory.appendChild(option);
-            });
-        });
-
-
-
-        //////////////////////////////////////////////////
-        document.getElementById('submitBtn').addEventListener('click', function(event) {
-            event.preventDefault(); // 기본 폼 제출 막기
-
-            const content = editor.getHTML();  // 에디터 내용 가져오기
-            document.getElementById('editor-content').value = content;
-
-            const userId = document.getElementById('user_id') ? document.getElementById('user_id').value : "";
-            const newsTypeElement = document.querySelector('input[name="news_type"]:checked');
-            const news_type = newsTypeElement ? newsTypeElement.value : null;
-            const writerElement = document.getElementById('reporter');
-            const writer = writerElement ? writerElement.value : null;
-
-            const mainCategory = document.getElementById("main_category");
-            const subCategory = document.getElementById("sub_category");
-            // ✅ mainCategory 값 확인
-            if (!mainCategory.value) {
-                alert("대분류를 선택하세요.");
-                return;
-            }
-
-            const newsData = {
-                userId: userId,
-                title: document.getElementById('title').value,
-                subTitle: document.getElementById('sub_title').value,
-                content: content,
-                reservationTime: document.getElementById('reservation_time').value,
-                newsType: news_type,
-                mainCategoryCd: mainCategory.value, // 대분류 값
-                subCategoryCd: subCategory.value,
-                writer: writer
-            };
-
-            fetch('/api/cms/news', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newsData)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    alert("저장 성공!");
-                    window.location.href = "/cms/";
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("저장 실패!");
-                });
-        });
-    });
+    // document.addEventListener('DOMContentLoaded', function () {
+    //
+    //     // ✅ Toast UI Editor 초기화
+    //     const editor = new toastui.Editor({
+    //         el: document.querySelector('#editor'),
+    //         height: '800px',
+    //         initialEditType: 'wysiwyg',
+    //         previewStyle: 'vertical'
+    //     });
+    //
+    //
+    //
+    //     const categoryDataElement = document.getElementById("categoryData");
+    //     let categories = [];
+    //
+    //     try {
+    //         categories = JSON.parse(categoryDataElement.textContent.trim());
+    //         console.log("✅ 카테고리 데이터:", categories);
+    //     } catch (error) {
+    //         console.error("JSON 파싱 오류:", error);
+    //         return;
+    //     }
+    //
+    //     const mainCategory = document.getElementById("main_category");
+    //     const subCategory = document.getElementById("sub_category");
+    //
+    //     mainCategory.addEventListener("change", function () {
+    //         const selectedMainCategory = mainCategory.value;
+    //         subCategory.innerHTML = '<option value="">소분류를 선택하세요</option>'; // 초기화
+    //
+    //         // ✅ 선택한 대분류에 해당하는 소분류 필터링
+    //         const filteredSubCategories = categories.filter(cat => cat.parentCd === selectedMainCategory);
+    //
+    //         filteredSubCategories.forEach(cat => {
+    //             const option = document.createElement("option");
+    //             option.value = cat.cd;
+    //             option.textContent = cat.cdKor;
+    //             subCategory.appendChild(option);
+    //         });
+    //     });
+    //
+    //
+    //
+    //     //////////////////////////////////////////////////
+    //     document.getElementById('submitBtn').addEventListener('click', function(event) {
+    //         event.preventDefault(); // 기본 폼 제출 막기
+    //
+    //         const content = editor.getHTML();  // 에디터 내용 가져오기
+    //         document.getElementById('editor-content').value = content;
+    //
+    //         const userId = document.getElementById('user_id') ? document.getElementById('user_id').value : "";
+    //         const newsTypeElement = document.querySelector('input[name="news_type"]:checked');
+    //         const news_type = newsTypeElement ? newsTypeElement.value : null;
+    //         const writerElement = document.getElementById('reporter');
+    //         const writer = writerElement ? writerElement.value : null;
+    //
+    //         const mainCategory = document.getElementById("main_category");
+    //         const subCategory = document.getElementById("sub_category");
+    //         // ✅ mainCategory 값 확인
+    //         if (!mainCategory.value) {
+    //             alert("대분류를 선택하세요.");
+    //             return;
+    //         }
+    //
+    //         const newsData = {
+    //             userId: userId,
+    //             title: document.getElementById('title').value,
+    //             subTitle: document.getElementById('sub_title').value,
+    //             content: content,
+    //             reservationTime: document.getElementById('reservation_time').value,
+    //             newsType: news_type,
+    //             mainCategoryCd: mainCategory.value, // 대분류 값
+    //             subCategoryCd: subCategory.value,
+    //             writer: writer
+    //         };
+    //
+    //         fetch('/api/cms/news', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(newsData)
+    //         })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 alert("저장 성공!");
+    //                 window.location.href = "/cms/";
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 alert("저장 실패!");
+    //             });
+    //     });
+    // });
 </script>
 
+<script src="/javascript/cms/article.js"></script>
 </body>
 </html>

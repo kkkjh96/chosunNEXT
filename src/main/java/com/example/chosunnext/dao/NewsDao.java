@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Mapper
 public interface NewsDao {
-    NewsDto insertNews(NewsDto newsDto);
+    int insertNews(NewsDto newsDto);
 
     List<NewsDto> getAllList();
 
