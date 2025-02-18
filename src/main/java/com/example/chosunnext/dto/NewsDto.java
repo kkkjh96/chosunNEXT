@@ -42,7 +42,7 @@ public class NewsDto {
     private LocalDateTime credateDt;
     private LocalDateTime updateDt;
     private String fileName;
-
+    private String filePath;
 
     public LocalDateTime getCredate_dt() {
         return credateDt == null ? LocalDateTime.now() : credateDt;
