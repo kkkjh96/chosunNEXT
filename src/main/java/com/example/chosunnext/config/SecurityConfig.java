@@ -80,9 +80,10 @@ public class SecurityConfig {
                 // 🔹 정적 리소스에 대한 보안 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
-                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**", "/survey/**", "/smarteditor/**", "/admin/**").permitAll()
-                        .requestMatchers("/login", "/", "/register", "/api/**").permitAll()
-                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/**").hasAuthority("USER")  // 사용자 권한 검사
+                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**").permitAll()
+                        .requestMatchers("/survey/**", "/smarteditor/**", "/admin/**").permitAll()
+                        .requestMatchers("/login", "/", "/register", "/api/**", "/board/list").permitAll()
+                        .requestMatchers("/mypage/**", "/survey-form/**", "/board/write", "/board/edit/**").hasAuthority("USER")  // 사용자 권한 검사
                         .anyRequest().authenticated()
                 )
 

@@ -109,4 +109,9 @@ public class TugoServiceImpl implements TugoService {
         tugoDao.deleteTugo(tugoId);
     }
 
+    @Override
+    public void updateTugo(int tugoId, TugoRequestDto tugoRequestDto) {
+
+    }
+
 }

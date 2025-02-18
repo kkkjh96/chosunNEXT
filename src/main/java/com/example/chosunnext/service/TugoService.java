@@ -34,4 +34,6 @@ public interface TugoService {
     int getTotalBoardCount();
 
     void deleteTugo(int tugoId);
+
+    void updateTugo(int tugoId, TugoRequestDto tugoRequestDto);
 }

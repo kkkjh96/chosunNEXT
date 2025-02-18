@@ -53,4 +53,6 @@ public interface SurveyDao {
 
     void insertSurveyOptionResult(@Param("option") SubmitOptionsRequestDto option);
 
+    int countSurveyStatus(@Param("userId") String userId, @Param("titleId") int titleId);
+
 }

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const postId = window.location.pathname.split('/').pop(); // URL에서 게시글 ID 추출
+    const postId = window.location.pathname.split('/').pop();
     const instId = document.getElementById('instId').value;
 
     // Toast UI Editor 초기화
@@ -19,101 +19,102 @@ document.addEventListener('DOMContentLoaded', function () {
             addImageBlobHook: (blob, callback) => {
                 const previewUrl = URL.createObjectURL(blob);
                 callback(previewUrl, '미리보기 이미지');
-                addImageToTrack(blob); // 이미지 추가
+                addImageToTrack(blob);
             }
         }
     });
 
     let uploadedImages = [];
-    let existingImages = [];  // 기존 이미지 목록
+    let deletedImages = []; // 삭제할 이미지 목록
 
     function addImageToTrack(blob) {
         uploadedImages.push(blob);
     }
 
-    // 기존 게시글 데이터 불러오기
+    // ✅ 기존 게시글 데이터 불러오기
     api.get(`/api/board/${postId}`)
         .then(response => {
             const post = response;
             document.getElementById('title').value = post.title;
-            editor.setHTML(post.contents);
 
-            // 기존 이미지 처리 (미리보기 및 삭제 기능)
+            let content = post.contents; // 기존 텍스트 내용
+
+            // ✅ 기존 이미지 HTML 생성 (삭제 버튼 포함)
             post.files.forEach(file => {
-                existingImages.push(file); // 기존 이미지 목록에 추가
+                const imageUrl = file.fileUrl;
+                const imageName = file.fileName;
 
-                // 이미지 미리보기 처리
-                const imagePreview = document.createElement('img');
-                imagePreview.src = file.fileUrl; // 파일 URL 설정
-                imagePreview.alt = file.fileName;
-                imagePreview.classList.add('existing-image');
-                imagePreview.setAttribute('data-file-id', file.fileId); // 파일 ID를 data 속성에 저장
+                const imageHTML = `
+                    <span class="editor-image-container" contenteditable="false">
+                        <img src="${imageUrl}" alt="${imageName}" class="editor-image" data-id="${file.id}" />
+                        <button type="button" class="delete-image-btn" data-id="${file.id}">X</button>
+                    </span>`;
 
-                // 이미지 삭제 버튼 추가
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = '삭제';
-                deleteButton.classList.add('delete-image');
-                deleteButton.addEventListener('click', function () {
-                    deleteImage(file.fileId); // 이미지 삭제 처리
-                });
-
-                // 에디터에 기존 이미지 및 삭제 버튼 삽입
-                const imageWrapper = document.createElement('div');
-                imageWrapper.appendChild(imagePreview);
-                imageWrapper.appendChild(deleteButton);
-                document.querySelector('#fileList').appendChild(imageWrapper); // #imagePreviewArea에 삽입
+                // ✅ 기존 내용 + 이미지 함께 삽입
+                content += imageHTML;
             });
+
+            editor.setHTML(content);
         })
         .catch(error => {
             console.error("게시글 불러오기 실패", error);
             alert("게시글을 불러오는 데 실패했습니다.");
         });
 
-    // 게시글 수정 버튼 클릭 시
+    // ✅ 이미지 삭제 기능 추가
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('delete-image-btn')) {
+            const imageId = event.target.dataset.id;
+            event.target.closest('.editor-image-container').remove(); // 화면에서 삭제
+
+            // 🔹 삭제할 이미지 목록에 추가
+            if (!deletedImages.includes(imageId)) {
+                deletedImages.push(imageId);
+            }
+        }
+    });
+
+    // ✅ 게시글 수정 요청
     document.getElementById('submitPost').addEventListener('click', function () {
         const title = document.getElementById('title').value;
         let fullContent = editor.getHTML();
 
-        // 🔹 blob 미리보기 이미지 제거
+        // 🔹 블롭(미리보기 이미지) 삭제
         fullContent = fullContent.replace(/<img[^>]*src=["']blob:[^"']*["'][^>]*>/g, '');
 
-        // 🔹 HTML 태그 제거 후 순수 텍스트만 추출
-        let content = fullContent.replace(/<\/?[^>]+(>|$)/g, "").trim();
-
-        if (!title || !content) {
+        if (!title || !fullContent) {
             alert('제목과 내용을 입력하세요.');
             return;
         }
 
         const postData = {
+            tugoId: postId,
             title: title,
             userId: instId,
-            content: content,
-            postId: postId,
-            deletedImages: existingImages.filter(image => image.deleted).map(image => image.fileId)  // 삭제된 이미지 리스트
+            content: fullContent,  // ✅ HTML 그대로 저장
+            deletedImages: deletedImages // ✅ 삭제할 이미지 목록 서버로 전달
         };
 
-        // FormData 생성
         const formData = new FormData();
         formData.append('data', new Blob([JSON.stringify(postData)], { type: 'application/json' }));
 
-        // 🔹 업로드된 이미지가 있을 경우만 추가
+        // ✅ 업로드된 이미지 추가
         if (uploadedImages.length > 0) {
             uploadedImages.forEach((blob, index) => {
-                formData.append('files', blob, `image${index}.jpg`);  // 파일명 지정
+                formData.append('files', blob, `image${index}.jpg`);
             });
         }
 
-        console.log("📌 FormData 확인:", formData); // 디버깅 로그 추가
+        console.log("📌 FormData 확인:", formData);
 
-        // 서버로 전송
+        // ✅ 서버로 전송
         axios.put(`/api/board/${postId}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
             withCredentials: true
         })
             .then(() => {
                 alert('게시글이 수정되었습니다.');
-                window.location.href = '/board/list'; // 게시판 리스트로 이동
+                window.location.href = '/board/list';
             })
             .catch(error => {
                 console.error('게시글 수정 실패', error);
@@ -121,25 +122,4 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    // 이미지 삭제 처리
-    function deleteImage(fileId) {
-        // 서버에서 해당 이미지 삭제
-        api.delete(`/api/board/image/${fileId}`)
-            .then(() => {
-                alert('이미지가 삭제되었습니다.');
-                // UI에서 해당 이미지 삭제
-                const imageElement = document.querySelector(`[data-file-id="${fileId}"]`);
-                imageElement.parentElement.remove(); // 삭제된 이미지 제거
-
-                // 기존 이미지 목록에서 해당 이미지 삭제
-                const imageIndex = existingImages.findIndex(image => image.fileId === fileId);
-                if (imageIndex !== -1) {
-                    existingImages[imageIndex].deleted = true;  // 삭제된 이미지로 표시
-                }
-            })
-            .catch(error => {
-                console.error('이미지 삭제 실패', error);
-                alert('이미지 삭제에 실패했습니다.');
-            });
-    }
 });

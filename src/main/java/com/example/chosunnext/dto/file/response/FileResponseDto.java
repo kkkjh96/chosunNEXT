@@ -24,6 +24,7 @@ import java.util.List;
 @Builder
 public class FileResponseDto {
 
+    private int fileId;
     private String fileUrl;
     private String fileName;
 
