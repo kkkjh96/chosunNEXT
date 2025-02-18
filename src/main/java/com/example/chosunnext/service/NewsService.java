@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -26,6 +28,14 @@ public class NewsService {
     public int deleteNews(int newsId) {
         int result = newsDao.deleteNews(newsId);
         return result;
+    }
+
+    public List<NewsDto> findByCategory(String category, int offset, int size) {
+        return newsDao.getCategoryNews(category, offset, size);
+    }
+
+    public int countNewsByCategory(String category) {
+        return newsDao.countNewsByCategory(category);
     }
 }
 

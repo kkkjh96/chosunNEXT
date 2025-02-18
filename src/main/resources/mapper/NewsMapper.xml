@@ -84,4 +84,14 @@
     </select>
 
 
+    <select id="getCategoryNews" resultType="com.example.chosunnext.dto.NewsDto">
+        SELECT * FROM tbl_news
+        WHERE main_category_cd = #{category}
+        ORDER BY update_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="countNewsByCategory" resultType="int">
+        SELECT COUNT(*) FROM tbl_news WHERE main_category_cd = #{category}
+    </select>
 </mapper>
