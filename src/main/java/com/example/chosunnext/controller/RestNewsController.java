@@ -39,4 +39,6 @@ public class RestNewsController {
         return ResponseEntity.ok(result);
     }
 
+
+
 }

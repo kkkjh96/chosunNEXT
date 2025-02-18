@@ -94,4 +94,11 @@
     <select id="countNewsByCategory" resultType="int">
         SELECT COUNT(*) FROM tbl_news WHERE main_category_cd = #{category}
     </select>
+
+    <update id="updateImageSrc">
+        UPDATE tbl_news
+            SET content = REPLACE(content, #{blob}, #{url})
+        WHERE news_id = #{newsId};
+    </update>
+
 </mapper>
