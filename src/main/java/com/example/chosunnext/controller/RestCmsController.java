@@ -64,6 +64,31 @@ public class RestCmsController {
 
 
 
+
+    @GetMapping("/news/{category}/paged")
+    public ResponseEntity<Map<String, Object>> getNewsByCategory(
+            @PathVariable("category") String category,
+            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+            @RequestParam(value = "size", defaultValue = "5") int size) {
+
+        int offset = (currentPage - 1) * size;
+        List<NewsDto> newsList = newsService.findByCategory(category, offset, size);
+        int totalItems = newsService.countNewsByCategory(category);
+        int totalPages = (int) Math.ceil((double) totalItems / size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("newsList", newsList);
+        response.put("totalCount", totalItems);
+        response.put("totalPages", totalPages);
+        response.put("currentPage", currentPage);
+        response.put("offset", offset);
+        response.put("size", size);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
     @PutMapping("/news/{newsId}")
     public ResponseEntity<String> updateNews(@PathVariable int newsId,@RequestBody NewsDto newsDto) {
         boolean isUpdate = newsService.updateNews(newsId,newsDto);

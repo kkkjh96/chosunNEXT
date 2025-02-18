@@ -1,15 +1,3 @@
-// api.get("/api/category")
-//     .then(response => {
-//         console.log("하단 카테고리:", response);
-//         // response.data: { categories: [ { id: 1, name: "카테고리1" },... ] }
-//         // TODO: 하단 카테고리를 HTML template로 랜더링
-//         response.forEach(category => {
-//             if(category.parentCd === 'MAIN_CATEGORY_CD') {
-//                 console.log(category);
-//             }
-//
-//         })
-//     })
 document.addEventListener('DOMContentLoaded', function () {
     const mainCategoryList = document.getElementById('main-category-list');
     const subCategoryWrapper = document.getElementById('sub-category-wrapper');
@@ -29,6 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const mainItem = document.createElement('li');
                 mainItem.className = 'main-category-item';
                 mainItem.textContent = mainCategory.cdKor;
+
+                // ✅ 메인 카테고리 클릭 이벤트 추가
+                mainItem.addEventListener('click', () => {
+                    window.location.href = `/categoryNews/${mainCategory.cd}`;
+                });
+
                 mainCategoryList.appendChild(mainItem);
             });
 
@@ -54,6 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         const subItem = document.createElement('div');
                         subItem.textContent = subCategory.cdKor;
                         subItem.className = 'sub-category-item';
+
+                        // ✅ 서브 카테고리 클릭 이벤트 추가
+                        subItem.addEventListener('click', () => {
+                            window.location.href = `/category/${mainCategory.cd}/${subCategory.cd}`;
+                        });
+
                         subCategoryColumn.appendChild(subItem);
                     });
 

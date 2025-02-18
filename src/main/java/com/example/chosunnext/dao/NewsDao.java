@@ -32,6 +32,10 @@ public interface NewsDao {
     int getTotalCount();
 
     List<NewsDto> getPageNews(int offset, int size);
+
+    int countNewsByCategory(String category);
+
+    List<NewsDto> getCategoryNews(String category, int offset, int size);
 }
 
 

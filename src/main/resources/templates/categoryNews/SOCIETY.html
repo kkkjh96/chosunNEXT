@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>대시보드</title>
+    <link rel="stylesheet" href="/css/news_list.css">
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+    <script src="/javascript/layout/header.js"></script>
+    <script src="/javascript/layout/footer.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="layout/header :: header"></div>
+
+    <div class="news_list_container">
+        <p>기사 목록</p>
+        <div id="newsList"></div> <!-- 뉴스 리스트 추가될 곳 -->
+        <div class="pagination">
+            <button id="prevPage">이전</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">다음</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentPage = 1;
+        const pageSize = 5;
+        let totalItems = 0;
+
+        const pathSegments = window.location.pathname.split('/');
+        const category = pathSegments[pathSegments.length - 1];
+
+        if (!category) {
+            console.error("❌ 오류 발생: 카테고리 값이 없습니다.");
+            return;
+        }
+
+        getCategoryNews(category);
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                getCategoryNews(category);
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage * pageSize < totalItems) {
+                currentPage++;
+                getCategoryNews(category);
+            }
+        });
+
+        function getCategoryNews(category) {
+            axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
+                .then(response => {
+                    console.log("✅ API 응답 데이터:", response.data);
+                    const { newsList, totalCount } = response.data;
+
+                    if (!Array.isArray(newsList)) {
+                        console.error("❌ newsList가 배열이 아닙니다.");
+                        return;
+                    }
+
+                    totalItems = totalCount;
+                    renderNews(newsList);
+                    updatePagination();
+                })
+                .catch(error => {
+                    console.error("❌ 뉴스 목록을 가져오는 중 오류 발생:", error);
+                });
+        }
+
+        function renderNews(newsList) {
+            const newsContainer = document.getElementById('newsList');
+
+            if (!newsContainer) {
+                console.error("❌ 오류 발생: `#newsList` 요소를 찾을 수 없습니다.");
+                return;
+            }
+
+            newsContainer.innerHTML = newsList.map(news => `
+        <div class="news_content">
+            <div class="image_wrap"><img src="${news.fileName || '/images/default.jpg'}" alt="뉴스 이미지"></div>
+            <div class="title">${news.title || '제목 없음'}</div>
+            <div class="content">${truncateContent(removeImages(news.content))}</div>
+            <div class="date">${news.updateDt || '날짜 없음'}</div>
+            <div class="book-mark">⭐</div>
+        </div>
+        `).join('');
+        }
+
+        /**
+         * 📝 뉴스 내용을 3줄까지만 표시하고 나머지는 '...'으로 처리
+         */
+        function truncateContent(content) {
+            if (!content) return '내용 없음';
+
+            const maxLines = 3;
+            const words = content.split(' ');
+
+            if (words.length > maxLines * 10) {
+                return words.slice(0, maxLines * 10).join(' ') + '...';
+            }
+
+            return content;
+        }
+
+        /**
+         * 🖼 뉴스 내용(content)에서 <img> 태그 제거
+         */
+        function removeImages(content) {
+            if (!content) return '내용 없음';
+            return content.replace(/<img[^>]*>/g, ""); // <img> 태그 제거
+        }
+
+
+        function updatePagination() {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const pageInfoElement = document.getElementById('pageInfo');
+
+            if (!pageInfoElement) {
+                console.error("❌ 오류 발생: `pageInfo` 요소를 찾을 수 없습니다.");
+                return;
+            }
+
+            pageInfoElement.textContent = `페이지 ${currentPage} / ${totalPages}`;
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage >= totalPages;
+        }
+    });
+</script>
+</body>
+</html>
