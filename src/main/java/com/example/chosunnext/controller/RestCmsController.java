@@ -83,19 +83,20 @@ public class RestCmsController {
     @GetMapping("/news/{category}/paged")
     public ResponseEntity<Map<String, Object>> getNewsByCategory(
             @PathVariable("category") String category,
-            @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-            @RequestParam(value = "size", defaultValue = "5") int size) {
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
 
-        int offset = (currentPage - 1) * size;
+        int offset = (page - 1) * size;
         List<NewsDto> newsList = newsService.findByCategory(category, offset, size);
         int totalItems = newsService.countNewsByCategory(category);
+
         int totalPages = (int) Math.ceil((double) totalItems / size);
 
         Map<String, Object> response = new HashMap<>();
         response.put("newsList", newsList);
         response.put("totalCount", totalItems);
         response.put("totalPages", totalPages);
-        response.put("currentPage", currentPage);
+        response.put("currentPage", page);
         response.put("offset", offset);
         response.put("size", size);
 

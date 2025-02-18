@@ -85,11 +85,21 @@
 
 
     <select id="getCategoryNews" resultType="com.example.chosunnext.dto.NewsDto">
-        SELECT * FROM tbl_news
-        WHERE main_category_cd = #{category}
-        ORDER BY update_dt DESC
+        SELECT n.*,
+            f.file_name AS fileName,
+            f.file_url AS filePath
+            FROM tbl_news n
+        LEFT JOIN (
+        SELECT f.file_ref_id, f.file_name, f.file_url
+        FROM tbl_file f
+        WHERE f.file_gbn_cd = 100  -- 대표 이미지 유형 코드
+        ORDER BY f.inst_dt DESC
+            ) f ON n.news_id = f.file_ref_id
+        WHERE n.main_category_cd = #{category}
+        ORDER BY n.update_dt DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
+
 
     <select id="countNewsByCategory" resultType="int">
         SELECT COUNT(*) FROM tbl_news WHERE main_category_cd = #{category}
