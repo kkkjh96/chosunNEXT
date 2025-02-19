@@ -32,7 +32,7 @@ public class NewsResponseDto {
     private String subCategoryCd;
     private String title;
     private String subTitle;
-    private List<String> fileUrls;
-    private String createDt;
+    private String fileUrl;
+    private String credateDt;
 
 }

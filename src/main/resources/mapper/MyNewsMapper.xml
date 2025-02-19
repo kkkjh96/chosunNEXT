@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.MyNewsDao">
+
+    <select id="getSurveyContents" resultType="String">
+        SELECT srq.content
+        FROM tbl_survey_result_questions srq
+            JOIN tbl_survey_result sr ON srq.result_id = sr.result_id
+        WHERE srq.result_id = #{resultId}
+            AND sr.participant = #{participant}
+            AND srq.survey_id IN (13, 14)
+        ORDER BY srq.survey_id ASC;
+    </select>
+
+    <select id="getCategory" resultType="String">
+        SELECT cd
+        FROM tbl_codeinfo
+        WHERE cd_kor = #{category}
+    </select>
+
+    <select id="getLatestNewsByCategory" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.main_category_cd = #{mainCategoryCd}
+            AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        ORDER BY n.news_id DESC
+        LIMIT 5
+    </select>
+
+    <select id="getImportantNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT *
+        FROM (
+            SELECT n.*, f.file_url
+            FROM tbl_news n
+            LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+            WHERE n.news_type IN ('단독', '속보')
+            ORDER BY n.news_id DESC
+            LIMIT 1
+        ) AS important_news
+
+        UNION ALL
+
+        SELECT *
+        FROM (
+            SELECT n.*, f.file_url
+            FROM tbl_news n
+            LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+            ORDER BY n.news_id DESC
+            LIMIT 1
+        ) AS latest_news
+        LIMIT 1
+    </select>
+
+    <select id="getHeadlineNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.main_category_cd IN (
+            SELECT cd FROM tbl_codeinfo WHERE parent_cd = 'MAIN_CATEGORY_CD'
+        )
+        <if test="categories != null and categories.size() > 0">
+            AND n.main_category_cd NOT IN
+            <foreach collection="categories" item="category" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        </if>
+        AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        ORDER BY n.news_id DESC
+        LIMIT 5
+    </select>
+
+    <select id="getHotNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
+        <if test="categories != null and categories.size() > 0">
+            AND n.main_category_cd NOT IN
+            <foreach item="category" collection="categories" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        </if>
+        ORDER BY n.view_count DESC, n.credate_dt DESC
+        LIMIT 10
+    </select>
+
+    <select id="getEditorPicks" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
+        <if test="categories != null and categories.size() > 0">
+            AND n.main_category_cd NOT IN
+            <foreach item="category" collection="categories" open="(" separator="," close=")">
+                #{category}
+            </foreach>
+        </if>
+        ORDER BY n.credate_dt ASC
+        LIMIT 10
+    </select>
+
+</mapper>
