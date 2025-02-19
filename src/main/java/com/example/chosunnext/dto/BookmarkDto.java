@@ -17,5 +17,6 @@ public class BookmarkDto {
     private String newsId;
     private String userId;
     private Date bookmarkDate;
+    private int bookmarked;
 
 }

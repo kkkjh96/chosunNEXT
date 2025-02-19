@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BookmarkDao {
     int insertBookMark(BookmarkDto bookmarkDto);
+    int updateBookMark(BookmarkDto bookmarkDto);
 }

@@ -5,8 +5,14 @@
 <mapper namespace="com.example.chosunnext.dao.BookmarkDao">
 
     <insert id="insertBookMark">
-        INSERT INTO tbl_bookmark (bookmark_id, news_id, user_id, bookmark_date)
-        VALUES (#{bookmarkId}, #{newsId}, #{userId}, NOW());
+        INSERT INTO tbl_bookmark (news_id, user_id, bookmark_date, bookmarked)
+        VALUES (#{newsId}, #{userId}, NOW(), #{bookmarked})
+        ON DUPLICATE KEY UPDATE bookmarked = #{bookmarked}, bookmark_date = NOW();
     </insert>
-
+    
+    <update id="updateBookMark">
+        UPDATE tbl_bookmark
+        SET bookmarked = #{bookmarked}
+        WHERE news_id = #{newsId} AND user_id = #{userId};
+    </update>
 </mapper>
