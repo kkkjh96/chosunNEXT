@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.MainNewsDao">
+
+    <select id="getLatestNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT
+        n.*,
+        f.file_url,
+        mc.cd_kor AS mainCategory,
+        sc.cd_kor AS subCategory
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
+        LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
+        WHERE (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        ORDER BY n.news_id DESC
+        LIMIT 5;
+    </select>
+
+    <select id="getImportantNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT *
+        FROM (
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.news_type IN ('단독', '속보')
+        ORDER BY n.news_id DESC
+        LIMIT 1
+        ) AS important_news
+
+        UNION ALL
+
+        SELECT *
+        FROM (
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        ORDER BY n.news_id DESC
+        LIMIT 1
+        ) AS latest_news
+        LIMIT 1
+    </select>
+
+
+    <select id="getHeadlineNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.main_category_cd IN (
+            SELECT cd FROM tbl_codeinfo WHERE parent_cd = 'MAIN_CATEGORY_CD'
+        )
+        AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        ORDER BY n.news_id DESC
+        LIMIT 5
+    </select>
+
+    <select id="getHotNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
+        ORDER BY n.view_count DESC, n.credate_dt DESC
+        LIMIT 10
+    </select>
+
+    <select id="getEditorPicksMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
+        SELECT n.*, f.file_url
+        FROM tbl_news n
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
+        ORDER BY n.credate_dt ASC
+        LIMIT 10
+    </select>
+
+</mapper>

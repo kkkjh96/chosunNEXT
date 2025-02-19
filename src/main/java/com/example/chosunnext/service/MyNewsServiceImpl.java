@@ -30,7 +30,7 @@ public class MyNewsServiceImpl implements MyNewsService {
     @Override
     public List<NewsResponseDto> getRecommendedNews(String username) {
 
-        List<String> content = myNewsDao.getSurveyContents(22, username);
+        List<String> content = myNewsDao.getSurveyContents(8, username);
 
         String likeCate = myNewsDao.getCategory(content.getFirst());
 
@@ -47,7 +47,7 @@ public class MyNewsServiceImpl implements MyNewsService {
     @Override
     public List<NewsResponseDto> getHeadlineNews(String username) {
 
-        List<String> content = myNewsDao.getSurveyContents(22, username);
+        List<String> content = myNewsDao.getSurveyContents(8, username);
 
         return myNewsDao.getHeadlineNews(content);
     }
@@ -55,7 +55,7 @@ public class MyNewsServiceImpl implements MyNewsService {
     @Override
     public List<NewsResponseDto> getHotNews(String username) {
 
-        List<String> content = myNewsDao.getSurveyContents(22, username);
+        List<String> content = myNewsDao.getSurveyContents(8, username);
 
         return myNewsDao.getHotNews(content);
     }
@@ -63,7 +63,7 @@ public class MyNewsServiceImpl implements MyNewsService {
     @Override
     public List<NewsResponseDto> getEditorPicksNews(String username) {
 
-        List<String> content = myNewsDao.getSurveyContents(22, username);
+        List<String> content = myNewsDao.getSurveyContents(8, username);
 
         return myNewsDao.getEditorPicks(content);
     }

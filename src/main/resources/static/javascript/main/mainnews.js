@@ -1,5 +1,3 @@
-const username = document.getElementById("hiddenUser").value;
-console.log(username);
 document.addEventListener("DOMContentLoaded", function () {
     loadMainArticle(); //
     loadRecommendedNews(); //
@@ -9,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadMainArticle() {
-    api.get('/api/news/myMain') // ✅ 백엔드에서 메인 기사 데이터를 가져옴
+    api.get('/api/news/Main') // ✅ 백엔드에서 메인 기사 데이터를 가져옴
         .then(response => {
             renderMainArticle(response);
         })
@@ -33,7 +31,7 @@ function renderMainArticle(news) {
 
 // 1. 추천 뉴스 (4개)
 function loadRecommendedNews() {
-    api.get(`/api/news/recommended/${username}`)
+    api.get(`/api/news/recommended`)
         .then(response => {
             console.log(response);
             renderRecommendedNews(response.slice(0, 4)); // 최대 4개
@@ -46,12 +44,12 @@ function renderRecommendedNews(newsList) {
     container.innerHTML = "";
 
     for (let i = 0; i < 4; i++) {
-        const news = newsList[i] || { title: "기사 제목 없음", subCategory: "기타", fileUrl: "/images/default.png", newsId: "#" };
+        const news = newsList[i] || { title: "기사 제목 없음", mainCategory: "기타", fileUrl: "/images/default.png", newsId: "#" };
 
         const newsItem = `
             <div class="recommended-content">
                 <div class="recommended-body">
-                    <strong class="sub-category">${news.subCategory || "기타"}</strong>
+                    <strong class="sub-category">${news.mainCategory || "기타"}</strong>
                     <a href="/news/${news.newsId}">
                         <h4>${news.title || "기사 제목 없음"}</h4>
                     </a>
@@ -68,7 +66,7 @@ function renderRecommendedNews(newsList) {
 
 // 2. 주요 기사 (2개)
 function loadHeadlines() {
-    api.get(`/api/news/headlines/${username}`)
+    api.get(`/api/news/headlines`)
         .then(response => {
             renderHeadlines(response.slice(0, 5)); // 최대 2개
         })
@@ -125,7 +123,7 @@ function renderHeadlines(newsList) {
 
 // 3. 실시간 핫뉴스 (6개)
 function loadHotNews() {
-    api.get(`/api/news/hot/${username}`)
+    api.get(`/api/news/hot`)
         .then(response => {
             console.log(response);
             renderHotNews(response.slice(0, 6)); // 최대 6개
@@ -150,7 +148,7 @@ function renderHotNews(newsList) {
 
 // 4. 에디터 추천 뉴스 (2개)
 function loadEditorPicks() {
-    api.get(`/api/news/editor-picks/${username}`)
+    api.get(`/api/news/editor-picks`)
         .then(response => {
             renderEditorPicks(response); // 에디터 추천 뉴스
             renderEditorHotNews(response); // 에디터 핫 뉴스

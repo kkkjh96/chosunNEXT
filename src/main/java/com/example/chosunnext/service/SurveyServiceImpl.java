@@ -253,7 +253,7 @@ public class SurveyServiceImpl implements SurveyService {
 
         int result = surveyDao.countSurveyStatus(userId, 8);
 
-        return result == 0;
+        return result != 0;
     }
 
 }

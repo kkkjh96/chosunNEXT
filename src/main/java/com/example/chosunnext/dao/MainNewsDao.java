@@ -1,6 +1,5 @@
 package com.example.chosunnext.dao;
 
-import com.example.chosunnext.dto.NewsDto;
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,21 +18,16 @@ import java.util.List;
  * 25. 2. 19.        김재홍       최초 생성
  */
 @Mapper
-public interface MyNewsDao {
-
-    List<String> getSurveyContents(@Param("resultId") int resultId, @Param("participant") String participant);
-
-    String getCategory(String category);
+public interface MainNewsDao {
 
     NewsResponseDto getImportantNews();
 
-    List<NewsResponseDto> getLatestNewsByCategory(@Param("mainCategoryCd") String mainCategoryCd);
+    List<NewsResponseDto> getLatestNews();
 
-    List<NewsResponseDto> getHeadlineNews(@Param("categories") List<String> categories);
+    List<NewsResponseDto> getHeadlineNewsMain();
 
-    List<NewsResponseDto> getHotNews(@Param("categories") List<String> categories);
+    List<NewsResponseDto> getHotNewsMain();
 
-    List<NewsResponseDto> getEditorPicks(@Param("categories") List<String> categories);
-
+    List<NewsResponseDto> getEditorPicksMain();
 
 }
