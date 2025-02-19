@@ -21,10 +21,7 @@
     <div class="news_list_container">
         <h1>사회</h1>
         <hr>
-        <div id="newsList">
-
-
-        </div>
+        <div id="newsList"></div>
         <div class="pagination">
             <button id="prevPage">이전</button>
             <span id="pageInfo"></span>
@@ -35,7 +32,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-
         let currentPage = 1;
         const pageSize = 7;
         let totalItems = 0;
@@ -59,12 +55,11 @@
             }
         });
 
-
         function getCategoryNews(category) {
             axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
                 .then(response => {
                     console.log("API 응답 데이터:", response.data);
-                    const { newsList, totalCount } = response.data;
+                    const {newsList, totalCount} = response.data;
                     totalItems = totalCount;
                     renderNews(newsList);
                     updatePagination();
@@ -80,7 +75,9 @@
             newsContainer.innerHTML = newsList.map(news => `
             <div class="news_content">
                 <div class="image_wrap">
-                    <img src="${news.filePath ? news.filePath : '/images/default.jpg'}" alt="뉴스 이미지">
+                    <img src="${news.filePath ? news.filePath : '/images/default.png'}"
+                         alt="뉴스 이미지"
+                         onerror="this.onerror=null; this.src='/images/default.png';">
                 </div>
                 <div class="content_wrap">
                     <div class="title">${news.title || '제목 없음'}</div>
@@ -88,38 +85,31 @@
                     <div class="date_wrap">
                         <div class="date">${news.updateDt || '날짜 없음'}</div>
                         <div class="book-mark">
-                            <i class="fa-regular fa-bookmark bookmark-icon" data-news-id="${news.newsId}"></i>
+                            <button class="bookmark-btn" data-news-id="${news.newsId}">
+                                <i class="fa-regular fa-bookmark bookmark-icon"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-    `).join('');
+            `).join('');
         }
 
-        /**
-         * 📝 뉴스 내용을 3줄까지만 표시하고 나머지는 '...'으로 처리
-         */
         function truncateContent(content) {
             if (!content) return '내용 없음';
-
             const maxLines = 3;
             const words = content.split(' ');
 
             if (words.length > maxLines * 8) {
                 return words.slice(0, maxLines * 8).join(' ') + '...';
             }
-
             return content;
         }
 
-        /**
-         *  뉴스 내용(content)에서 <img> 태그 제거
-         */
         function removeImages(content) {
             if (!content) return '내용 없음';
-            return content.replace(/<img[^>]*>/g, ""); // <img> 태그 제거
+            return content.replace(/<img[^>]*>/g, "");
         }
-
 
         function updatePagination() {
             const totalPages = Math.ceil(totalItems / pageSize);
@@ -134,7 +124,47 @@
             document.getElementById('prevPage').disabled = currentPage === 1;
             document.getElementById('nextPage').disabled = currentPage >= totalPages;
         }
+
+        // 북마크 이벤트 동적 바인딩 (이벤트 위임)
+        document.getElementById("newsList").addEventListener("click", function (event) {
+            const bookmarkButton = event.target.closest(".bookmark-btn");
+            if (bookmarkButton) {
+                const newsId = bookmarkButton.getAttribute("data-news-id");
+                bookmarkToggle(newsId, bookmarkButton);
+            }
+        });
     });
+
+    function bookmarkToggle(newsId, bookmarkButton) {
+        let userId = document.getElementById("userId").value;
+        const isBookmarked = bookmarkButton.classList.contains("active");
+
+        if (isBookmarked) {
+            axios.delete(`/api/category/news/bookmark`, { data: { newsId: newsId, userId: userId } })
+                .then(response => {
+                    alert("북마크가 삭제되었습니다.");
+                    console.log("북마크 삭제 완료:", response.data);
+                    bookmarkButton.classList.remove("active");
+                    bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-solid", "fa-regular");
+                })
+                .catch(error => {
+                    console.error("북마크 삭제 실패:", error);
+                    alert("북마크 삭제 실패");
+                });
+        } else {
+            axios.post('/api/category/news', { newsId: newsId, userId: userId })
+                .then(response => {
+                    alert("북마크가 저장되었습니다.");
+                    console.log("북마크 저장 완료:", response.data);
+                    bookmarkButton.classList.add("active");
+                    bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
+                })
+                .catch(error => {
+                    console.error("북마크 저장 실패:", error);
+                    alert("북마크 저장 실패");
+                });
+        }
+    }
 </script>
 </body>
 </html>
