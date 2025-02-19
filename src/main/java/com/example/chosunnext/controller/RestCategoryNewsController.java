@@ -1,15 +1,14 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.dto.BookmarkDto;
 import com.example.chosunnext.dto.NewsDto;
 import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.service.BookmarkService;
 import com.example.chosunnext.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,10 @@ import java.util.List;
 public class RestCategoryNewsController {
 
     final NewsService newsService;
-
-
-
+    final BookmarkService bookmarkService;
+    @PostMapping("/news")
+    public ResponseEntity<String> saveBookmark(@RequestBody BookmarkDto bookmarkDto) {
+        bookmarkService.saveBookmark(bookmarkDto);
+        return ResponseEntity.ok("북마크 저장 완료");
+    }
 }

@@ -92,17 +92,24 @@
     color: #777;
 }
 
-/* 북마크 아이콘 */
-.book-mark {
-    font-size: 20px;
-    color: gold; /* 흰색에 가까운 회색 */
+.bookmark-btn {
+    background: none;
+    border: none;
     cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    color: #888; /* 기본 북마크 색상 */
 }
 
-/* 북마크 클릭 시 색상 변경 */
-.book-mark .bookmark-icon:hover {
-    color: #555;
+.bookmark-btn:hover {
+    color: #555; /* 마우스 호버 시 */
 }
+
+.bookmark-btn.active .bookmark-icon {
+    color: #f39c12; /* 북마크 저장 후 (노란색) */
+}
+
+
 
 /* 페이지네이션 스타일 */
 .pagination {
