@@ -1,6 +1,7 @@
 package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
+import com.example.chosunnext.service.MainNewsService;
 import com.example.chosunnext.service.MyNewsService;
 import com.example.chosunnext.service.NewsService;
 import com.example.chosunnext.service.SurveyService;
@@ -34,6 +35,8 @@ public class RestNewsController {
 
     private final SurveyService surveyService;
     private final MyNewsService myNewsService;
+    private final MainNewsService mainNewsService;
+
 
     @GetMapping("/{userId}/survey-status")
     public ResponseEntity<Boolean> getSurveyStatus(@PathVariable("userId") String userId) {
@@ -86,6 +89,54 @@ public class RestNewsController {
     @GetMapping("/editor-picks/{username}")
     public ResponseEntity<List<NewsResponseDto>> editorPicks(@PathVariable("username") String username) {
         List<NewsResponseDto> newsList = myNewsService.getEditorPicksNews(username);
+
+        log.info("Editor picks news:{}", newsList);
+
+        return ResponseEntity.ok(newsList);
+    }
+
+
+
+    @GetMapping("/recommended")
+    public ResponseEntity<List<NewsResponseDto>> recommendedMain() {
+
+        List<NewsResponseDto> newsList = mainNewsService.getRecommendedNews();
+
+        log.info("RestNewsControllerMain:{}", newsList);
+
+        return ResponseEntity.ok(newsList != null ? newsList : new ArrayList<>());
+    }
+
+    @GetMapping("/Main")
+    public ResponseEntity<NewsResponseDto> mainNews() {
+
+        NewsResponseDto newsResponseDto = mainNewsService.getImportantNews();
+
+        return ResponseEntity.ok(newsResponseDto);
+
+    }
+
+    @GetMapping("/headlines")
+    public ResponseEntity<List<NewsResponseDto>> headlinesMain() {
+
+        List<NewsResponseDto> newsList = mainNewsService.getHeadlineNews();
+
+        return ResponseEntity.ok(newsList);
+    }
+
+    @GetMapping("/hot")
+    public ResponseEntity<List<NewsResponseDto>> hotNewsMain() {
+
+        List<NewsResponseDto> newsList = mainNewsService.getHotNews();
+
+        log.info("Hot news Main:{}", newsList);
+
+        return ResponseEntity.ok(newsList);
+    }
+
+    @GetMapping("/editor-picks")
+    public ResponseEntity<List<NewsResponseDto>> editorPicksMain() {
+        List<NewsResponseDto> newsList = mainNewsService.getEditorPicksNews();
 
         log.info("Editor picks news:{}", newsList);
 

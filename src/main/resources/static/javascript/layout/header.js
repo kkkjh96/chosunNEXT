@@ -1,9 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const username = document.getElementById("hiddenUser").value;
-
-    console.log("✅ 현재 로그인한 사용자:", username);
-
     // 날짜 업데이트
+    document.getElementById('current-date').innerText = getFormattedDate();
     function getFormattedDate() {
         const today = new Date();
         const year = today.getFullYear();
@@ -12,7 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return `${year}년 ${month}월 ${day}일`;
     }
 
-    document.getElementById('current-date').innerText = getFormattedDate();
+    const username = document.getElementById("hiddenUser").value;
+
+    console.log("✅ 현재 로그인한 사용자:", username);
+
+
 
     // 현재 URL 기반으로 메뉴 `selected` 클래스 설정
     const currentUrl = window.location.pathname;
@@ -32,13 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
         // 클릭 이벤트 추가
         link.addEventListener("click", function (event) {
             console.log("✅ 클릭 이벤트 실행됨 - 클릭한 링크:", this);
+            event.preventDefault();
 
             document.querySelectorAll('.news-link').forEach(l => l.classList.remove("selected"));
             this.classList.add("selected");
 
             // 🚀 마이뉴스 버튼 클릭 시 설문조사 확인 후 이동
             if (this.classList.contains("news-link-mynews")) {
-                event.preventDefault();
                 console.log("✅ 마이뉴스 클릭 - 설문조사 확인 실행");
                 checkSurveyStatus(this.getAttribute("href"));
             } else {
@@ -57,15 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => {
                 console.log("🔍 설문조사 여부 응답:", response.data);
 
-                if (response.data) {
+                if (response) {
+                    console.log("✅ 설문조사 완료 - 마이뉴스로 이동:", targetUrl);
+                    window.location.href = targetUrl;
+                } else {
                     console.log("🚨 설문조사 필요 - /survey-form/8로 이동");
                     setTimeout(() => {
                         window.location.href = '/survey-form/8';
-                    }, 50);
-                } else {
-                    console.log("✅ 설문조사 완료 - 마이뉴스로 이동:", targetUrl);
-                    setTimeout(() => {
-                        window.location.href = targetUrl;
                     }, 50);
                 }
             })
