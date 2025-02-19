@@ -81,8 +81,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
                         .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**").permitAll()
-                        .requestMatchers("/survey/**", "/smarteditor/**", "/admin/**").permitAll()
-                        .requestMatchers("/login", "/", "/register", "/api/**", "/board/list").permitAll()
+                        .requestMatchers("/survey/**", "/smarteditor/**", "/admin/**", "/categoryNews/**").permitAll()
+                        .requestMatchers("/login", "/", "/register", "/api/**", "/board/list", "/board/detail/**").permitAll()
                         .requestMatchers("/mypage/**", "/survey-form/**", "/board/write", "/board/edit/**").hasAuthority("USER")  // 사용자 권한 검사
                         .anyRequest().authenticated()
                 )

@@ -16,7 +16,9 @@
 <body>
 <div class="wrap">
     <div th:replace="layout/header :: header"></div>
-    <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
+    <span th:if="${session.user != null}" class="user-info">
+        <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
+    </span>
 
     <div class="news_list_container">
         <h1>사회</h1>
