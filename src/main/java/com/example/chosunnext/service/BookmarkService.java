@@ -13,7 +13,22 @@ public class BookmarkService {
 
     final BookmarkDao bookmarkDao;
 
-    public void saveBookmark(BookmarkDto bookmarkDto) {
-        bookmarkDao.insertBookMark(bookmarkDto);
+    public boolean saveBookmark(BookmarkDto bookmarkDto) {
+        Integer bookmarked = bookmarkDto.getBookmarked();
+
+        //1이면 북마크 0은 북마크 해제
+        if (bookmarked != null && bookmarked == 1) {
+            bookmarkDto.setBookmarkId(0);
+            bookmarkDao.updateBookMark(bookmarkDto);
+            return false;
+        } else {
+            bookmarkDto.setBookmarked(1);
+            bookmarkDao.insertBookMark(bookmarkDto);
+            return true;
+        }
     }
+
+
+
+
 }

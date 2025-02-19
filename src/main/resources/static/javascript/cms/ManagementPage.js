@@ -130,6 +130,7 @@ async function deleteBtn(newsId) {
     return;
 }
 
+
     try {
     await axios.delete(`/api/cms/news/${newsId}`);
     alert("삭제 완료");
