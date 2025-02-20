@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.MyPageDao">
+
+    <select id="getUserActivity" resultType="com.example.chosunnext.dto.mypage.response.MypageMainResonseDto">
+        SELECT
+            COUNT(DISTINCT recent_views.news_id) AS recentRead,
+            COUNT(DISTINCT subscriptions.reporter_id) AS subscribed,
+            COUNT(DISTINCT bookmarks.news_id) AS bookmarked,
+            COUNT(DISTINCT posts.tugo_id) AS tugo,
+            COUNT(DISTINCT likes.news_id) AS ddabong,
+            COUNT(DISTINCT comments.comment_id) AS commneted
+        FROM tbl_user u
+            LEFT JOIN tbl_views_news recent_views ON u.user_id = recent_views.user_id
+            LEFT JOIN tbl_subscription subscriptions ON u.user_id = subscriptions.user_id
+            LEFT JOIN tbl_bookmark bookmarks ON u.user_id = bookmarks.user_id
+            LEFT JOIN tbl_tugo posts ON u.user_id = posts.user_id
+            LEFT JOIN tbl_ddabong likes ON u.user_id = likes.user_id
+            LEFT JOIN tbl_comment comments ON u.user_id = comments.user_id
+        WHERE u.user_id = #{userId}
+    </select>
+
+    <select id="getWeeklyViews" resultType="map">
+        SELECT
+            DATE_FORMAT(view_dt, '%Y-%m-%d') AS day,
+            COUNT(*) AS count
+        FROM tbl_views_news
+        WHERE user_id = 'asdf@asdf.com'
+            AND view_dt >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)  -- 최근 7일
+        GROUP BY DATE_FORMAT(view_dt, '%Y-%m-%d')
+        ORDER BY day ASC;
+    </select>
+
+    <select id="getUserInfo" resultType="com.example.chosunnext.dto.mypage.response.MypageUserResponseDto">
+        SELECT user_id, nickname, point FROM tbl_user WHERE user_id = #{userId}
+    </select>
+
+
+</mapper>

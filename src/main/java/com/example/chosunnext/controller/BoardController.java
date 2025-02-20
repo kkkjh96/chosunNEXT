@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 25. 2. 11.        김재홍       최초 생성
  */
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/categoryNews/board")
 @RequiredArgsConstructor
 @Slf4j
 public class BoardController {
