@@ -30,4 +30,6 @@ public interface MainNewsDao {
 
     List<NewsResponseDto> getEditorPicksMain();
 
+    int updateViewCount(int newsId);
+
 }

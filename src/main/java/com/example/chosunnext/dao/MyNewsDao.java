@@ -1,6 +1,7 @@
 package com.example.chosunnext.dao;
 
 import com.example.chosunnext.dto.NewsDto;
+import com.example.chosunnext.dto.news.request.NewsViewRequestDto;
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -34,6 +35,8 @@ public interface MyNewsDao {
     List<NewsResponseDto> getHotNews(@Param("categories") List<String> categories);
 
     List<NewsResponseDto> getEditorPicks(@Param("categories") List<String> categories);
+
+    int upsertViewRecord(@Param("record")NewsViewRequestDto newsViewRequestDto);
 
 
 }

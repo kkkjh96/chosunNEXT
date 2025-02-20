@@ -58,4 +58,9 @@ public class MainNewsServiceImpl implements MainNewsService {
 
         return mainNewsDao.getEditorPicksMain();
     }
+
+    @Override
+    public int updateViewCount(int newsId) {
+        return mainNewsDao.updateViewCount(newsId);
+    }
 }

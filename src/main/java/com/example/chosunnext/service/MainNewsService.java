@@ -26,4 +26,6 @@ public interface MainNewsService {
     List<NewsResponseDto> getHotNews();
 
     List<NewsResponseDto> getEditorPicksNews();
+
+    int updateViewCount(int newsId);
 }
