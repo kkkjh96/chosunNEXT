@@ -14,6 +14,9 @@
         </div>
         <div class="logo"><a href="/">The Prism</a></div>
         <div class="header-icons">
+            <span th:if="${session.user != null}" class="user-info">
+                <input type="hidden" id="hiddenUser" name="username" th:value="${session.user.username}">
+            </span>
             <span class="icon-menu">🔔</span>
             <span class="icon-profile">👤</span>
         </div>
