@@ -1,10 +1,14 @@
 package com.example.chosunnext.dao;
 
-import com.example.chosunnext.dto.BookmarkDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface BookmarkDao {
-    int insertBookMark(BookmarkDto bookmarkDto);
-    int updateBookMark(BookmarkDto bookmarkDto);
+
+
+    boolean isBookmarked(int newsId, String userId);
+
+    void saveBookmark(int newsId, String userId);
+
+    boolean deleteBookmark(int newsId, String userId);
 }

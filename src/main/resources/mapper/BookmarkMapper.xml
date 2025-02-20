@@ -4,15 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.chosunnext.dao.BookmarkDao">
 
-    <insert id="insertBookMark">
-        INSERT INTO tbl_bookmark (news_id, user_id, bookmark_date, bookmarked)
-        VALUES (#{newsId}, #{userId}, NOW(), #{bookmarked})
-        ON DUPLICATE KEY UPDATE bookmarked = #{bookmarked}, bookmark_date = NOW();
-    </insert>
-    
-    <update id="updateBookMark">
-        UPDATE tbl_bookmark
-        SET bookmarked = #{bookmarked}
-        WHERE news_id = #{newsId} AND user_id = #{userId};
-    </update>
+    <insert id="saveBookmark">
+    INSERT INTO tbl_bookmark (news_id, user_id)
+    VALUES (#{newsId}, #{userId})
+</insert>
+
+    <!-- 북마크 여부 확인 -->
+    <select id="isBookmarked" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM tbl_bookmark
+        WHERE news_id = #{newsId} AND user_id = #{userId}
+    </select>
+
+    <!-- 북마크 삭제 -->
+    <delete id="deleteBookmark">
+        DELETE FROM tbl_bookmark
+        WHERE news_id = #{newsId} AND user_id = #{userId}
+    </delete>
 </mapper>
