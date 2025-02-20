@@ -1,0 +1,166 @@
+/* 보관함 탭 스타일 */
+.library-tabs ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    /*border-bottom: 2px solid #ff4500;*/
+}
+
+.library-tabs a {
+    text-decoration: none;
+    color: #333;
+    font-weight: normal;
+    padding: 10px;
+}
+
+.library-tabs a.active {
+    font-weight: bold;
+    border-bottom: 3px solid #ff4500;
+    color: #ff4500;
+}
+
+/* 보관함 콘텐츠 */
+.library-content {
+    padding: 20px;
+}
+
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 기사 리스트 */
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.article-item {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.article-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.article-info h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* 댓글 스타일 */
+.comment-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.comment-meta {
+    font-weight: bold;
+    color: #ff4500;
+}
+
+.comment-text p {
+    font-size: 14px;
+    color: #333;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #999;
+}
+
+/* 구독한 스타일 */
+.subscribe-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.subscribe-info h3 {
+    font-size: 18px;
+}
+
+.subscribe-date {
+    font-size: 12px;
+    color: #999;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination-btn {
+    padding: 8px 20px;
+    border: 2px solid #ff4500;
+    background: #fff;
+    color: #ff4500;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.pagination-btn:hover {
+    background: #ff4500;
+    color: #fff;
+}
+
+/* 버튼 숨김 시 공간까지 완전히 제거 */
+.pagination-btn[style*="display: none"] {
+    display: none !important;
+}
+
+/* 페이지 번호 스타일 */
+#currentPage {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    min-width: 30px;
+    text-align: center;
+}
+
+
+/* ✅ 추가: 삭제 편집 버튼 스타일 */
+.delete-mode {
+    background: none;
+    border: none;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-mode:hover {
+    text-decoration: underline;
+}
+
+/* 데이터 없음 메시지 */
+.no-data-message {
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 50px;
+}
+
+.news-link {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+}
+
+.news-link:hover {
+    font-weight: bold;
+}
