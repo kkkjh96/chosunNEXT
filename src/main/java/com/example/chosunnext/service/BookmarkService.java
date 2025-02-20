@@ -14,21 +14,23 @@ public class BookmarkService {
     final BookmarkDao bookmarkDao;
 
     public boolean saveBookmark(BookmarkDto bookmarkDto) {
-        Integer bookmarked = bookmarkDto.getBookmarked();
+        boolean isBookmarked = bookmarkDao.isBookmarked(bookmarkDto.getNewsId(), bookmarkDto.getUserId());
 
-        //1이면 북마크 0은 북마크 해제
-        if (bookmarked != null && bookmarked == 1) {
-            bookmarkDto.setBookmarkId(0);
-            bookmarkDao.updateBookMark(bookmarkDto);
-            return false;
+        if (isBookmarked) {
+            bookmarkDao.deleteBookmark(bookmarkDto.getNewsId(), bookmarkDto.getUserId());
+            return false; // 기존 북마크 삭제
         } else {
-            bookmarkDto.setBookmarked(1);
-            bookmarkDao.insertBookMark(bookmarkDto);
-            return true;
+            bookmarkDao.saveBookmark(bookmarkDto.getNewsId(), bookmarkDto.getUserId());
+            return true; // 새 북마크 저장
         }
     }
 
+    public boolean isBookmarked(int newsId, String userId) {
+        return bookmarkDao.isBookmarked(newsId, userId);
+    }
 
-
-
+    public boolean deleteBookmark(BookmarkDto bookmarkDto) {
+        return bookmarkDao.deleteBookmark(bookmarkDto.getNewsId(), bookmarkDto.getUserId());
+    }
 }
+

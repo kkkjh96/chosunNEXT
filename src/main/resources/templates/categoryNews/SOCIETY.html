@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>대시보드</title>
-    <link rel="stylesheet" href="/css/news_list.css">
+    <link rel="stylesheet" href="/css/category-news.css">
     <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -61,7 +61,7 @@
             axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
                 .then(response => {
                     console.log("API 응답 데이터:", response.data);
-                    const {newsList, totalCount} = response.data;
+                    const { newsList, totalCount } = response.data;
                     totalItems = totalCount;
                     renderNews(newsList);
                     updatePagination();
@@ -75,26 +75,29 @@
             const newsContainer = document.getElementById('newsList');
 
             newsContainer.innerHTML = newsList.map(news => `
-            <div class="news_content">
-                <div class="image_wrap">
-                    <img src="${news.filePath ? news.filePath : '/images/default.png'}"
-                         alt="뉴스 이미지"
-                         onerror="this.onerror=null; this.src='/images/default.png';">
-                </div>
-                <div class="content_wrap">
-                    <div class="title">${news.title || '제목 없음'}</div>
-                    <div class="content">${truncateContent(removeImages(news.content))}</div>
-                    <div class="date_wrap">
-                        <div class="date">${news.updateDt || '날짜 없음'}</div>
-                        <div class="book-mark">
-                            <button class="bookmark-btn" data-news-id="${news.newsId}">
-                                <i class="fa-regular fa-bookmark bookmark-icon"></i>
-                            </button>
-                        </div>
+        <div class="news_content">
+            <div class="image_wrap">
+                <img src="${news.filePath ? news.filePath : '/images/default.png'}"
+                     alt="뉴스 이미지"
+                     onerror="this.onerror=null; this.src='/images/default.png';">
+            </div>
+            <div class="content_wrap">
+                <div class="title">${news.title || '제목 없음'}</div>
+                <div class="content">${truncateContent(removeImages(news.content))}</div>
+                <div class="date_wrap">
+                    <div class="date">${news.updateDt || '날짜 없음'}</div>
+                    <div class="book-mark">
+                        <button class="bookmark-btn" data-news-id="${news.newsId}">
+                            <i class="fa-regular fa-bookmark bookmark-icon"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            `).join('');
+        </div>
+    `).join('');
+
+            // 북마크 상태 확인 후 UI 반영
+            updateBookmarkUI();
         }
 
         function truncateContent(content) {
@@ -135,38 +138,82 @@
                 bookmarkToggle(newsId, bookmarkButton);
             }
         });
-    });
 
-    function bookmarkToggle(newsId, bookmarkButton) {
-        let userId = document.getElementById("userId").value;
-        const isBookmarked = bookmarkButton.classList.contains("active");
+        function bookmarkToggle(newsId, bookmarkButton) {
+            const userIdElement = document.getElementById("userId");
 
-        if (isBookmarked) {
-            axios.delete(`/api/category/news/bookmark`, { data: { newsId: newsId, userId: userId } })
+            if (!userIdElement) {
+                console.error("사용자 ID를 찾을 수 없습니다.");
+                return;
+            }
+
+            const userId = userIdElement.value;
+
+            axios.get(`/api/category/news?newsId=${newsId}&userId=${userId}`)
                 .then(response => {
-                    alert("북마크가 삭제되었습니다.");
-                    console.log("북마크 삭제 완료:", response.data);
-                    bookmarkButton.classList.remove("active");
-                    bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-solid", "fa-regular");
+                    console.log("북마크 상태 확인 응답:", response.data);
+
+                    if (response.data === true) {
+                        // 북마크가 이미 되어 있다면 삭제
+                        axios.delete(`/api/category/news`, { data: { newsId: newsId, userId: userId } })
+                            .then(response => {
+                                console.log("북마크 삭제 완료:", response.data);
+                                bookmarkButton.classList.remove("active");
+                                bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-solid", "fa-regular");
+                                alert("북마크가 삭제되었습니다.");
+                            })
+                            .catch(error => {
+                                console.error("북마크 삭제 실패:", error);
+                                alert("북마크 삭제 실패");
+                            });
+                    } else {
+                        // 북마크 추가
+                        axios.post('/api/category/news', { newsId: newsId, userId: userId })
+                            .then(response => {
+                                console.log("북마크 저장 완료:", response.data);
+                                bookmarkButton.classList.add("active");
+                                bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
+                                alert("북마크가 저장되었습니다.");
+                            })
+                            .catch(error => {
+                                console.error("북마크 저장 실패:", error);
+                                alert("북마크 저장 실패");
+                            });
+                    }
                 })
                 .catch(error => {
-                    console.error("북마크 삭제 실패:", error);
-                    alert("북마크 삭제 실패");
-                });
-        } else {
-            axios.post('/api/category/news', { newsId: newsId, userId: userId })
-                .then(response => {
-                    alert("북마크가 저장되었습니다.");
-                    console.log("북마크 저장 완료:", response.data);
-                    bookmarkButton.classList.add("active");
-                    bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
-                })
-                .catch(error => {
-                    console.error("북마크 저장 실패:", error);
-                    alert("북마크 저장 실패");
+                    console.error("북마크 상태 확인 중 오류 발생:", error);
                 });
         }
-    }
+
+        function updateBookmarkUI() {
+            const userIdElement = document.getElementById("userId").value;
+
+            if (!userIdElement) {
+                console.error("사용자 ID를 찾을 수 없습니다.");
+                return;
+            }
+
+            const userId = userIdElement.value;
+
+            document.querySelectorAll(".bookmark-btn").forEach(button => {
+                const newsId = button.getAttribute("data-news-id");
+
+                axios.get(`/api/category/news?newsId=${newsId}&userId=${userId}`)
+                    .then(response => {
+                        console.log(`북마크 확인 응답 (newsId: ${newsId}):`, response.data);
+                        if (response.data === true) {
+                            button.classList.add("active");
+                            button.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`북마크 확인 오류 (newsId: ${newsId}):`, error);
+                    });
+            });
+        }
+    });
+
 </script>
 </body>
 </html>

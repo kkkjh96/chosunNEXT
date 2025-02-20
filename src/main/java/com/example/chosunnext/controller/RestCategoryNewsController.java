@@ -29,4 +29,27 @@ public class RestCategoryNewsController {
         return ResponseEntity.ok(isBookmarked ? "북마크 저장 완료" : "북마크 삭제 완료");
     }
 
+
+    @GetMapping("/news")
+    public ResponseEntity<Boolean> isBookmarked(@RequestParam int newsId, @RequestParam String userId) {
+        boolean isBookmarked = bookmarkService.isBookmarked(newsId, userId);
+        return ResponseEntity.ok(isBookmarked);
+    }
+
+    @DeleteMapping("/news")
+    public ResponseEntity<String> deleteBookmark(@RequestBody BookmarkDto bookmarkDto) {
+        boolean deleted = bookmarkService.deleteBookmark(bookmarkDto);
+        return ResponseEntity.ok(deleted ? "북마크 삭제 완료" : "북마크 삭제 실패");
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

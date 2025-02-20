@@ -14,7 +14,7 @@ import java.util.Date;
 @Builder
 public class BookmarkDto {
     private int bookmarkId;
-    private String newsId;
+    private int newsId;
     private String userId;
     private Date bookmarkDate;
     private int bookmarked;
