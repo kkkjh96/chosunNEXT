@@ -1,14 +1,12 @@
 package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
+import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
 import com.example.chosunnext.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * packageName    : com.example.chosunnext.controller
@@ -37,6 +35,27 @@ public class RestMypageController {
         MypageMainResonseDto mypage = mypageService.getUserActivity(userId);
 
         return ResponseEntity.ok(mypage);
+    }
+
+    @GetMapping("/library")
+    public ResponseEntity<?> getLibraryContent(
+            @RequestParam(defaultValue = "recent") String tab,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam String userId){
+        log.info("RestMypageController.getLibraryContent() userId: {}, tab: {}, page: {}, size: {}", userId, tab, page, size);
+
+        return ResponseEntity.ok(mypageService.getLibraryContent(tab, page, size, userId));
+    }
+
+    @GetMapping("/subscriptions")
+    public ResponseEntity<SubscribedNewsResponseDto> getSubscribedNews(
+            @RequestParam String userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        SubscribedNewsResponseDto response = mypageService.getSubscribedNews(userId, page, size);
+        return ResponseEntity.ok(response);
     }
 
 }

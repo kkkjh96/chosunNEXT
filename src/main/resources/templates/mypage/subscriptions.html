@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/mypage-common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/mypage/mypage-subscription.css"> <!-- 공통 스타일 적용 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/javascript/axios.js"></script>
 </head>
 <body>
-
     <!-- Header Fragment Include -->
     <div th:replace="layout/mypage-header :: header"></div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+        <h2 class="page-title">구독 뉴스</h2>
+
+        <!-- ✅ 기사 리스트 -->
+        <section class="news-list">
+            <div class="library-header">
+                <span id="total-count">총 0개</span>
+            </div>
+
+            <div id="article-list">
+                <p>로딩 중...</p>
+            </div>
+
+            <!-- ✅ 페이지네이션 -->
+            <div class="pagination"></div>
+        </section>
     </div>
 
     <!-- Footer Fragment Include -->
     <div th:replace="layout/mypage-footer :: footer"></div>
-
+    <script src="/javascript/mypage/mypage-subscription.js"></script>
 </body>
 </html>
 <!-- 차트 스크립트 -->

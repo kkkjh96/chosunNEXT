@@ -1,0 +1,86 @@
+/* 구독 뉴스 타이틀 스타일 */
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+    margin-bottom: 15px;
+}
+
+/* 총 개수 스타일 */
+.library-header {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 기사 리스트 스타일 */
+.news-list {
+    padding: 20px;
+}
+
+.article-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.article-item img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.article-info h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.article-info h3 a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.article-info h3 a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+/* 데이터가 없을 때 */
+.no-data-message {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    border: 1px solid red;
+    background: white;
+    color: red;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.pagination-btn.active {
+    font-weight: bold;
+    border: 2px solid red;
+}
+
+.pagination-btn:hover {
+    background: red;
+    color: white;
+}

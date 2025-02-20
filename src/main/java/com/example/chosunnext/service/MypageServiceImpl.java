@@ -1,8 +1,11 @@
 package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.MyPageDao;
+import com.example.chosunnext.dto.NewsDto;
+import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
 import com.example.chosunnext.dto.mypage.response.MypageUserResponseDto;
+import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,5 +68,55 @@ public class MypageServiceImpl implements MypageService {
         res.setWeeklyViews(weeklyViews);
 
         return res;
+    }
+
+    @Override
+    public <T> LibraryResponseDto<T> getLibraryContent(String tab, int page, int size, String userId) {
+        int offset = (page - 1) * size;
+        int totalCount;
+        List<T> data;
+
+        switch (tab) {
+            case "recent":
+                data = (List<T>) myPageDao.getRecentViewed(userId, size, offset);
+                totalCount = myPageDao.getRecentViewedCount(userId);
+                break;
+            case "bookmarked":
+                data = (List<T>) myPageDao.getBookmarked(userId, size, offset);
+                totalCount = myPageDao.getBookmarkedCount(userId);
+                break;
+            case "ddabong":
+                data = (List<T>) myPageDao.getDdabong(userId, size, offset);
+                totalCount = myPageDao.getDdabongCount(userId);
+                break;
+            case "tugo":
+                data = (List<T>) myPageDao.getTugo(userId, size, offset);
+                totalCount = myPageDao.getTugoCount(userId);
+                break;
+            case "commented":
+                data = (List<T>) myPageDao.getCommented(userId, size, offset);
+                totalCount = myPageDao.getCommentedCount(userId);
+                break;
+            case "subscribed":
+                data = (List<T>) myPageDao.getSubscribed(userId, size, offset);
+                totalCount = myPageDao.getSubscribedCount(userId);
+                break;
+            default:
+                return new LibraryResponseDto<>(0, 0, List.of());
+        }
+
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+        return new LibraryResponseDto<>(totalCount, totalPages, data);
+    }
+
+    @Override
+    public SubscribedNewsResponseDto getSubscribedNews(String userId, int page, int size) {
+
+        int offset = (page - 1) * size;
+        List<NewsDto> newsList = myPageDao.getSubscribedNews(userId, size, offset);
+        int totalCount = myPageDao.getSubscribedNewsCount(userId);
+        int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        return new SubscribedNewsResponseDto(newsList, totalCount, totalPages);
     }
 }

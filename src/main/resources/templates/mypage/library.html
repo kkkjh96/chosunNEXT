@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/mypage-common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/mypage/mypage-library.css"> <!-- 공통 스타일 적용 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/mypage-header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+        <!-- 보관함 탭 메뉴 -->
+        <section class="library-tabs">
+            <ul>
+                <li><a href="?tab=recent" class="tab-link" data-tab="recent">최근 본</a></li>
+                <li><a href="?tab=bookmarked" class="tab-link" data-tab="bookmarked">북마크한</a></li>
+                <li><a href="?tab=ddabong" class="tab-link" data-tab="ddabong">공감한</a></li>
+                <li><a href="?tab=tugo" class="tab-link" data-tab="tugo">투고한</a></li>
+                <li><a href="?tab=commented" class="tab-link" data-tab="commented">댓글단</a></li>
+                <li><a href="?tab=subscribed" class="tab-link" data-tab="subscribed">구독한</a></li>
+            </ul>
+        </section>
+
+        <!-- 보관함 콘텐츠 -->
+        <section class="library-content">
+            <div class="library-header">
+                <span id="total-count">총 0개</span>
+                <button class="delete-mode">삭제 편집</button>
+            </div>
+
+            <!-- 기사 리스트 -->
+            <div class="article-list" id="article-list">
+                <p>로딩 중...</p>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button id="prevPage" class="pagination-btn">« 이전</button>
+                <span id="currentPage">1</span>
+                <button id="nextPage" class="pagination-btn">다음 »</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/mypage-footer :: footer"></div>
+    <script src="/javascript/mypage/mypage-library.js"></script>
+</body>
+</html>
+<!-- 차트 스크립트 -->

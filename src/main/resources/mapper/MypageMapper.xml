@@ -36,6 +36,136 @@
     <select id="getUserInfo" resultType="com.example.chosunnext.dto.mypage.response.MypageUserResponseDto">
         SELECT user_id, nickname, point FROM tbl_user WHERE user_id = #{userId}
     </select>
+    
+    <select id="getRecentViewed" resultType="com.example.chosunnext.dto.mypage.response.ArticleResponseDTO">
+        SELECT
+            v.news_id,
+            n.title,
+            n.content,
+            n.view_count,
+            n.credate_dt AS date,
+            f.file_url AS image
+        FROM tbl_views_news v
+            JOIN tbl_news n ON v.news_id = n.news_id
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = '100'
+        WHERE v.user_id = #{userId}
+            ORDER BY v.view_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getRecentViewedCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_views_news WHERE user_id = #{userId}
+    </select>
+
+    <select id="getBookmarked" resultType="com.example.chosunnext.dto.mypage.response.ArticleResponseDTO">
+        SELECT
+            v.news_id,
+            n.title,
+            n.content,
+            n.view_count,
+            v.bookmark_date AS date,
+            f.file_url AS image
+        FROM tbl_bookmark v
+            JOIN tbl_news n ON v.news_id = n.news_id
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = '100'
+        WHERE v.user_id = #{userId}
+            ORDER BY v.bookmark_date DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getBookmarkedCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_bookmark WHERE user_id = #{userId}
+    </select>
+
+    <select id="getDdabong" resultType="com.example.chosunnext.dto.mypage.response.ArticleResponseDTO">
+        SELECT
+            v.news_id,
+            n.title,
+            n.content,
+            n.view_count,
+            v.ddabong_date AS date,
+            f.file_url AS image
+        FROM tbl_ddabong v
+            JOIN tbl_news n ON v.news_id = n.news_id
+        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = '100'
+        WHERE v.user_id = #{userId}
+            ORDER BY v.ddabong_date DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getDdabongCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_ddabong WHERE user_id = #{userId}
+    </select>
+
+    <select id="getTugo" resultType="com.example.chosunnext.dto.mypage.response.ArticleResponseDTO">
+        SELECT
+            tugo_id AS newsId,
+            title,
+            create_dt AS date
+        FROM tbl_tugo
+        WHERE user_id = #{userId}
+            ORDER BY create_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getTugoCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_tugo WHERE user_id = #{userId}
+    </select>
+
+    <select id="getCommented" resultType="com.example.chosunnext.dto.mypage.response.MyCommentResponseDto">
+        SELECT n.title, c.contents, c.create_dt AS DATE
+            FROM tbl_comment c
+        JOIN tbl_news n ON c.news_id = n.news_id
+        WHERE c.user_id = #{userId}
+            ORDER BY create_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getCommentedCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_comment WHERE user_id = #{userId}
+    </select>
+
+    <select id="getSubscribed" resultType="com.example.chosunnext.dto.mypage.response.MySubscriptionResponseDto">
+        SELECT reporter_id, subscription_date AS DATE
+            FROM tbl_subscription
+        WHERE user_id = #{userId}
+            ORDER BY subscription_date DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getSubscribedCount" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_subscription WHERE user_id = #{userId}
+    </select>
+
+    <!-- ✅ 구독한 기자의 기사 목록 조회 -->
+    <select id="getSubscribedNews" resultType="com.example.chosunnext.dto.mypage.response.NewsResponseDto">
+        SELECT
+            n.news_id, n.title, n.writer, n.credate_dt, f.file_url
+        FROM
+            tbl_news n
+        INNER JOIN
+            tbl_subscription s ON n.user_id = s.reporter_id
+        LEFT JOIN
+            tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE
+            s.user_id = #{userId}
+        ORDER BY
+            n.credate_dt DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- ✅ 구독한 기자의 총 기사 수 조회 -->
+    <select id="getSubscribedNewsCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_news n
+        INNER JOIN
+            tbl_subscription s ON n.writer = s.reporter_id
+        WHERE
+            s.user_id = #{userId}
+    </select>
+
 
 
 </mapper>

@@ -13,7 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("✅ 현재 로그인한 사용자:", username);
 
+    const currentPath = window.location.pathname;
+    const menuLink = document.querySelectorAll(".page-menu ul li a");
 
+    menuLink.forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
 
     // 현재 URL 기반으로 메뉴 `selected` 클래스 설정
     const currentUrl = window.location.pathname;

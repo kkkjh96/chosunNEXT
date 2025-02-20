@@ -32,9 +32,4 @@ public class MainController {
         return "/mynews/my-news-main";
     }
 
-    @GetMapping("/mypage")
-    public String mypage() {
-        return "/mypage/mypage-main";
-    }
-
 }

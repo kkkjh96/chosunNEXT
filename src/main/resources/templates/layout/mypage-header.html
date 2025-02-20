@@ -7,19 +7,35 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <header class="main-header">
-        <div class="header-icons">
-            <span class="icon-sidebar">☰</span>
-            <span class="icon-search">🔍</span>
-        </div>
-        <div class="logo"><a href="/">The Prism</a></div>
-        <div class="header-icons">
+    <header>
+        <div class="main-header">
+            <div class="header-icons">
+                <span class="icon-sidebar">☰</span>
+                <span class="icon-search">🔍</span>
+            </div>
+            <div class="logo"><a href="/">The Prism</a></div>
+            <div class="header-icons">
             <span th:if="${session.user != null}" class="user-info">
                 <input type="hidden" id="hiddenUser" name="username" th:value="${session.user.username}">
             </span>
-            <span class="icon-menu">🔔</span>
-            <span class="icon-profile">👤</span>
+                <span class="icon-menu">🔔</span>
+                <span class="icon-profile">👤</span>
+            </div>
         </div>
+        <section class="menu-section">
+            <div class="menu-title-and-links">
+                <h1>마이페이지</h1>
+                <nav class="page-menu">
+                    <ul>
+                        <li><a href="/mypage/library">보관함</a></li>
+                        <li><a href="/mypage/subscriptions">구독함</a></li>
+                        <li><a href="/mypage/account">계정 정보</a></li>
+                        <li><a href="/mypage/orders">결제 내역</a></li>
+                        <li><a href="/mypage/coupons">쿠폰함</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
     </header>
 </body>
 </html>

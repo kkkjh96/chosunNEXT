@@ -1,6 +1,8 @@
 package com.example.chosunnext.service;
 
+import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
+import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
 
 /**
  * packageName    : com.example.chosunnext.service
@@ -17,4 +19,7 @@ public interface MypageService {
 
     MypageMainResonseDto getUserActivity(String userId);
 
+    <T> LibraryResponseDto<T> getLibraryContent(String tab, int page, int size, String userId);
+
+    SubscribedNewsResponseDto getSubscribedNews(String userId, int page, int size);
 }
