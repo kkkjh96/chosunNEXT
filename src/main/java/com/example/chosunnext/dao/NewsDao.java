@@ -39,6 +39,7 @@ public interface NewsDao {
 
     void updateImageSrc(@Param("url") String url, @Param("blob") String blob, @Param("newsId") int newsId);
 
+    NewsDto getNews(@Param("newsId") int newsId);
 }
 
 

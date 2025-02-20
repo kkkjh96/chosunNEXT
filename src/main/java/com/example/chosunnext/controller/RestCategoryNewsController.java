@@ -43,6 +43,14 @@ public class RestCategoryNewsController {
     }
 
 
+    @GetMapping("/news/detail/{newsId}")
+    public ResponseEntity<NewsDto> getNews(@PathVariable("newsId") int newsId) {
+        System.out.println(newsId+"sdfsdfsdfsdf");
+         NewsDto news  = newsService.getDetailNews(newsId);
+
+        return ResponseEntity.ok(news);
+    }
+
 
 
 

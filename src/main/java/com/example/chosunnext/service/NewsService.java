@@ -1,7 +1,6 @@
 package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.NewsDao;
-import com.example.chosunnext.dao.ReporterDao;
 import com.example.chosunnext.dto.NewsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +35,11 @@ public class NewsService {
 
     public int countNewsByCategory(String category) {
         return newsDao.countNewsByCategory(category);
+    }
+
+    public NewsDto getDetailNews(int newsId) {
+        NewsDto news = newsDao.getNews(newsId);
+        return news;
     }
 }
 

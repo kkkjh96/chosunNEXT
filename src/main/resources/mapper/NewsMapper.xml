@@ -111,4 +111,10 @@
         WHERE news_id = #{newsId};
     </update>
 
+    <select id="getNews" resultType="com.example.chosunnext.dto.NewsDto">
+        select *
+        from tbl_news where news_id = #{newsId}
+    </select>
+
+
 </mapper>

@@ -75,25 +75,25 @@
             const newsContainer = document.getElementById('newsList');
 
             newsContainer.innerHTML = newsList.map(news => `
-        <div class="news_content">
-            <div class="image_wrap">
-                <img src="${news.filePath ? news.filePath : '/images/default.png'}"
-                     alt="뉴스 이미지"
-                     onerror="this.onerror=null; this.src='/images/default.png';">
-            </div>
-            <div class="content_wrap">
-                <div class="title">${news.title || '제목 없음'}</div>
-                <div class="content">${truncateContent(removeImages(news.content))}</div>
-                <div class="date_wrap">
-                    <div class="date">${news.updateDt || '날짜 없음'}</div>
-                    <div class="book-mark">
-                        <button class="bookmark-btn" data-news-id="${news.newsId}">
-                            <i class="fa-regular fa-bookmark bookmark-icon"></i>
-                        </button>
+                <div class="news_content">
+                    <div class="image_wrap">
+                        <img src="${news.filePath ? news.filePath : '/images/default.png'}"
+                             alt="뉴스 이미지"
+                             onerror="this.onerror=null; this.src='/images/default.png';">
+                    </div>
+                    <div class="content_wrap">
+                        <div class="title"><a href="/categoryNews/detailNews/${news.newsId}">${news.title || '제목 없음'}</a></div>
+                        <div class="content">${truncateContent(removeImages(news.content))}</div>
+                        <div class="date_wrap">
+                            <div class="date">${news.updateDt || '날짜 없음'}</div>
+                            <div class="book-mark">
+                                <button class="bookmark-btn" data-news-id="${news.newsId}">
+                                    <i class="fa-regular fa-bookmark bookmark-icon"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     `).join('');
 
             // 북마크 상태 확인 후 UI 반영
@@ -141,13 +141,11 @@
 
         function bookmarkToggle(newsId, bookmarkButton) {
             const userIdElement = document.getElementById("userId");
-
+            const userId = userIdElement.value;
             if (!userIdElement) {
                 console.error("사용자 ID를 찾을 수 없습니다.");
                 return;
             }
-
-            const userId = userIdElement.value;
 
             axios.get(`/api/category/news?newsId=${newsId}&userId=${userId}`)
                 .then(response => {
