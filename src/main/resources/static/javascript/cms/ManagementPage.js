@@ -105,11 +105,11 @@ function updatePagination(currentPage, totalPages) {
             <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
         `;
 
-    document.querySelector(".new_detail").style.display = "block";
-} catch (error) {
-    console.error("상세보기 불러오기 실패:", error);
-    alert("기사 상세를 불러오지 못했습니다.");
-}
+        document.querySelector(".new_detail").style.display = "block";
+    } catch (error) {
+        console.error("상세보기 불러오기 실패:", error);
+        alert("기사 상세를 불러오지 못했습니다.");
+    }
 }
 
 
