@@ -108,4 +108,10 @@
         LIMIT 10
     </select>
 
+    <insert id="upsertViewRecord">
+        INSERT INTO tbl_views_news (news_id, user_id, view_dt)
+        VALUES (#{record.newsId}, #{record.userId}, NOW())
+        ON DUPLICATE KEY UPDATE view_dt = NOW();
+    </insert>
+
 </mapper>

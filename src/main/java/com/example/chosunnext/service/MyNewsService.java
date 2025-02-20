@@ -1,5 +1,6 @@
 package com.example.chosunnext.service;
 
+import com.example.chosunnext.dto.news.request.NewsViewRequestDto;
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface MyNewsService {
     List<NewsResponseDto> getHotNews(String username);
 
     List<NewsResponseDto> getEditorPicksNews(String username);
+
+    int saveView(NewsViewRequestDto newsViewRequestDto);
 }

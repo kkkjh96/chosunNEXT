@@ -1,5 +1,6 @@
 package com.example.chosunnext.controller;
 
+import com.example.chosunnext.dto.news.request.NewsViewRequestDto;
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
 import com.example.chosunnext.service.MainNewsService;
 import com.example.chosunnext.service.MyNewsService;
@@ -8,10 +9,7 @@ import com.example.chosunnext.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +139,30 @@ public class RestNewsController {
         log.info("Editor picks news:{}", newsList);
 
         return ResponseEntity.ok(newsList);
+    }
+
+    @PutMapping("/{newsId}/view")
+    public ResponseEntity<String> updateViewCount(@PathVariable("newsId") int newsId) {
+        int result = mainNewsService.updateViewCount(newsId);
+
+        if(result != 0){
+            return ResponseEntity.ok("조회수가 성공적으로 증가하였습니다.");
+        }
+
+        return ResponseEntity.badRequest().body("조회수 증가 실패");
+    }
+
+    @PutMapping("/saveView")
+    public ResponseEntity<String> saveView(@RequestBody NewsViewRequestDto newsViewRequestDto) {
+
+        int result = myNewsService.saveView(newsViewRequestDto);
+
+        if(result != 0){
+            return ResponseEntity.ok("조회수 저장 성공");
+        }
+
+        return ResponseEntity.badRequest().body("조회수 저장 실��");
+
     }
 
 }

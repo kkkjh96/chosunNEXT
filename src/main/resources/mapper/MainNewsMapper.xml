@@ -74,4 +74,10 @@
         LIMIT 10
     </select>
 
+    <update id="updateViewCount">
+        UPDATE tbl_news
+        SET view_count = view_count + 1
+        WHERE news_id = #{newsId}
+    </update>
+
 </mapper>

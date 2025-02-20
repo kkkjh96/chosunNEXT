@@ -1,6 +1,7 @@
 package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.MyNewsDao;
+import com.example.chosunnext.dto.news.request.NewsViewRequestDto;
 import com.example.chosunnext.dto.news.response.NewsResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -66,5 +67,11 @@ public class MyNewsServiceImpl implements MyNewsService {
         List<String> content = myNewsDao.getSurveyContents(8, username);
 
         return myNewsDao.getEditorPicks(content);
+    }
+
+    @Override
+    public int saveView(NewsViewRequestDto newsViewRequestDto) {
+
+        return myNewsDao.upsertViewRecord(newsViewRequestDto);
     }
 }
