@@ -1,0 +1,102 @@
+/* 공통 스타일 */
+body {
+    font-family: 'Arial', 'Noto Sans', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* 전체 페이지 감싸는 컨테이너 */
+.wrap {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* 뉴스 디테일 컨테이너 */
+.news_detail_container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 8px;
+}
+
+/* 제목 스타일 */
+.news_detail_container h1 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 부제목 스타일 */
+.news_detail_container h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* 작성일자 및 기자 스타일 */
+.news_detail_container p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 뉴스 내용 스타일 */
+.news-content {
+    font-size: 19px;
+    line-height: 1.6;
+    color: #555;
+    max-height: 800px;
+    padding: 30px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* 기본 버튼 스타일 */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+}
+
+/* 뉴스 내용 내 이미지 크기 자동 조정 */
+.news-content img {
+    width: 100%;  /* 부모 요소의 너비에 맞게 크기 조정 */
+    max-width: 600px;  /* 최대 너비를 600px로 제한 */
+    height: auto;  /* 높이는 자동으로 비율에 맞게 조정 */
+    object-fit: cover;  /* 이미지 비율을 유지하면서 영역을 꽉 채움 */
+    margin: 0 auto;  /* 가운데 정렬 */
+    display: block;  /* block 형태로 설정하여 여백을 제거하고 중앙 정렬 */
+}
+
+/* 반응형 스타일 (모바일 친화적) */
+@media (max-width: 768px) {
+    .news_detail_container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .news_detail_container h1 {
+        font-size: 24px;
+    }
+
+    .news_detail_container h2 {
+        font-size: 20px;
+    }
+
+    .news-content {
+        font-size: 16px;
+    }
+
+    /* 작은 화면에서 이미지 크기 자동 조정 */
+    .news-content img {
+        max-width: 100%;  /* 화면 크기에 맞게 이미지 크기 자동 조정 */
+    }
+}
