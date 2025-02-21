@@ -11,12 +11,17 @@
         mc.cd_kor AS mainCategory,
         sc.cd_kor AS subCategory
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
         LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
         WHERE (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
         ORDER BY n.news_id DESC
-        LIMIT 5;
+        LIMIT 4;
     </select>
 
     <select id="getImportantNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
@@ -47,7 +52,12 @@
     <select id="getHeadlineNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.main_category_cd IN (
             SELECT cd FROM tbl_codeinfo WHERE parent_cd = 'MAIN_CATEGORY_CD'
         )
@@ -59,7 +69,12 @@
     <select id="getHotNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
         ORDER BY n.view_count DESC, n.credate_dt DESC
         LIMIT 10
@@ -68,7 +83,12 @@
     <select id="getEditorPicksMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
         ORDER BY n.credate_dt ASC
         LIMIT 10

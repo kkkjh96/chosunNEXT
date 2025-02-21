@@ -13,7 +13,7 @@
                 <span class="icon-sidebar">☰</span>
                 <span class="icon-search">🔍</span>
             </div>
-            <div class="logo"><a href="/">The Prism</a></div>
+            <div class="logo"><a href="/" class="logo-link">Next일보</a></div>
             <div class="header-icons">
             <span th:if="${session.user != null}" class="user-info">
                 <input type="hidden" id="hiddenUser" name="username" th:value="${session.user.username}">
@@ -24,7 +24,7 @@
         </div>
         <section class="menu-section">
             <div class="menu-title-and-links">
-                <h1>마이페이지</h1>
+                <h1><a href="/mypage" class="mypage-link">마이페이지</a></h1>
                 <nav class="page-menu">
                     <ul>
                         <li><a href="/mypage/library">보관함</a></li>

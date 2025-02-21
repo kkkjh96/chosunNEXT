@@ -38,5 +38,7 @@ public interface MyNewsDao {
 
     int upsertViewRecord(@Param("record")NewsViewRequestDto newsViewRequestDto);
 
+    void updatePoint(String userId);
+
 
 }

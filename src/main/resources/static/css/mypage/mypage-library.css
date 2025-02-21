@@ -164,3 +164,13 @@
 .news-link:hover {
     font-weight: bold;
 }
+
+.sub-link{
+    text-decoration: none;
+    color: black;
+}
+
+.detail-link{
+    text-decoration: none;
+    color: black;
+}

@@ -41,9 +41,9 @@
         SELECT
             v.news_id,
             n.title,
-            n.content,
+            n.sub_title AS content,
             n.view_count,
-            n.credate_dt AS date,
+            v.view_dt AS date,
             f.file_url AS image
         FROM tbl_views_news v
             JOIN tbl_news n ON v.news_id = n.news_id
@@ -61,7 +61,7 @@
         SELECT
             v.news_id,
             n.title,
-            n.content,
+            n.sub_title AS content,
             n.view_count,
             v.bookmark_date AS date,
             f.file_url AS image
@@ -81,7 +81,7 @@
         SELECT
             v.news_id,
             n.title,
-            n.content,
+            n.sub_title AS content,
             n.view_count,
             v.ddabong_date AS date,
             f.file_url AS image

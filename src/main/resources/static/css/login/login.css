@@ -68,3 +68,18 @@ h2 {
 .login-options a:hover {
     text-decoration: underline;
 }
+
+.logo-link{
+    text-decoration: none;
+    color: black;
+}
+
+.signup-link{
+    text-decoration: none;
+    color: black;
+}
+
+.login-link{
+    text-decoration: none;
+    color: black;
+}
