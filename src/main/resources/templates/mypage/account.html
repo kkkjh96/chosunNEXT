@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/mypage/mypage-account.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 지도 API -->
     <script src="/javascript/axios.js"></script>
 </head>
 <body>
@@ -45,8 +44,8 @@
                     <label class="form-label">성별</label>
                     <select class="form-input" id="gender">
                         <option value="">선택</option>
-                        <option value="남성">남성</option>
-                        <option value="여성">여성</option>
+                        <option value="M">남성</option>
+                        <option value="F">여성</option>
                     </select>
                 </div>
 
@@ -79,9 +78,39 @@
 
                 <!-- 🔹 버튼 -->
                 <div class="button-group">
-                    <button class="btn btn-primary" id="updateInfoBtn">정보 수정</button>
-                    <button class="btn btn-warning" id="updatePasswordBtn">비밀번호 변경</button>
-                    <button class="btn btn-danger" id="deleteAccountBtn">회원 탈퇴</button>
+                    <!-- ✅ 정보 수정 버튼 (가운데, 크기 확대) -->
+                    <button id="updateInfoBtn" class="btn btn-primary update-info-btn">정보 수정</button>
+
+                    <!-- ✅ 비밀번호 변경, 회원 탈퇴 버튼 (아래쪽 좌우 정렬) -->
+                    <div class="sub-buttons">
+                        <button id="updatePasswordBtn" class="btn btn-warning">비밀번호 변경</button>
+                        <button id="deleteAccountBtn" class="btn btn-danger">회원 탈퇴</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔹 비밀번호 변경 & 회원 탈퇴 모달 -->
+        <div id="accountModal" class="modal">
+            <div class="modal-content">
+                <h2 id="modalTitle">비밀번호 변경</h2>
+                <p id="modalDescription">비밀번호를 변경하려면 현재 비밀번호를 입력하세요.</p>
+
+                <label for="modalPassword">현재 비밀번호</label>
+                <input type="password" id="modalPassword" class="modal-input" placeholder="비밀번호 입력">
+
+                <!-- 🔹 비밀번호 변경 시 추가 입력란 -->
+                <div id="newPasswordFields">
+                    <label for="newPassword">새 비밀번호</label>
+                    <input type="password" id="newPassword" class="modal-input" placeholder="새 비밀번호 입력">
+
+                    <label for="confirmNewPassword">새 비밀번호 확인</label>
+                    <input type="password" id="confirmNewPassword" class="modal-input" placeholder="새 비밀번호 확인">
+                </div>
+
+                <div class="modal-buttons">
+                    <button id="modalConfirmBtn" class="btn btn-primary" onclick="confirmAction()">확인</button>
+                    <button class="btn btn-secondary" onclick="closeModal()">취소</button>
                 </div>
             </div>
         </div>
@@ -90,7 +119,10 @@
 
     <!-- Footer Fragment Include -->
     <div th:replace="layout/mypage-footer :: footer"></div>
-<script src="/javascript/mypage/mypage-account.js"></script>
+    <!-- ✅ 카카오 우편번호 API 추가 -->
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <script src="/javascript/mypage/mypage-account.js"></script>
 
 </body>
 </html>

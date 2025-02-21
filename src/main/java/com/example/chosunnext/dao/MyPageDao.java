@@ -2,6 +2,8 @@ package com.example.chosunnext.dao;
 
 import com.example.chosunnext.dto.NewsDto;
 import com.example.chosunnext.dto.mypage.response.*;
+import com.example.chosunnext.dto.user.request.UserRequestDto;
+import com.example.chosunnext.dto.user.response.UserResponseDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
@@ -81,4 +83,21 @@ public interface MyPageDao {
     List<NewsDto> getSubscribedNews(String userId, int size, int offset);
 
     int getSubscribedNewsCount(String userId);
+
+    UserResponseDto getUserAllInfo(String userId);
+
+    int updateUserInfo(@Param("user") UserRequestDto requestDto);
+
+    // ✅ 비밀번호 변경
+    int updateUserPassword(@Param("user") UserRequestDto user);
+
+    // ✅ 회원 탈퇴
+    int deleteUserAccount(@Param("userId") String userId);
+
+    List<OrdersResponseDto> getOrders(@Param("userId") String userId);
+
+    CouponResponseDto getCouponByNum(String couponNum);
+
+    void updateCouponStatus(String couponNum);
+
 }

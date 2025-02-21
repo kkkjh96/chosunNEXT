@@ -27,7 +27,7 @@
             DATE_FORMAT(view_dt, '%Y-%m-%d') AS day,
             COUNT(*) AS count
         FROM tbl_views_news
-        WHERE user_id = 'asdf@asdf.com'
+        WHERE user_id = #{userId}
             AND view_dt >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)  -- 최근 7일
         GROUP BY DATE_FORMAT(view_dt, '%Y-%m-%d')
         ORDER BY day ASC;
@@ -166,6 +166,52 @@
             s.user_id = #{userId}
     </select>
 
+    <select id="getUserAllInfo" resultType="com.example.chosunnext.dto.user.response.UserResponseDto">
+        SELECT
+            user_id, email, name, password, nickname, gender, birth, phone, address, address2, zip_cd
+        FROM
+            tbl_user
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <update id="updateUserInfo">
+        UPDATE tbl_user
+        SET nickname = #{user.nickname},
+            gender = #{user.gender},
+            birth = #{user.birth},
+            phone = #{user.phone},
+            address = #{user.address},
+            address2 = #{user.address2},
+            zip_cd = #{user.zipCd}
+        WHERE user_id = #{user.userId}
+    </update>
+
+    <update id="updateUserPassword">
+        UPDATE tbl_user
+        SET password = #{user.newPassword}
+        WHERE user_id = #{user.userId}
+    </update>
+
+    <!-- ✅ 회원 탈퇴 -->
+    <delete id="deleteUserAccount">
+        DELETE FROM tbl_user WHERE user_id = #{userId}
+    </delete>
+
+    <select id="getOrders" resultType="com.example.chosunnext.dto.mypage.response.OrdersResponseDto">
+        SELECT pay_id, user_id, product_name, cost, order_dt, expire_date, subscription_period
+        FROM payment_history
+            WHERE user_id = #{userId}
+        ORDER BY order_dt DESC
+    </select>
+
+    <select id="getCouponByNum" parameterType="String" resultType="com.example.chosunnext.dto.mypage.response.CouponResponseDto">
+        SELECT * FROM tbl_coupon WHERE coupon_num = #{couponNum}
+    </select>
+
+    <update id="updateCouponStatus" parameterType="String">
+        UPDATE tbl_coupon SET coupon_status = 'Y' WHERE coupon_num = #{couponNum}
+    </update>
 
 
 </mapper>
