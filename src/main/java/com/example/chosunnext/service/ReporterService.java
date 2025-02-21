@@ -70,4 +70,8 @@ public class ReporterService {
     public List<NewsDto> getPageNews(int offset, int size) {
         return newsDao.getPageNews(offset,size);
     }
+
+    public List<ResponseReporterDto> getReporterWithDepartment(int newsId) {
+        return reporterDao.fetchReporterDetailsWithDepartment(newsId);
+    }
 }

@@ -27,40 +27,70 @@
         <div id="news-content">
 
         </div>
-
     </div>
+    <hr>
+    <div class="subscription"></div>
+    <div class="subscription-count"></div>
 </div>
-<script src="/javascript/viewCount.js"></script>
-<script src="/javascript/viewCounter.js"></script>
-<script>
-    window.onload = function()  {
-        getNews();
-    }
 
-    function getNews(){
-        const newsId = document.getElementById("newsId").value;
-        console.log("sdfsdf"+newsId);
+    <script>
+        window.onload = function()  {
+            getNews();
+        }
 
-        axios.get(`/api/category/news/detail/${newsId}`)
-            .then(response => {
-                const news = response.data;
-                const newsContent = document.getElementById('news-content');
+        function getNews(){
+            const newsId = document.getElementById("newsId").value;
 
-                newsContent.innerHTML = `
-                    <h1>${news.title}</h1>
-                    <h2>${news.subTitle || '부제목 없음'}</h2>
-                    <p><strong>작성일:</strong> ${news.credateDt || 'N/A'}</p>
-                    <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
-                    <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
+            axios.get(`/api/category/news/detail/${newsId}`)
+                .then(response => {
+                    const news = response.data;
+                    const newsContent = document.getElementById('news-content');
+
+                    newsContent.innerHTML = `
+                <h1>${news.title}</h1>
+                <h2>${news.subTitle || '부제목 없음'}</h2>
+                <p><strong>작성일:</strong> ${news.credateDt || 'N/A'}</p>
+                <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
+                <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
+            `;
+                    getReport(newsId);
+                })
+                .catch(error => {
+                    console.error("뉴스 불러오기 실패:", error);
+                });
+        }
+
+        function getReport(newsId) {
+
+            let writerWrap = document.getElementById("writer_wrap");
+
+            if (!writerWrap) {
+                writerWrap = document.createElement("div");
+                writerWrap.id = "writer_wrap";
+                document.body.appendChild(writerWrap);
+            }
+            axios.get(`/api/category/reporter/${newsId}`)
+                .then(response => {
+                    console.log("리포터 데이터:", response.data);
+                    if (response.data) {
+                        const reporter = response.data[0];
+                        writerWrap.innerHTML = `
+                            <div class="writer_wrap">
+                                <div class="report-content">
+                                    <div class="img_wrap">
+                                        <img src="${reporter.filePath || '/images/default.png'}" alt="Reporter Image">
+                                    </div>
+                                    <p>${reporter.writer}</p>
+                                    <p>${reporter.department}</p>
+                                </div>
+                            </div>
+
                 `;
-            })
-            .catch(error => {
-                console.error("뉴스를 불러오는 중 오류 발생:", error);
-                alert("뉴스를 불러오는 데 실패했습니다.");
+                }
             });
-    }
+        }
 
+    </script>
 
-</script>
 </body>
 </html>

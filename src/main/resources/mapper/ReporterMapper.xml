@@ -13,4 +13,21 @@
 
 
 
+    <select id="fetchReporterDetailsWithDepartment" resultType="com.example.chosunnext.dto.user.response.ResponseReporterDto">
+        SELECT
+        r.department,
+        n.writer,
+        f.file_name AS fileName,
+        f.file_url AS filePath
+        FROM
+        tbl_report_info r
+        JOIN tbl_news n ON r.user_id = n.user_id
+        JOIN tbl_file f ON f.inst_id = n.user_id
+        WHERE
+        f.file_gbn_cd = 100
+        AND n.news_id = #{newsId}
+        LIMIT 1
+    </select>
+
+
 </mapper>
