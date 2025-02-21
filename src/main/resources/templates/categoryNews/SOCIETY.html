@@ -82,7 +82,7 @@
                              onerror="this.onerror=null; this.src='/images/default.png';">
                     </div>
                     <div class="content_wrap">
-                        <div class="title"><a href="/categoryNews/detailNews/${news.newsId}">${news.title || '제목 없음'}</a></div>
+                        <div class="title"> <a href="/categoryNews/detailNews/${news.newsId}?category=${category}">${news.title}</a></div>
                         <div class="content">${truncateContent(removeImages(news.content))}</div>
                         <div class="date_wrap">
                             <div class="date">${news.updateDt || '날짜 없음'}</div>
