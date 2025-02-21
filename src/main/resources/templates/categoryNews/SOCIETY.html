@@ -186,12 +186,10 @@
 
         function updateBookmarkUI() {
             const userIdElement = document.getElementById("userId").value;
-
             if (!userIdElement) {
                 console.error("사용자 ID를 찾을 수 없습니다.");
                 return;
             }
-
             const userId = userIdElement.value;
 
             document.querySelectorAll(".bookmark-btn").forEach(button => {
