@@ -6,6 +6,8 @@ import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
 import com.example.chosunnext.dto.mypage.response.MypageUserResponseDto;
 import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
+import com.example.chosunnext.dto.user.request.UserCheckRequestDto;
+import com.example.chosunnext.dto.user.response.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -118,5 +120,13 @@ public class MypageServiceImpl implements MypageService {
         int totalPages = (int) Math.ceil((double) totalCount / size);
 
         return new SubscribedNewsResponseDto(newsList, totalCount, totalPages);
+    }
+
+    @Override
+    public UserResponseDto getUserInfo(UserCheckRequestDto userCheckRequestDto) {
+
+        MypageUserResponseDto userResponseDto = myPageDao.getUserInfo(userCheckRequestDto.getUserId());
+
+        return null;
     }
 }

@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadMainArticle(); //
-    loadRecommendedNews(); //
-    loadHeadlines(); //
-    loadHotNews(); //
+    loadMainArticle();
+    loadRecommendedNews();
+    loadHeadlines();
+    loadHotNews();
     loadEditorPicks();
 });
 
+// ✅ 메인 기사 로드
 function loadMainArticle() {
-    api.get('/api/news/Main') // ✅ 백엔드에서 메인 기사 데이터를 가져옴
+    api.get('/api/news/Main')
         .then(response => {
             renderMainArticle(response);
         })
@@ -16,11 +17,13 @@ function loadMainArticle() {
 
 function renderMainArticle(news) {
     const container = document.querySelector(".main-article");
-    container.innerHTML = ""; // 기존 내용 초기화
+    container.innerHTML = "";
+
+    const imageUrl = news.fileUrl ? (Array.isArray(news.fileUrl) ? news.fileUrl[0] : news.fileUrl) : '/images/default.png';
 
     const newsItem = `
-        <a href="/news/${news.newsId || '#'}">
-            <img class="default" src="${news.fileUrl || '/images/default.png'}" alt="${news.title || '기사 이미지'}">
+        <a href="/categoryNews/detailNews/${news.newsId || '#'}">
+            <img class="default" src="${imageUrl}" alt="${news.title || '기사 이미지'}">
             <h3>${news.title || "기사 제목 없음"}</h3>
         </a>
         <p>${news.subTitle || "기사 요약 정보가 없습니다."}</p>
@@ -29,12 +32,12 @@ function renderMainArticle(news) {
     container.insertAdjacentHTML('beforeend', newsItem);
 }
 
-// 1. 추천 뉴스 (4개)
+// ✅ 추천 뉴스 (중복 제거)
 function loadRecommendedNews() {
     api.get(`/api/news/recommended`)
         .then(response => {
-            console.log(response);
-            renderRecommendedNews(response.slice(0, 4)); // 최대 4개
+            const uniqueNews = removeDuplicateNews(response);
+            renderRecommendedNews(uniqueNews.slice(0, 4));
         })
         .catch(error => console.error("❌ 추천 뉴스 로드 실패:", error));
 }
@@ -43,32 +46,33 @@ function renderRecommendedNews(newsList) {
     const container = document.querySelector(".recommended-news-articles");
     container.innerHTML = "";
 
-    for (let i = 0; i < 4; i++) {
-        const news = newsList[i] || { title: "기사 제목 없음", mainCategory: "기타", fileUrl: "/images/default.png", newsId: "#" };
+    newsList.forEach(news => {
+        const imageUrl = news.fileUrl ? (Array.isArray(news.fileUrl) ? news.fileUrl[0] : news.fileUrl) : '/images/default.png';
 
         const newsItem = `
             <div class="recommended-content">
                 <div class="recommended-body">
                     <strong class="sub-category">${news.mainCategory || "기타"}</strong>
-                    <a href="/news/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}">
                         <h4>${news.title || "기사 제목 없음"}</h4>
                     </a>
                 </div>
                 <div class="recommended-images">
-                    <a href="/news/${news.newsId}">
-                        <img class="recommended-img" src="${news.fileUrl || '/images/default.png'}" alt="뉴스 이미지">
+                    <a href="/categoryNews/detailNews/${news.newsId}">
+                        <img class="recommended-img" src="${imageUrl}" alt="뉴스 이미지">
                     </a>
                 </div>
             </div>`;
         container.insertAdjacentHTML('beforeend', newsItem);
-    }
+    });
 }
 
-// 2. 주요 기사 (2개)
+// ✅ 주요 뉴스 (중복 제거)
 function loadHeadlines() {
     api.get(`/api/news/headlines`)
         .then(response => {
-            renderHeadlines(response.slice(0, 5)); // 최대 2개
+            const uniqueNews = removeDuplicateNews(response);
+            renderHeadlines(uniqueNews.slice(0, 5));
         })
         .catch(error => console.error("❌ 주요 기사 로드 실패:", error));
 }
@@ -80,53 +84,49 @@ function renderHeadlines(newsList) {
     const sideContainer = document.querySelector(".headline-side-contain");
     sideContainer.innerHTML = "";
 
-    // 메인 주요 기사 (2개)
-    for (let i = 0; i < 2; i++) {
-        const news = newsList[i] || { title: "기사 제목 없음", summary: "설명이 없습니다.", fileUrl: "/images/default.png", newsId: "#" };
+    newsList.forEach((news, index) => {
+        const imageUrl = news.fileUrl ? (Array.isArray(news.fileUrl) ? news.fileUrl[0] : news.fileUrl) : '/images/default.png';
 
-        const newsItem = `
+        const newsItem = index < 2 ? `
             <div class="headline-body">
-                <a href="/news/${news.newsId}">
-                    <img class="headline-img" src="${news.fileUrl || '/images/default.png'}" alt="뉴스 이미지">
+                <a href="/categoryNews/detailNews/${news.newsId}">
+                    <img class="headline-img" src="${imageUrl}" alt="뉴스 이미지">
                     <h4>${news.title || "기사 제목 없음"}</h4>
                 </a>
                 <p>${news.summary || ""}</p>
-            </div>`;
-        mainContainer.insertAdjacentHTML('beforeend', newsItem);
-    }
-
-    // 사이드 주요 기사 (3개)
-    for (let i = 2; i < 5; i++) {
-        const news = newsList[i] || { title: "기사 제목 없음", summary: "설명이 없습니다.", fileUrl: "/images/default.png", newsId: "#" };
-
-        const newsItem = `
+            </div>` : `
             <div class="headline-side-content">
                 <div class="headline-side-body">
-                    <a href="/news/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}">
                         <h4>${news.title || "기사 제목 없음"}</h4>
                     </a>
                 </div>
                 <div class="headline-side-images">
-                    <a href="/news/${news.newsId}">
-                        <img class="headline-side-img" src="${news.fileUrl || '/images/default.png'}" alt="뉴스 이미지">
+                    <a href="/categoryNews/detailNews/${news.newsId}">
+                        <img class="headline-side-img" src="${imageUrl}" alt="뉴스 이미지">
                     </a>
                 </div>
                 <div class="headline-side-subtitle">
-                    <a href="/news/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}">
                         <p>${news.summary || ""}</p>
                     </a>
                 </div>
             </div>`;
-        sideContainer.insertAdjacentHTML('beforeend', newsItem);
-    }
+
+        if (index < 2) {
+            mainContainer.insertAdjacentHTML('beforeend', newsItem);
+        } else {
+            sideContainer.insertAdjacentHTML('beforeend', newsItem);
+        }
+    });
 }
 
-// 3. 실시간 핫뉴스 (6개)
+// ✅ 실시간 핫뉴스 (중복 제거)
 function loadHotNews() {
     api.get(`/api/news/hot`)
         .then(response => {
-            console.log(response);
-            renderHotNews(response.slice(0, 6)); // 최대 6개
+            const uniqueNews = removeDuplicateNews(response);
+            renderHotNews(uniqueNews.slice(0, 6));
         })
         .catch(error => console.error("❌ 실시간 핫뉴스 로드 실패:", error));
 }
@@ -135,37 +135,38 @@ function renderHotNews(newsList) {
     const container = document.querySelector(".headline-hot-news ol");
     container.innerHTML = "";
 
-    for (let i = 0; i < 6; i++) {
-        const news = newsList[i] || { title: "기사 제목 없음", newsId: "#" };
-
+    newsList.forEach(news => {
         const newsItem = `
             <li>
-                <a href="/news/${news.newsId}">${news.title || "기사 제목 없음"}</a>
+                <a href="/categoryNews/detailNews/${news.newsId}">${news.title || "기사 제목 없음"}</a>
             </li>`;
         container.insertAdjacentHTML('beforeend', newsItem);
-    }
+    });
 }
 
-// 4. 에디터 추천 뉴스 (2개)
+// ✅ 에디터 추천 뉴스 (중복 제거)
 function loadEditorPicks() {
     api.get(`/api/news/editor-picks`)
         .then(response => {
-            renderEditorPicks(response); // 에디터 추천 뉴스
-            renderEditorHotNews(response); // 에디터 핫 뉴스
+            const uniqueNews = removeDuplicateNews(response);
+            renderEditorPicks(uniqueNews.slice(0, 3));
+            renderEditorHotNews(uniqueNews.slice(3, 9));
         })
         .catch(error => console.error("❌ 에디터 추천 뉴스 로드 실패:", error));
 }
 
 function renderEditorPicks(newsList) {
     const editorContainer = document.querySelector(".editor-category");
-    editorContainer.innerHTML = ""; // 기존 내용 초기화
+    editorContainer.innerHTML = "";
 
-    newsList.slice(0, 3).forEach(news => { // 최대 3개 표시
+    newsList.forEach(news => {
+        const imageUrl = news.fileUrl ? (Array.isArray(news.fileUrl) ? news.fileUrl[0] : news.fileUrl) : '/images/default.png';
+
         const newsItem = `
             <article class="editor-content">
-                <a href="/news/${news.newsId}">
+                <a href="/categoryNews/detailNews/${news.newsId}">
                     <h4>${news.title || "기사 제목 없음"}</h4>
-                    <img class="editor-img" src="${news.fileUrl || '/images/default.png'}" alt="뉴스 이미지">
+                    <img class="editor-img" src="${imageUrl}" alt="뉴스 이미지">
                     <p>${news.summary || ""}</p>
                 </a>
             </article>`;
@@ -175,11 +176,26 @@ function renderEditorPicks(newsList) {
 
 function renderEditorHotNews(newsList) {
     const hotNewsContainer = document.querySelector(".hot-news ol");
-    hotNewsContainer.innerHTML = ""; // 기존 내용 초기화
+    hotNewsContainer.innerHTML = "";
 
-    newsList.slice(3, 9).forEach(news => { // 6개 표시
+    newsList.forEach(news => {
         const hotNewsItem = `
-            <li><a href="/news/${news.newsId}">${news.title || "기사 제목 없음"}</a></li>`;
+            <li><a href="/categoryNews/detailNews/${news.newsId}">${news.title || "기사 제목 없음"}</a></li>`;
         hotNewsContainer.insertAdjacentHTML('beforeend', hotNewsItem);
     });
+}
+
+// ✅ 중복된 뉴스 제거 함수
+function removeDuplicateNews(newsList) {
+    const uniqueNews = [];
+    const newsSet = new Set();
+
+    newsList.forEach(news => {
+        if (!newsSet.has(news.newsId)) {
+            newsSet.add(news.newsId);
+            uniqueNews.push(news);
+        }
+    });
+
+    return uniqueNews;
 }

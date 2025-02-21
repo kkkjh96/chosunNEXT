@@ -3,6 +3,8 @@ package com.example.chosunnext.service;
 import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
 import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
+import com.example.chosunnext.dto.user.request.UserCheckRequestDto;
+import com.example.chosunnext.dto.user.response.UserResponseDto;
 
 /**
  * packageName    : com.example.chosunnext.service
@@ -22,4 +24,6 @@ public interface MypageService {
     <T> LibraryResponseDto<T> getLibraryContent(String tab, int page, int size, String userId);
 
     SubscribedNewsResponseDto getSubscribedNews(String userId, int page, int size);
+
+    UserResponseDto getUserInfo(UserCheckRequestDto userCheckRequestDto);
 }

@@ -27,13 +27,18 @@
         mc.cd_kor AS mainCategory,
         sc.cd_kor AS subCategory
         FROM tbl_news n
-            LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+            LEFT JOIN (
+                SELECT file_ref_id, file_url
+                FROM tbl_file
+                WHERE file_gbn_cd = 100
+                GROUP BY file_ref_id
+            ) f ON n.news_id = f.file_ref_id
             LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
             LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
         WHERE n.main_category_cd = #{mainCategoryCd}
         AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
         ORDER BY n.news_id DESC
-        LIMIT 5;
+        LIMIT 4;
     </select>
 
     <select id="getImportantNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
@@ -63,7 +68,12 @@
     <select id="getHeadlineNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.main_category_cd IN (
             SELECT cd FROM tbl_codeinfo WHERE parent_cd = 'MAIN_CATEGORY_CD'
         )
@@ -81,7 +91,12 @@
     <select id="getHotNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
         <if test="categories != null and categories.size() > 0">
             AND n.main_category_cd NOT IN
@@ -96,7 +111,12 @@
     <select id="getEditorPicks" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
         SELECT n.*, f.file_url
         FROM tbl_news n
-        LEFT JOIN tbl_file f ON n.news_id = f.file_ref_id AND f.file_gbn_cd = 100
+        LEFT JOIN (
+            SELECT file_ref_id, file_url
+            FROM tbl_file
+            WHERE file_gbn_cd = 100
+            GROUP BY file_ref_id
+        ) f ON n.news_id = f.file_ref_id
         WHERE n.credate_dt >= NOW() - INTERVAL 7 DAY
         <if test="categories != null and categories.size() > 0">
             AND n.main_category_cd NOT IN
@@ -113,5 +133,12 @@
         VALUES (#{record.newsId}, #{record.userId}, NOW())
         ON DUPLICATE KEY UPDATE view_dt = NOW();
     </insert>
+
+    <update id="updatePoint">
+        UPDATE tbl_user
+            SET point = point + 10
+        WHERE user_id = #{userId};
+
+    </update>
 
 </mapper>

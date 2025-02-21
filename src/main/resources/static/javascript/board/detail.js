@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById("back-button").addEventListener("click", function () {
-        const boardListPage = "/board/list"; // 게시판 리스트 페이지 경로
+        const boardListPage = "/categoryNews/board/list"; // 게시판 리스트 페이지 경로
 
         if (document.referrer.includes(boardListPage)) {
             window.history.back(); // 이전 페이지가 게시판 리스트면 뒤로가기
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('edit-button').addEventListener('click', function () {
-        window.location.href = `/board/edit/${tugoId}`;
+        window.location.href = `/categoryNews/board/edit/${tugoId}`;
     });
 
     document.getElementById('delete-button').addEventListener('click', function () {
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
             api.delete(`/api/board/${tugoId}`)
                 .then(() => {
                     alert("게시글이 삭제되었습니다.");
-                    window.location.href = "/board/list";
+                    window.location.href = "/categoryNews/board/list";
                 })
                 .catch(error => {
                     console.error("❌ 게시글 삭제 실패:", error);

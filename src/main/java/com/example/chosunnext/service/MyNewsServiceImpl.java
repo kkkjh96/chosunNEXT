@@ -72,6 +72,8 @@ public class MyNewsServiceImpl implements MyNewsService {
     @Override
     public int saveView(NewsViewRequestDto newsViewRequestDto) {
 
+        myNewsDao.updatePoint(newsViewRequestDto.getUserId());
+
         return myNewsDao.upsertViewRecord(newsViewRequestDto);
     }
 }

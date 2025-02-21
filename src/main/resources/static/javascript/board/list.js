@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const postElement = document.createElement("div");
             postElement.classList.add("board-item");
             postElement.innerHTML = `
-                <a href="/board/detail/${post.tugoId}">${post.title}</a>
+                <a href="/categoryNews/board/detail/${post.tugoId}">${post.title}</a>
                 <div class="board-meta">
                     ${post.userId} | ${new Date(post.createDt).toLocaleString()}
                 </div>
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("write-post").addEventListener("click", () => {
-        window.location.href = "/board/write";
+        window.location.href = "/categoryNews/board/write";
     });
 
     fetchPosts();

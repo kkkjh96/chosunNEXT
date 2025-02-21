@@ -35,12 +35,12 @@ public class MypageController {
 
     @GetMapping("/subscriptions")
     public String mySubscriptions() {
-        return "/mypage/subscriptions"; // 구독함
+        return "mypage/subscriptions"; // 구독함
     }
 
     @GetMapping("/account")
     public String myAccount() {
-        return "/mypage/account"; // 계정 정보
+        return "mypage/account"; // 계정 정보
     }
 
     @GetMapping("/orders")

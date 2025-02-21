@@ -2,6 +2,7 @@ package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
 import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
+import com.example.chosunnext.dto.user.request.UserCheckRequestDto;
 import com.example.chosunnext.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,12 @@ public class RestMypageController {
 
         SubscribedNewsResponseDto response = mypageService.getSubscribedNews(userId, page, size);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/account/info")
+    public ResponseEntity<String> updateAccountInfo(@RequestBody UserCheckRequestDto userCheckRequestDto) {
+        mypageService.getUserInfo(userCheckRequestDto);
+        return ResponseEntity.ok("Update Account Info Success");
     }
 
 }
