@@ -24,5 +24,8 @@ public class ResponseReporterDto {
     private String userId;        // user_id
     private String name;          // 기자 이름
     private String role;          // 역할 (reporter)
-    private String department;    // 부서 정보
+    private String department;
+    private String writer;
+    private String fileName;
+    private String filePath;
 }

@@ -2,17 +2,17 @@ package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.BookmarkDto;
 import com.example.chosunnext.dto.NewsDto;
-import com.example.chosunnext.dto.tugo.request.TugoRequestDto;
+import com.example.chosunnext.dto.user.response.ResponseReporterDto;
 import com.example.chosunnext.service.BookmarkService;
 import com.example.chosunnext.service.NewsService;
+import com.example.chosunnext.service.ReporterService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/category")
@@ -22,6 +22,7 @@ public class RestCategoryNewsController {
 
     final NewsService newsService;
     final BookmarkService bookmarkService;
+    final ReporterService reporterService;
 
     @PostMapping("/news")
     public ResponseEntity<String> saveBookmark(@RequestBody BookmarkDto bookmarkDto) {
@@ -52,7 +53,12 @@ public class RestCategoryNewsController {
     }
 
 
-
+    @GetMapping("/reporter/{newsId}")
+    public ResponseEntity<List<ResponseReporterDto>> getReporter(@PathVariable("newsId") int newsId ){
+        List<ResponseReporterDto>  reporter = reporterService.getReporterWithDepartment(newsId);
+        System.out.println(reporter+"sdfsdfsdfsdf!!!!!!!!!!!!!!!!");
+        return ResponseEntity.ok(reporter);
+    }
 
 
 
