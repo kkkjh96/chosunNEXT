@@ -131,36 +131,68 @@ function changePage(page) {
     loadLibraryContent();
 }
 
-// ✅ 데이터 렌더링 (이미지 한 개만 노출, 기본 이미지 추가)
 function renderContent(tab, items) {
     const contentContainer = document.getElementById("article-list");
     contentContainer.innerHTML = "";
 
-    const newsMap = new Map(); // ✅ 중복 제거를 위한 Map 사용
+    const newsMap = new Map(); // ✅ 중복 기사 제거용 Map
 
     items.forEach(item => {
         if (!newsMap.has(item.newsId)) { // ✅ 같은 newsId가 없을 경우만 추가
             newsMap.set(item.newsId, true);
 
             const itemElement = document.createElement("div");
-            itemElement.classList.add("article-item");
 
-            // ✅ 이미지가 없으면 기본 이미지 적용
-            const defaultImage = "/images/default.png"; // 기본 이미지 경로
+            // ✅ 이미지 한 개만 노출
+            const defaultImage = "/images/default.png";
             const imageUrl = item.image ? item.image : defaultImage;
+            const imageTag = `<img src="${imageUrl}" alt="기사 이미지" class="news-image">`;
 
-            const imageTag = `<img src="${imageUrl}" alt="기사 이미지">`;
-
-            itemElement.innerHTML = `
-                ${imageTag}
-                <div class="article-info">
-                    <h3><a href="/categoryNews/detailNews/${item.newsId}" class="detail-link">${item.title}</a></h3>
-                    <p>${item.content ? item.content : ""}</p>
-                    <span class="article-meta">${item.date} 읽음</span>
-                </div>
-            `;
+            // ✅ 각 탭마다 다른 레이아웃 적용
+            if (tab === "recent" || tab === "bookmarked" || tab === "ddabong") {
+                itemElement.classList.add("article-item");
+                itemElement.innerHTML = `
+                    ${imageTag}
+                    <div class="article-info">
+                        <h3><a href="/categoryNews/detailNews/${item.newsId}?category=${item.mainCategoryCd}" class="detail-link">${item.title}</a></h3>
+                        <p>${item.content ? item.content : "내용 없음"}</p>
+                        <span class="article-meta">${item.date} 읽음</span>
+                    </div>
+                `;
+            } else if (tab === "commented") {
+                // ✅ 댓글 단 기사 레이아웃
+                itemElement.classList.add("comment-item");
+                itemElement.innerHTML = `
+                    <div class="comment-meta">
+                        <span>출처:</span> <a href="/categoryNews/detailNews/${item.newsId}?category=${item.mainCategoryCd}" class="sub-link">${item.title}</a>
+                    </div>
+                    <div class="comment-text">
+                        <p>${item.commentText || "내용 없음"}</p>
+                    </div>
+                    <div class="comment-date">${item.date} 댓글</div>
+                `;
+            } else if (tab === "subscribed") {
+                // ✅ 구독한 기자 레이아웃
+                itemElement.classList.add("subscribed-item");
+                itemElement.innerHTML = `
+                    <div class="subscribed-info">
+                        <h3>${item.name}</h3>
+                        <span class="subscribe-date">${item.joinDate} 구독</span>
+                    </div>
+                `;
+            } else if (tab === "tugo") {
+                // ✅ 투고한 기사 레이아웃
+                itemElement.classList.add("tugo-item");
+                itemElement.innerHTML = `
+                    <div class="tugo-info">
+                        <h3><a href="/categoryNews/board/detail/${item.newsId}" class="news-link">${item.title}</a></h3>
+                        <span class="tugo-date">${item.date} 작성일</span>
+                    </div>
+                `;
+            }
 
             contentContainer.appendChild(itemElement);
         }
     });
 }
+

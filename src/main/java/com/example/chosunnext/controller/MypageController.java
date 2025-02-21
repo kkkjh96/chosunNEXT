@@ -30,7 +30,7 @@ public class MypageController {
 
     @GetMapping("/library")
     public String myLibrary() {
-        return "/mypage/library"; // 보관함
+        return "mypage/library"; // 보관함
     }
 
     @GetMapping("/subscriptions")
@@ -45,12 +45,12 @@ public class MypageController {
 
     @GetMapping("/orders")
     public String myOrders() {
-        return "/mypage/orders"; // 결제 내역
+        return "mypage/orders"; // 결제 내역
     }
 
     @GetMapping("/coupons")
     public String myCoupons() {
-        return "/mypage/coupons"; // 쿠폰함
+        return "mypage/coupons"; // 쿠폰함
     }
 
 }

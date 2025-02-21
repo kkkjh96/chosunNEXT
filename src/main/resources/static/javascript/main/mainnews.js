@@ -22,7 +22,7 @@ function renderMainArticle(news) {
     const imageUrl = news.fileUrl ? (Array.isArray(news.fileUrl) ? news.fileUrl[0] : news.fileUrl) : '/images/default.png';
 
     const newsItem = `
-        <a href="/categoryNews/detailNews/${news.newsId || '#'}">
+        <a href="/categoryNews/detailNews/${news.newsId || '#'}?category=${news.mainCategoryCd}">
             <img class="default" src="${imageUrl}" alt="${news.title || '기사 이미지'}">
             <h3>${news.title || "기사 제목 없음"}</h3>
         </a>
@@ -53,12 +53,12 @@ function renderRecommendedNews(newsList) {
             <div class="recommended-content">
                 <div class="recommended-body">
                     <strong class="sub-category">${news.mainCategory || "기타"}</strong>
-                    <a href="/categoryNews/detailNews/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                         <h4>${news.title || "기사 제목 없음"}</h4>
                     </a>
                 </div>
                 <div class="recommended-images">
-                    <a href="/categoryNews/detailNews/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                         <img class="recommended-img" src="${imageUrl}" alt="뉴스 이미지">
                     </a>
                 </div>
@@ -89,7 +89,7 @@ function renderHeadlines(newsList) {
 
         const newsItem = index < 2 ? `
             <div class="headline-body">
-                <a href="/categoryNews/detailNews/${news.newsId}">
+                <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                     <img class="headline-img" src="${imageUrl}" alt="뉴스 이미지">
                     <h4>${news.title || "기사 제목 없음"}</h4>
                 </a>
@@ -97,17 +97,17 @@ function renderHeadlines(newsList) {
             </div>` : `
             <div class="headline-side-content">
                 <div class="headline-side-body">
-                    <a href="/categoryNews/detailNews/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                         <h4>${news.title || "기사 제목 없음"}</h4>
                     </a>
                 </div>
                 <div class="headline-side-images">
-                    <a href="/categoryNews/detailNews/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                         <img class="headline-side-img" src="${imageUrl}" alt="뉴스 이미지">
                     </a>
                 </div>
                 <div class="headline-side-subtitle">
-                    <a href="/categoryNews/detailNews/${news.newsId}">
+                    <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                         <p>${news.summary || ""}</p>
                     </a>
                 </div>
@@ -138,7 +138,7 @@ function renderHotNews(newsList) {
     newsList.forEach(news => {
         const newsItem = `
             <li>
-                <a href="/categoryNews/detailNews/${news.newsId}">${news.title || "기사 제목 없음"}</a>
+                <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">${news.title || "기사 제목 없음"}</a>
             </li>`;
         container.insertAdjacentHTML('beforeend', newsItem);
     });
@@ -164,7 +164,7 @@ function renderEditorPicks(newsList) {
 
         const newsItem = `
             <article class="editor-content">
-                <a href="/categoryNews/detailNews/${news.newsId}">
+                <a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">
                     <h4>${news.title || "기사 제목 없음"}</h4>
                     <img class="editor-img" src="${imageUrl}" alt="뉴스 이미지">
                     <p>${news.summary || ""}</p>
@@ -180,7 +180,7 @@ function renderEditorHotNews(newsList) {
 
     newsList.forEach(news => {
         const hotNewsItem = `
-            <li><a href="/categoryNews/detailNews/${news.newsId}">${news.title || "기사 제목 없음"}</a></li>`;
+            <li><a href="/categoryNews/detailNews/${news.newsId}?category=${news.mainCategoryCd}">${news.title || "기사 제목 없음"}</a></li>`;
         hotNewsContainer.insertAdjacentHTML('beforeend', hotNewsItem);
     });
 }

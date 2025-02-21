@@ -2,9 +2,13 @@ package com.example.chosunnext.service;
 
 import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
 import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
+import com.example.chosunnext.dto.mypage.response.OrdersResponseDto;
 import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
 import com.example.chosunnext.dto.user.request.UserCheckRequestDto;
+import com.example.chosunnext.dto.user.request.UserRequestDto;
 import com.example.chosunnext.dto.user.response.UserResponseDto;
+
+import java.util.List;
 
 /**
  * packageName    : com.example.chosunnext.service
@@ -26,4 +30,15 @@ public interface MypageService {
     SubscribedNewsResponseDto getSubscribedNews(String userId, int page, int size);
 
     UserResponseDto getUserInfo(UserCheckRequestDto userCheckRequestDto);
+
+    int updateUserInfo(UserRequestDto userRequestDto);
+
+    int updatePassword(UserRequestDto user);
+
+    int deleteUserAccount(UserRequestDto user);
+
+    List<OrdersResponseDto> getOrders(String userId);
+
+    String registerCoupon(String couponNum);
 }
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/mypage-common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/mypage/mypage-orders.css"> <!-- 공통 스타일 적용 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+</head>
+<body>
+
+    <!-- Header Fragment Include -->
+    <div th:replace="layout/mypage-header :: header"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- 이 섹션 안에 추가 하시면 됩니다. -->
+
+        <div class="payment-container">
+            <h2 class="payment-title">결제 내역</h2>
+
+            <!-- 결제 내역 리스트 -->
+            <ul id="payment-list" class="payment-list">
+                <!-- JS에서 리스트 추가 -->
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Footer Fragment Include -->
+    <div th:replace="layout/mypage-footer :: footer"></div>
+<script src="/javascript/mypage/mypage-orders.js"></script>
+</body>
+</html>
+<!-- 차트 스크립트 -->

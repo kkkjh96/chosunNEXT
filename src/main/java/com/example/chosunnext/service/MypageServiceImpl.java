@@ -2,14 +2,14 @@ package com.example.chosunnext.service;
 
 import com.example.chosunnext.dao.MyPageDao;
 import com.example.chosunnext.dto.NewsDto;
-import com.example.chosunnext.dto.mypage.response.LibraryResponseDto;
-import com.example.chosunnext.dto.mypage.response.MypageMainResonseDto;
-import com.example.chosunnext.dto.mypage.response.MypageUserResponseDto;
-import com.example.chosunnext.dto.mypage.response.SubscribedNewsResponseDto;
+import com.example.chosunnext.dto.mypage.response.*;
 import com.example.chosunnext.dto.user.request.UserCheckRequestDto;
+import com.example.chosunnext.dto.user.request.UserRequestDto;
 import com.example.chosunnext.dto.user.response.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +34,7 @@ import java.util.Map;
 public class MypageServiceImpl implements MypageService {
 
     private final MyPageDao myPageDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public MypageMainResonseDto getUserActivity(String userId) {
@@ -125,8 +126,64 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public UserResponseDto getUserInfo(UserCheckRequestDto userCheckRequestDto) {
 
-        MypageUserResponseDto userResponseDto = myPageDao.getUserInfo(userCheckRequestDto.getUserId());
+        UserResponseDto user = myPageDao.getUserAllInfo(userCheckRequestDto.getUserId());
 
-        return null;
+        if(user == null || !passwordEncoder.matches(userCheckRequestDto.getPassword(), user.getPassword())){
+            return null;
+        }
+        
+        return user;
+    }
+
+    @Override
+    public int updateUserInfo(UserRequestDto userRequestDto) {
+
+        return myPageDao.updateUserInfo(userRequestDto);
+    }
+
+    @Override
+    public int updatePassword(UserRequestDto user) {
+
+        user.setNewPassword(passwordEncoder.encode(user.getNewPassword()));
+
+        return myPageDao.updateUserPassword(user);
+    }
+
+    @Override
+    public int deleteUserAccount(UserRequestDto user) {
+
+        UserResponseDto userResponseDto = myPageDao.getUserAllInfo(user.getUserId());
+
+        log.info("Deleting user:{}", userResponseDto);
+
+        if(userResponseDto == null || !passwordEncoder.matches(user.getPassword(), userResponseDto.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return myPageDao.deleteUserAccount(user.getUserId());
+    }
+
+    @Override
+    public List<OrdersResponseDto> getOrders(String userId) {
+
+        return myPageDao.getOrders(userId);
+    }
+
+    @Override
+    public String registerCoupon(String couponNum) {
+
+        CouponResponseDto coupon = myPageDao.getCouponByNum(couponNum);
+
+        if(coupon == null){
+            return "존재하지 않는 쿠폰입니다.";
+        }
+        
+        if("Y".equals(coupon.getCouponStatus())){
+            return "이미 사용된 쿠폰입니다.";
+        }
+
+        myPageDao.updateCouponStatus(couponNum);
+
+        return "쿠폰이 정상적으로 등록되었습니다.";
     }
 }

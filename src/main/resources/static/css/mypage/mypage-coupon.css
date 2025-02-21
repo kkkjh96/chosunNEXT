@@ -1,0 +1,64 @@
+/* ✅ 쿠폰 등록 컨테이너 */
+.coupon-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ✅ 제목 스타일 */
+.coupon-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* ✅ 안내 문구 */
+.coupon-container p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* ✅ 쿠폰 코드 입력 필드 */
+.coupon-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+/* ✅ 등록 버튼 */
+.btn-primary {
+    width: 100%;
+    max-width: 200px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ 결과 메시지 */
+#couponMessage {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}

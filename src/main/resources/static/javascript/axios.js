@@ -63,9 +63,10 @@ const api = {
         });
     },
 
-    delete(url, headers = {}) {
+    delete(url, data = {}, headers = {}) {
         return this.client.delete(url, {
             headers,
+            data
         });
     },
 };

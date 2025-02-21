@@ -1,4 +1,4 @@
-package com.example.chosunnext.dto.user.response;
+package com.example.chosunnext.dto.user.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponseDto {
+public class UserRequestDto {
 
     private String userId;
     private String email;
@@ -33,5 +33,7 @@ public class UserResponseDto {
     private String address;
     private String address2;
     private String zipCd;
+    private String currentPassword;
+    private String newPassword;
 
 }
