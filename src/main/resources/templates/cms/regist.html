@@ -48,15 +48,17 @@
 
                 <div class="section_2">
                     <div class="reservation_type">
-                        예약배포 : <input type="datetime-local" name="reservationTime" id="reservation_time">
+                        <p> 예약배포 </p> <input type="datetime-local" name="reservationTime" id="reservation_time">
 
-                        <div style="margin: 10px 0;">
-                            <p>news_type</p>
-                            <label><input type="radio" name="newsType" value="속보"> 속보</label>
-                            <label><input type="radio" name="newsType" value="단독"> 단독</label>
+                        <div class="news-type-wrap" >
+                             <p>보도 형태</p>
+                            <div class="news-type">
+                                <label><input type="radio" name="newsType" value="속보"> 속보</label>
+                                <label><input type="radio" name="newsType" value="단독"> 단독</label>
+                            </div>
                         </div>
                     </div>
-
+                    <hr>
                     <div class="category">
                         <p>카테고리 선택</p>
                         <label for="main_category">대분류</label>

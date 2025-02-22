@@ -11,86 +11,161 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/javascript/axios.js"></script>
     <script src="/javascript/layout/footer.js"></script>
+    <!-- 캐시 사용 방지를 위한 설정 (선택 사항) -->
+    <meta http-equiv="Cache-Control" content="no-store">
 </head>
 <body>
 <div class="wrap">
     <div th:replace="layout/header :: header"></div>
     <span th:if="${session.user != null}" class="user-info">
-        <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
-    </span>
+    <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
+  </span>
     <input type="hidden" name="newsId" th:value="${newsId}" id="newsId">
-
-
     <div class="news_detail_container">
         <h1><span th:text="${category}"></span></h1>
         <hr>
-        <div id="news-content">
-
-        </div>
+        <div id="news-content"></div>
     </div>
     <hr>
-    <div class="subscription"></div>
-    <div class="subscription-count"></div>
 </div>
 
-    <script>
-        window.onload = function()  {
-            getNews();
-        }
+<script>
+    // 페이지가 로드될 때와 뒤로가기(또는 캐시에서 로드될 때) 모두 구독 상태를 재조회
+    window.onload = function() {
+        getNews();
+    };
 
-        function getNews(){
-            const newsId = document.getElementById("newsId").value;
+    window.addEventListener("pageshow", function(event) {
+        // 뒤로가기로 돌아온 경우에도 최신 구독 상태를 반영하기 위해 뉴스와 리포터 정보를 다시 불러옴
+        getNews();
+    });
 
-            axios.get(`/api/category/news/detail/${newsId}`)
-                .then(response => {
-                    const news = response.data;
-                    const newsContent = document.getElementById('news-content');
-
-                    newsContent.innerHTML = `
-                <h1>${news.title}</h1>
-                <h2>${news.subTitle || '부제목 없음'}</h2>
-                <p><strong>작성일:</strong> ${news.credateDt || 'N/A'}</p>
-                <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
-                <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
-            `;
-                    getReport(newsId);
-                })
-                .catch(error => {
-                    console.error("뉴스 불러오기 실패:", error);
-                });
-        }
-
-        function getReport(newsId) {
-
-            let writerWrap = document.getElementById("writer_wrap");
-
-            if (!writerWrap) {
-                writerWrap = document.createElement("div");
-                writerWrap.id = "writer_wrap";
-                document.body.appendChild(writerWrap);
-            }
-            axios.get(`/api/category/reporter/${newsId}`)
-                .then(response => {
-                    console.log("리포터 데이터:", response.data);
-                    if (response.data) {
-                        const reporter = response.data[0];
-                        writerWrap.innerHTML = `
-                            <div class="writer_wrap">
-                                <div class="report-content">
-                                    <div class="img_wrap">
-                                        <img src="${reporter.filePath || '/images/default.png'}" alt="Reporter Image">
-                                    </div>
-                                    <p>${reporter.writer}</p>
-                                    <p>${reporter.department}</p>
-                                </div>
-                            </div>
-
-                `;
-                }
+    // 뉴스 상세 정보 로드 후 리포터 정보 호출
+    function getNews() {
+        const newsId = document.getElementById("newsId").value;
+        axios.get(`/api/category/news/detail/${newsId}`)
+            .then(response => {
+                const news = response.data;
+                const newsContent = document.getElementById('news-content');
+                newsContent.innerHTML = `
+          <h1>${news.title}</h1>
+          <h2>${news.subTitle || '부제목 없음'}</h2>
+          <p><strong>작성일:</strong> ${news.credateDt || 'N/A'}</p>
+          <p><strong>기자:</strong> ${news.writer || 'N/A'}</p>
+          <div class="news-content">${news.content ? news.content.replace(/\n/g, "<br>") : '내용 없음'}</div>
+        `;
+                getReport(newsId);
+            })
+            .catch(error => {
+                console.error("뉴스 불러오기 실패:", error);
             });
+    }
+
+    // 리포터 정보 로드 및 구독 버튼 상태 확인
+    function getReport(newsId) {
+        let writerWrap = document.getElementById("writer_wrap");
+        if (!writerWrap) {
+            writerWrap = document.createElement("div");
+            writerWrap.id = "writer_wrap";
+            document.body.appendChild(writerWrap);
         }
 
-    </script>
+        axios.get(`/api/category/reporter/${newsId}`)
+            .then(response => {
+                if (response.data && response.data.length > 0) {
+                    const reporter = response.data[0];
+                    writerWrap.innerHTML = `
+            <div class="writer_wrap">
+              <div class="report-content">
+                <div class="img_wrap">
+                  <img src="${reporter.filePath || '/images/default.png'}" alt="Reporter Image">
+                </div>
+                <p>${reporter.writer} 기자</p>
+                <p>${reporter.department}</p>
+              </div>
+              <div class="subscription_wrap">
+                <input type="button" onclick="subscription()" id="news-subscription" value="구독하기">
+                <div class="subscription-count">구독수: 0</div>
+              </div>
+            </div>
+          `;
+                    // 로그인 상태이면 구독 상태를 조회
+                    const userIdEl = document.getElementById("userId");
+                    if (userIdEl) {
+                        const userId = userIdEl.value;
+                        // reporter.userId는 해당 기자의 고유 ID
+                        axios.get(`/api/subscribe/status`, {
+                            params: { userId: userId, reporterId: reporter.userId }
+                        })
+                            .then(statusResponse => {
+                                // 구독 상태에 따라 버튼 값을 "구독중" 또는 "구독하기"로 업데이트
+                                document.getElementById("news-subscription").value = statusResponse.data.subscribed ? "구독중" : "구독하기";
+                            })
+                            .catch(error => {
+                                console.error("구독 상태 확인 실패:", error);
+                            });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("리포터 데이터 불러오기 실패:", error);
+            });
+    }
 
+    // 구독 저장/취소 처리
+    function subscription() {
+        const userIdEl = document.getElementById("userId");
+        if (!userIdEl) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        const userId = userIdEl.value;
+        const newsId = document.getElementById("newsId").value;
+        const subscriptionButton = document.getElementById("news-subscription");
+
+        // 기자 정보를 조회하여 reporterId를 가져옴
+        axios.get(`/api/cms/news/${newsId}`)
+            .then(response => {
+                const reporter = response.data;
+                const reporterId = reporter.userId;
+                if (subscriptionButton.value === "구독하기") {
+                    // 구독 저장 (생성)
+                    axios.post(`/api/subscribe/subscription`, { userId, reporterId })
+                        .then(response => {
+                            alert("구독 성공!");
+                            subscriptionButton.value = "구독중";
+                            // 구독 수 업데이트
+                            const subscriptionCount = document.querySelector(".subscription-count");
+                            let count = parseInt(subscriptionCount.textContent.replace("구독수:", "").trim()) || 0;
+                            subscriptionCount.textContent = `구독수: ${count + 1}`;
+                        })
+                        .catch(error => {
+                            console.error("구독 저장 실패:", error);
+                        });
+                } else {
+                    // 구독 삭제 (취소)
+                    axios.delete(`/api/subscribe/subscription`, {
+                        data: { userId, reporterId },
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                        .then(response => {
+                            alert("구독이 취소되었습니다.");
+                            subscriptionButton.value = "구독하기";
+                            // 구독 수 업데이트
+                            const subscriptionCount = document.querySelector(".subscription-count");
+                            let count = parseInt(subscriptionCount.textContent.replace("구독수:", "").trim()) || 0;
+                            count = count > 0 ? count - 1 : 0;
+                            subscriptionCount.textContent = `구독수: ${count}`;
+                        })
+                        .catch(error => {
+                            console.error("구독 취소 실패:", error);
+                        });
+                }
+            })
+            .catch(error => {
+                console.error("기자 정보 조회 실패:", error);
+            });
+    }
+</script>
 </body>
 </html>
