@@ -18,7 +18,7 @@ a {
 
 body {
     font-family: 'Arial', "Noto Sans";
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;  /* 기본 배경색 */
 }
 
 /* 🟢 전체 페이지 레이아웃 */
@@ -43,20 +43,24 @@ body {
     margin-bottom: 10px;
 }
 
-
+/* 🟢 뉴스 등록 버튼 */
 .news_reg {
     width: 120px;
     height: 50px;
-    background-color: #d9eeec;
+    background-color: #4a90e2;  /* 파란색 */
     text-align: center;
     line-height: 50px;
     border-radius: 16px;
     font-size: 18px;
     font-weight: bold;
-    color: #111;
+    color: #fff;
     float: right; /* 오른쪽 정렬 */
     margin-top: 40px;
     margin-bottom: 20px;
+}
+
+.news_reg:hover {
+    background-color: #1c6f97; /* 어두운 파란색 */
 }
 
 /* 페이지네이션 컨테이너 스타일 */
@@ -94,23 +98,17 @@ body {
 /* 현재 페이지 번호 강조 */
 .pagination button[style*="font-weight: bold"] {
     font-weight: bold;
-    background-color: #007bff;
+    background-color: #4a90e2; /* 파란색 */
     color: white;
-}
-
-/* 페이지 번호 버튼의 크기 */
-.pagination button {
-    font-size: 16px;
 }
 
 /* "이전" 및 "다음" 버튼 스타일 */
 .pagination button:first-child,
 .pagination button:last-child {
     font-weight: bold;
-    background-color: #007bff;
+    background-color: #4a90e2;
     color: white;
 }
-
 
 /* 🟢 뉴스 리스트 테이블 */
 .news_list_wrap {
@@ -126,7 +124,7 @@ body {
 }
 
 .news_list_wrap th {
-    background-color: #f0f0f0;
+    background-color: #f0f0f0;  /* 연한 회색 */
     font-weight: bold;
     font-size: 18px;
 }

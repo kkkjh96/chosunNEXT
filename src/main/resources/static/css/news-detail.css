@@ -86,13 +86,14 @@ body {
 }
 /* 기자 정보 스타일 */
 .writer_wrap {
-    height: 150px;
+    height: 100px;
    width: 1230px;
     margin: 0 auto;
     display: flex;
     background: #f9f9f9;
     padding: 10px;
     margin-top: 20px;
+    margin-bottom: 50px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
@@ -124,4 +125,45 @@ body {
 
 .writer_wrap .report-content p:nth-child(2) {
     color: #777;
+}
+/* 구독 버튼 스타일 */
+.subscription_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 700px;
+}
+
+#news-subscription {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#news-subscription:hover {
+    background-color: #0056b3;
+}
+
+/* 구독 수 텍스트 스타일 */
+.subscription-count {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 구독 성공 후 색상 변경 */
+.subscription_wrap #news-subscription {
+    background-color: #28a745;
+}
+
+.subscription_wrap .subscribed #news-subscription:hover {
+    background-color: #218838;
 }

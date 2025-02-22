@@ -4,6 +4,7 @@ import com.example.chosunnext.dao.CodeDao;
 import com.example.chosunnext.dao.NewsDao;
 import com.example.chosunnext.dao.ReporterDao;
 import com.example.chosunnext.dto.NewsDto;
+import com.example.chosunnext.dto.SubscriptionDto;
 import com.example.chosunnext.dto.file.request.FileDto;
 import com.example.chosunnext.dto.user.request.ReporterDto;
 import com.example.chosunnext.dto.user.response.ResponseReporterDto;
@@ -74,4 +75,6 @@ public class ReporterService {
     public List<ResponseReporterDto> getReporterWithDepartment(int newsId) {
         return reporterDao.fetchReporterDetailsWithDepartment(newsId);
     }
+
+
 }

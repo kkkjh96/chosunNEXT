@@ -2,6 +2,7 @@ package com.example.chosunnext.controller;
 
 import com.example.chosunnext.dto.BookmarkDto;
 import com.example.chosunnext.dto.NewsDto;
+import com.example.chosunnext.dto.SubscriptionDto;
 import com.example.chosunnext.dto.user.response.ResponseReporterDto;
 import com.example.chosunnext.service.BookmarkService;
 import com.example.chosunnext.service.NewsService;
@@ -56,10 +57,8 @@ public class RestCategoryNewsController {
     @GetMapping("/reporter/{newsId}")
     public ResponseEntity<List<ResponseReporterDto>> getReporter(@PathVariable("newsId") int newsId ){
         List<ResponseReporterDto>  reporter = reporterService.getReporterWithDepartment(newsId);
-        System.out.println(reporter+"sdfsdfsdfsdf!!!!!!!!!!!!!!!!");
         return ResponseEntity.ok(reporter);
     }
-
 
 
 

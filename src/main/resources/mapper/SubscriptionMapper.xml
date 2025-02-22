@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chosunnext.dao.SubscriptionDao">
+
+    <insert id="insertSubscription" >
+        insert into tbl_subscription(user_id,reporter_id, subscription_date,subscription_status)
+        values(#{userId},#{reporterId},Now(),1)
+    </insert>
+
+
+   <delete id="deleteSubscription">
+       delete from tbl_subscription
+       where user_id = #{userId}
+   </delete>
+
+    <select id="getStatus" resultType="com.example.chosunnext.dto.SubscriptionDto">
+        select * from tbl_subscription
+        where user_id =#{userId}
+    </select>
+</mapper>
