@@ -21,7 +21,7 @@
     </span>
 
     <div class="news_list_container">
-        <h1>사회</h1>
+        <h1 id="mainCategoryName"></h1>
         <hr>
         <div id="newsList"></div>
         <div class="pagination">
@@ -58,7 +58,7 @@
         });
 
         function getCategoryNews(category) {
-            axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
+            axios.get(`/api/cms/news/category/${category}/paged?page=${currentPage}&size=${pageSize}`)
                 .then(response => {
                     console.log("API 응답 데이터:", response.data);
                     const { newsList, totalCount } = response.data;
@@ -73,6 +73,16 @@
 
         function renderNews(newsList) {
             const newsContainer = document.getElementById('newsList');
+            const mainCategoryName = document.getElementById('mainCategoryName');
+            if (newsList.length > 0) {
+                // 데이터가 존재하는 경우: 첫 번째 뉴스의 카테고리명을 표시
+                mainCategoryName.textContent =`${newsList[0].categoryName} / ${newsList[0].subCategoryName}`;
+            } else {
+                // 데이터가 없는 경우: URL에서 가져온 카테고리명을 표시
+                const pathSegments = window.location.pathname.split('/');
+                const categoryFromUrl = pathSegments[pathSegments.length - 1].toUpperCase().replace(/-/g, ' ');
+                mainCategoryName.textContent = categoryFromUrl;
+            }
 
             newsContainer.innerHTML = newsList.map(news => `
                 <div class="news_content">

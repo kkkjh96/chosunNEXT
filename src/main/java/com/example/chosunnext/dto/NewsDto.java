@@ -36,6 +36,11 @@ public class NewsDto {
 
     private String mainCategoryCd;
     private String subCategoryCd;
+
+    private String categoryName;
+    private String subCategoryName;
+    private String parentCategoryName;
+
     private LocalDateTime reservationTime;
     private String newsType;
     private String writer;
