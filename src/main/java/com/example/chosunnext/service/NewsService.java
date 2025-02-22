@@ -33,8 +33,16 @@ public class NewsService {
         return newsDao.getCategoryNews(category, offset, size);
     }
 
+    public List<NewsDto> findBySubCategory(String category, int offset, int size) {
+        return newsDao.getSubCategoryNews(category, offset, size);
+    }
+
     public int countNewsByCategory(String category) {
         return newsDao.countNewsByCategory(category);
+    }
+
+    public int countNewsBySubCategory(String category) {
+        return newsDao.countNewsBySubCategory(category);
     }
 
     public NewsDto getDetailNews(int newsId) {

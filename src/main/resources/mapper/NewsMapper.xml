@@ -87,15 +87,41 @@
     <select id="getCategoryNews" resultType="com.example.chosunnext.dto.NewsDto">
         SELECT n.*,
             f.file_name AS fileName,
-            f.file_url AS filePath
-            FROM tbl_news n
+            f.file_url AS filePath,
+            c.cd_kor AS categoryName,
+            parent_c.cd_kor AS parentCategoryName -- 부모 카테고리명 추가
+        FROM tbl_news n
         LEFT JOIN (
-        SELECT f.file_ref_id, f.file_name, f.file_url
-        FROM tbl_file f
-        WHERE f.file_gbn_cd = 100  -- 대표 이미지 유형 코드
-        ORDER BY f.inst_dt DESC
-            ) f ON n.news_id = f.file_ref_id
+            SELECT f.file_ref_id, f.file_name, f.file_url
+            FROM tbl_file f
+            WHERE f.file_gbn_cd = 100  -- 대표 이미지 유형 코드
+            ORDER BY f.inst_dt DESC
+        ) f ON n.news_id = f.file_ref_id
+        LEFT JOIN tbl_codeinfo c ON n.main_category_cd = c.cd -- main_category_cd와 일치하는 cd 가져옴
+        LEFT JOIN tbl_codeinfo parent_c ON c.parent_cd = parent_c.cd -- 부모 코드의 한글명 가져옴
         WHERE n.main_category_cd = #{category}
+        ORDER BY n.update_dt DESC
+        LIMIT #{size} OFFSET #{offset};
+    </select>
+
+    <select id="getSubCategoryNews" resultType="com.example.chosunnext.dto.NewsDto">
+        SELECT n.*,
+            f.file_name AS fileName,
+            f.file_url AS filePath,
+            mc.cd_kor AS categoryName,
+            sc.cd_kor AS subCategoryName,
+            parent_mc.cd_kor AS parentCategoryName
+        FROM tbl_news n
+        LEFT JOIN (
+            SELECT f.file_ref_id, f.file_name, f.file_url
+            FROM tbl_file f
+            WHERE f.file_gbn_cd = 100
+            ORDER BY f.inst_dt DESC
+        ) f ON n.news_id = f.file_ref_id
+        LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
+        LEFT JOIN tbl_codeinfo parent_mc ON mc.parent_cd = parent_mc.cd
+        LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
+        WHERE n.sub_category_cd = #{subCategory}
         ORDER BY n.update_dt DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
@@ -103,6 +129,10 @@
 
     <select id="countNewsByCategory" resultType="int">
         SELECT COUNT(*) FROM tbl_news WHERE main_category_cd = #{category}
+    </select>
+
+    <select id="countNewsBySubCategory" resultType="int">
+        SELECT COUNT(*) FROM tbl_news WHERE sub_category_cd = #{category}
     </select>
 
     <update id="updateImageSrc">

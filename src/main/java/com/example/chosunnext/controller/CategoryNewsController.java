@@ -14,7 +14,7 @@ public class CategoryNewsController {
 
     @GetMapping("/{category}")
     public String categoryPage(@PathVariable String category) {
-        return "categoryNews/" + category;
+        return "categoryNews/mainCategory" ;
     }
 
     @GetMapping("/detailNews/{newsId}")
@@ -22,6 +22,19 @@ public class CategoryNewsController {
         model.addAttribute("newsId", newsId);
         model.addAttribute("category", category);
         return "/categoryNews/detailNews";
+    }
+
+    @GetMapping("/{category}/{subCategory}")
+    public String categoryPageSub(
+            @PathVariable("category") String category,
+            @PathVariable(value = "subCategory", required = false) String subCategory) {
+
+        if (subCategory == null || subCategory.isEmpty()) {
+            return "categoryNews/mainCategory"; // 서브 카테고리가 없으면 상위 카테고리 페이지로 리다이렉트
+        }
+
+        return "categoryNews/subCategory" ;
+
     }
 
 

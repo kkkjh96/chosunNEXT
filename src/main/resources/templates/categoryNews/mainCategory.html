@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>대시보드</title>
+    <link rel="stylesheet" href="/css/category-news.css">
+    <link rel="stylesheet" href="/css/common.css"> <!-- 공통 스타일 적용 -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/axios.js"></script>
+    <script src="/javascript/layout/header.js"></script>
+    <script src="/javascript/layout/footer.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <div th:replace="layout/header :: header"></div>
+    <span th:if="${session.user != null}" class="user-info">
+        <input type="hidden" th:value="${session.user.username}" name="userId" id="userId">
+    </span>
+
+    <div class="news_list_container">
+        <h1 id="mainCategoryName"></h1>
+        <hr>
+        <div id="newsList"></div>
+        <div class="pagination">
+            <button id="prevPage">이전</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">다음</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentPage = 1;
+        const pageSize = 7;
+        let totalItems = 0;
+
+        const pathSegments = window.location.pathname.split('/');
+        const category = pathSegments[pathSegments.length - 1];
+
+        getCategoryNews(category);
+
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                getCategoryNews(category);
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', () => {
+            if (currentPage * pageSize < totalItems) {
+                currentPage++;
+                getCategoryNews(category);
+            }
+        });
+
+        function getCategoryNews(category) {
+            axios.get(`/api/cms/news/${category}/paged?page=${currentPage}&size=${pageSize}`)
+                .then(response => {
+                    console.log("API 응답 데이터:", response.data);
+                    const { newsList, totalCount } = response.data;
+                    totalItems = totalCount;
+                    renderNews(newsList);
+                    updatePagination();
+                })
+                .catch(error => {
+                    console.error("뉴스 목록을 가져오는 중 오류 발생:", error);
+                });
+        }
+
+        function renderNews(newsList) {
+            const newsContainer = document.getElementById('newsList');
+            const mainCategoryName = document.getElementById('mainCategoryName');
+            if (newsList.length > 0) {
+                // 데이터가 존재하는 경우: 첫 번째 뉴스의 카테고리명을 표시
+                mainCategoryName.textContent = newsList[0].categoryName;
+            } else {
+                // 데이터가 없는 경우: URL에서 가져온 카테고리명을 표시
+                const pathSegments = window.location.pathname.split('/');
+                const categoryFromUrl = pathSegments[pathSegments.length - 1].toUpperCase().replace(/-/g, ' ');
+                mainCategoryName.textContent = categoryFromUrl;
+            }
+
+            newsContainer.innerHTML = newsList.map(news => `
+                <div class="news_content">
+                    <div class="image_wrap">
+                        <img src="${news.filePath ? news.filePath : '/images/default.png'}"
+                             alt="뉴스 이미지"
+                             onerror="this.onerror=null; this.src='/images/default.png';">
+                    </div>
+                    <div class="content_wrap">
+                        <div class="title"> <a href="/categoryNews/detailNews/${news.newsId}?category=${category}">${news.title}</a></div>
+                        <div class="content">${truncateContent(removeImages(news.content))}</div>
+                        <div class="date_wrap">
+                            <div class="date">${news.updateDt || '날짜 없음'}</div>
+                            <div class="book-mark">
+                                <button class="bookmark-btn" data-news-id="${news.newsId}">
+                                    <i class="fa-regular fa-bookmark bookmark-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    `).join('');
+
+            // 북마크 상태 확인 후 UI 반영
+            updateBookmarkUI();
+        }
+
+        function truncateContent(content) {
+            if (!content) return '내용 없음';
+            const maxLines = 3;
+            const words = content.split(' ');
+
+            if (words.length > maxLines * 8) {
+                return words.slice(0, maxLines * 8).join(' ') + '...';
+            }
+            return content;
+        }
+
+        function removeImages(content) {
+            if (!content) return '내용 없음';
+            return content.replace(/<img[^>]*>/g, "");
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const pageInfoElement = document.getElementById('pageInfo');
+
+            if (!pageInfoElement) {
+                console.error("오류 발생: `pageInfo` 요소를 찾을 수 없습니다.");
+                return;
+            }
+
+            pageInfoElement.textContent = `페이지 ${currentPage} / ${totalPages}`;
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage >= totalPages;
+        }
+
+        // 북마크 이벤트 동적 바인딩 (이벤트 위임)
+        document.getElementById("newsList").addEventListener("click", function (event) {
+            const bookmarkButton = event.target.closest(".bookmark-btn");
+            if (bookmarkButton) {
+                const newsId = bookmarkButton.getAttribute("data-news-id");
+                bookmarkToggle(newsId, bookmarkButton);
+            }
+        });
+
+        function bookmarkToggle(newsId, bookmarkButton) {
+            const userIdElement = document.getElementById("userId");
+            const userId = userIdElement.value;
+            if (!userIdElement) {
+                console.error("사용자 ID를 찾을 수 없습니다.");
+                return;
+            }
+
+            axios.get(`/api/category/news?newsId=${newsId}&userId=${userId}`)
+                .then(response => {
+                    console.log("북마크 상태 확인 응답:", response.data);
+
+                    if (response.data === true) {
+                        // 북마크가 이미 되어 있다면 삭제
+                        axios.delete(`/api/category/news`, { data: { newsId: newsId, userId: userId } })
+                            .then(response => {
+                                console.log("북마크 삭제 완료:", response.data);
+                                bookmarkButton.classList.remove("active");
+                                bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-solid", "fa-regular");
+                                alert("북마크가 삭제되었습니다.");
+                            })
+                            .catch(error => {
+                                console.error("북마크 삭제 실패:", error);
+                                alert("북마크 삭제 실패");
+                            });
+                    } else {
+                        // 북마크 추가
+                        axios.post('/api/category/news', { newsId: newsId, userId: userId })
+                            .then(response => {
+                                console.log("북마크 저장 완료:", response.data);
+                                bookmarkButton.classList.add("active");
+                                bookmarkButton.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
+                                alert("북마크가 저장되었습니다.");
+                            })
+                            .catch(error => {
+                                console.error("북마크 저장 실패:", error);
+                                alert("북마크 저장 실패");
+                            });
+                    }
+                })
+                .catch(error => {
+                    console.error("북마크 상태 확인 중 오류 발생:", error);
+                });
+        }
+
+        function updateBookmarkUI() {
+            const userIdElement = document.getElementById("userId").value;
+            if (!userIdElement) {
+                console.error("사용자 ID를 찾을 수 없습니다.");
+                return;
+            }
+            const userId = userIdElement.value;
+
+            document.querySelectorAll(".bookmark-btn").forEach(button => {
+                const newsId = button.getAttribute("data-news-id");
+
+                axios.get(`/api/category/news?newsId=${newsId}&userId=${userId}`)
+                    .then(response => {
+                        console.log(`북마크 확인 응답 (newsId: ${newsId}):`, response.data);
+                        if (response.data === true) {
+                            button.classList.add("active");
+                            button.querySelector(".bookmark-icon").classList.replace("fa-regular", "fa-solid");
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`북마크 확인 오류 (newsId: ${newsId}):`, error);
+                    });
+            });
+        }
+    });
+
+</script>
+</body>
+</html>
