@@ -5,22 +5,28 @@
 <mapper namespace="com.example.chosunnext.dao.MainNewsDao">
 
     <select id="getLatestNews" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
-        SELECT
-        n.*,
-        f.file_url,
-        mc.cd_kor AS mainCategory,
-        sc.cd_kor AS subCategory
-        FROM tbl_news n
+        WITH RankedNews AS (
+            SELECT
+            n.*,
+            f.file_url,
+            mc.cd_kor AS mainCategory,
+            sc.cd_kor AS subCategory,
+            ROW_NUMBER() OVER (PARTITION BY n.main_category_cd ORDER BY n.news_id DESC) AS rn
+            FROM tbl_news n
         LEFT JOIN (
             SELECT file_ref_id, file_url
             FROM tbl_file
             WHERE file_gbn_cd = 100
             GROUP BY file_ref_id
         ) f ON n.news_id = f.file_ref_id
-        LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
-        LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
-        WHERE (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
-        ORDER BY n.news_id DESC
+            LEFT JOIN tbl_codeinfo mc ON n.main_category_cd = mc.cd
+            LEFT JOIN tbl_codeinfo sc ON n.sub_category_cd = sc.cd
+            WHERE (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        )
+        SELECT *
+            FROM RankedNews
+        WHERE rn = 1
+            ORDER BY news_id DESC
         LIMIT 4;
     </select>
 
@@ -50,8 +56,12 @@
 
 
     <select id="getHeadlineNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
-        SELECT n.*, f.file_url
-        FROM tbl_news n
+        WITH RankedNews AS (
+            SELECT
+            n.*,
+            f.file_url,
+            ROW_NUMBER() OVER (PARTITION BY n.main_category_cd ORDER BY n.news_id DESC) AS rn
+            FROM tbl_news n
         LEFT JOIN (
             SELECT file_ref_id, file_url
             FROM tbl_file
@@ -61,9 +71,9 @@
         WHERE n.main_category_cd IN (
             SELECT cd FROM tbl_codeinfo WHERE parent_cd = 'MAIN_CATEGORY_CD'
         )
-        AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
-        ORDER BY n.news_id DESC
-        LIMIT 5
+            AND (n.news_type IS NULL OR n.news_type NOT IN ('단독', '속보'))
+        )
+        SELECT * FROM RankedNews WHERE rn = 2
     </select>
 
     <select id="getHotNewsMain" resultType="com.example.chosunnext.dto.news.response.NewsResponseDto">
