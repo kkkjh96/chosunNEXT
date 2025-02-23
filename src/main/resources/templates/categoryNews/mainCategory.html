@@ -93,7 +93,7 @@
                     </div>
                     <div class="content_wrap">
                         <div class="title"> <a href="/categoryNews/detailNews/${news.newsId}?category=${category}">${news.title}</a></div>
-                        <div class="content">${truncateContent(removeImages(news.content))}</div>
+                        <div class="content">${truncateContent(removeImages(news.subTitle))}</div>
                         <div class="date_wrap">
                             <div class="date">${news.updateDt || '날짜 없음'}</div>
                             <div class="book-mark">

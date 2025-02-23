@@ -5,18 +5,21 @@ document.addEventListener("DOMContentLoaded", function () {
 // ✅ 페이지네이션 설정
 let currentPage = 1;
 const pageSize = 5; // 페이지당 항목 개수
+let totalPages = 0;  // 🔹 totalPages를 전역 변수로 선언
 const userId = document.getElementById('hiddenUser').value;
 
 function loadSubscribedNews() {
     api.get(`/api/mypage/subscriptions?userId=${userId}&page=${currentPage}&size=${pageSize}`)
         .then(response => {
-            const items = response;
-            if (items.totalCount === 0) {
+            const items = response.data;
+            console.log(items);
+            if (items.length === 0) {
                 handleNoSubscribedNews();
             } else {
-                document.getElementById("total-count").textContent = `총 ${items.totalCount}개`;
-                renderSubscribedNews(items.data);
-                updatePagination(items.totalPages);
+                totalPages = response.totalPages || 1;  // 🔹 totalPages 값을 전역 변수에 저장
+                document.getElementById("total-count").textContent = `총 ${response.totalCount}개`;
+                renderSubscribedNews(response);
+                updatePagination(response.totalPages);
             }
         })
         .catch(error => {
@@ -34,14 +37,17 @@ function handleNoSubscribedNews() {
 
 // ✅ 뉴스 데이터 렌더링
 function renderSubscribedNews(items) {
+    console.log(items);
     const contentContainer = document.getElementById("article-list");
     contentContainer.innerHTML = "";
+        const data = items.data;
 
-    items.forEach(item => {
+    data.forEach(item => {
+        console.log(item);
         const itemElement = document.createElement("div");
         itemElement.classList.add("article-item");
         itemElement.innerHTML = `
-            <img src="${item.fileUrl ? item.fileUrl : '/images/default.jpg'}" alt="기사 이미지">
+            <img src="${item.fileUrl ? item.fileUrl : '/images/default.png'}" alt="기사 이미지">
             <div class="article-info">
                 <span class="journalist">${item.writer} 기자</span>
                 <h3><a href="/categoryNews/board/detail/${item.newsId}" class="news-link">${item.title}</a></h3>

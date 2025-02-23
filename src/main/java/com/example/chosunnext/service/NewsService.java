@@ -26,6 +26,7 @@ public class NewsService {
 
     public int deleteNews(int newsId) {
         int result = newsDao.deleteNews(newsId);
+        newsDao.deleteNewsFile(newsId);
         return result;
     }
 

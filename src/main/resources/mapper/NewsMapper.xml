@@ -66,8 +66,13 @@
 
 
     <delete id="deleteNews">
-        delete from tbl_news
+        Delete from tbl_news
         where news_id =#{newsId}
+    </delete>
+
+    <delete id="deleteNewsFile">
+        Delete from tbl_file
+        where file_ref_id =#{newsId} AND file_gbn_cd = 100
     </delete>
 
     <select id="getTotalCount" resultType="int">

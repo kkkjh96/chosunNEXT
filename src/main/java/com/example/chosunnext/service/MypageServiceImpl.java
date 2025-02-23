@@ -117,8 +117,21 @@ public class MypageServiceImpl implements MypageService {
 
         int offset = (page - 1) * size;
         List<NewsDto> newsList = myPageDao.getSubscribedNews(userId, size, offset);
-        int totalCount = myPageDao.getSubscribedNewsCount(userId);
+
+        int totalCount = 0;
+
+        log.info("기자 아이디 : " + newsList.getFirst().getUserId());
+
+        if(newsList != null){
+
+            totalCount = myPageDao.getSubscribedNewsCount(newsList.getFirst().getUserId());
+
+            log.info("������ ��� ��aaa : " + totalCount);
+        }
         int totalPages = (int) Math.ceil((double) totalCount / size);
+
+        log.info("구��한 ���스 : " + newsList);
+        log.info("������ ��� �� : " + totalCount);
 
         return new SubscribedNewsResponseDto(newsList, totalCount, totalPages);
     }
