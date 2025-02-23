@@ -52,15 +52,15 @@ body {
 /* 🟢 기사 등록 버튼 */
 .news_reg {
     margin-left: 10px;
-    width: 100px;
+    width: 120px;
     height: 50px;
-    background-color: #d9eeec;
+    background-color: #4a90e2;
     text-align: center;
     line-height: 50px;
     border-radius: 16px;
     font-size: 18px;
     font-weight: bold;
-    color: #111;
+    color: #ffffff;
     float: right;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -108,22 +108,22 @@ body {
 
 /* 🟢 출고 버튼 */
 .release-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #7096D1 ;
+    color: #ffffff;
 }
 
 .release-btn:hover {
-    background-color: #388E3C;
+    background-color: #4A90E2;
 }
 
 /* 🟢 수정 버튼 */
 .edit-btn {
-    background-color: #2196F3;
-    color: white;
+    background-color: #Bad6eb;
+    color:#111
 }
 
 .edit-btn:hover {
-    background-color: #1976D2;
+    background-color: #d0e3ff;
 }
 
 /* 🟢 삭제 버튼 */
@@ -320,4 +320,32 @@ button:hover i {
     .new_detail p {
         font-size: 14px;
     }
+}
+/* 🟢 닫기 버튼 스타일 */
+.close-btn {
+    position: absolute;
+    top: -14px;right: -41px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease-in-out;
+    background: none;
+    border: none;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+/* 🟢 기사 상세보기 컨테이너 */
+.new_detail {
+    margin-top: 50px;
+    position: relative; /* 닫기 버튼의 기준이 될 부모 요소 */
+    width: 100%;
+    background-color: #ffffff;
+    padding: 25px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: none; /* 기본적으로 숨김 */
 }
