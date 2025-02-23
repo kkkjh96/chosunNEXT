@@ -49,6 +49,8 @@ public class NewsDto {
     private String fileName;
     private String filePath;
 
+    private String fileUrl;
+
     public LocalDateTime getCredate_dt() {
         return credateDt == null ? LocalDateTime.now() : credateDt;
     }
@@ -56,6 +58,5 @@ public class NewsDto {
     public LocalDateTime getUpdate_dt() {
         return updateDt == null ? LocalDateTime.now() : updateDt;
     }
-
 
 }

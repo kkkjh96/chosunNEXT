@@ -138,9 +138,9 @@
     </select>
 
     <!-- ✅ 구독한 기자의 기사 목록 조회 -->
-    <select id="getSubscribedNews" resultType="com.example.chosunnext.dto.mypage.response.NewsResponseDto">
+    <select id="getSubscribedNews" resultType="com.example.chosunnext.dto.NewsDto">
         SELECT
-            n.news_id, n.title, n.writer, n.credate_dt, f.file_url
+            n.news_id, n.title, n.writer, n.credate_dt, f.file_url, n.user_id
         FROM
             tbl_news n
         INNER JOIN
@@ -159,11 +159,9 @@
         SELECT
             COUNT(*)
         FROM
-            tbl_news n
-        INNER JOIN
-            tbl_subscription s ON n.writer = s.reporter_id
+            tbl_news
         WHERE
-            s.user_id = #{userId}
+            user_id = #{userId}
     </select>
 
     <select id="getUserAllInfo" resultType="com.example.chosunnext.dto.user.response.UserResponseDto">

@@ -29,6 +29,10 @@ public interface NewsDao {
 
     int deleteNews(int newsId);
 
+    int deleteNewsFile(int newsId);
+
+
+
     int getTotalCount();
 
     List<NewsDto> getPageNews(int offset, int size);
