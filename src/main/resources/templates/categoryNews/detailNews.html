@@ -99,7 +99,7 @@
                         })
                             .then(statusResponse => {
                                 // 구독 상태에 따라 버튼 값을 "구독중" 또는 "구독하기"로 업데이트
-                                document.getElementById("news-subscription").value = statusResponse.data.subscribed ? "구독중" : "구독하기";
+                                document.getElementById("news-subscription").value = statusResponse.data.subscriptionStatus ? "구독중" : "구독하기";
                             })
                             .catch(error => {
                                 console.error("구독 상태 확인 실패:", error);

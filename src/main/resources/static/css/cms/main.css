@@ -139,20 +139,69 @@ body {
     width: 35%;
 }
 
-/* 📸 사진 영역 */
+/* 🟢 포토 영역 스타일 */
 .photo_show {
     width: 100%;
-    height: 450px;
+    height: 500px;
     background-color: #f9f9f9;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    border-radius: 8px;
+    margin: auto;
+    margin-bottom: 50px/* 가운데 정렬 */
 }
 
+/* 🟢 포토 타이틀 */
 .photo p {
-    font-size: 20px;
-    font-weight: 900;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
 }
+
+/* 🟢 이미지 컨테이너 */
+.photo_wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* 🟢 이미지 스타일 */
+.img_content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.img_content img {
+    width: 200px; /* 모든 이미지 크기 고정 */
+    height: 200px;
+    object-fit: cover; /* 이미지 비율 유지 */
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* 🟢 이미지 hover 효과 */
+.img_content img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* 🟢 반응형 (768px 이하) */
+@media (max-width: 768px) {
+    .photo_show {
+        max-width: 100%;
+    }
+
+    .img_content img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
 
 /* 📢 공지사항 영역 */
 .notice_wrap {
