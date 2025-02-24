@@ -20,6 +20,7 @@ import lombok.*;
 public class MySubscriptionResponseDto {
 
     private String reporterId;
+    private String reporterName;
     private String date;
 
 }
