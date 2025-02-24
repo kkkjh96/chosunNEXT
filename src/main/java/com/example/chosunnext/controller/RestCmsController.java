@@ -24,7 +24,7 @@ public class RestCmsController {
     private final NewsService newsService;
 
     @PostMapping("/news")
-    public ResponseEntity<String> createNews12(
+    public ResponseEntity<String> createNews(
             @RequestPart("data") NewsDto newsDto,
             @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 
