@@ -176,8 +176,8 @@ function renderContent(tab, items) {
                 itemElement.classList.add("subscribed-item");
                 itemElement.innerHTML = `
                     <div class="subscribed-info">
-                        <h3>${item.name}</h3>
-                        <span class="subscribe-date">${item.joinDate} 구독</span>
+                        <h3>${item.reporterName} 기자</h3>
+                        <span class="subscribe-date">${item.date} 구독</span>
                     </div>
                 `;
             } else if (tab === "tugo") {

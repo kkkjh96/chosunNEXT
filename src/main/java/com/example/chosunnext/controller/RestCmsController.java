@@ -28,7 +28,7 @@ public class RestCmsController {
             @RequestPart("data") NewsDto newsDto,
             @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 
-        log.info("📝 Received JSON Data: {}", newsDto);
+        log.info("📝 Received JSONaaaaaa Data: {}", newsDto);
 
         if (files != null && !files.isEmpty()) {
             for (MultipartFile file : files) {

@@ -126,11 +126,15 @@
     </select>
 
     <select id="getSubscribed" resultType="com.example.chosunnext.dto.mypage.response.MySubscriptionResponseDto">
-        SELECT reporter_id, subscription_date AS DATE
-            FROM tbl_subscription
-        WHERE user_id = #{userId}
-            ORDER BY subscription_date DESC
-        LIMIT #{size} OFFSET #{offset}
+        SELECT
+            s.reporter_id,
+            u.name AS reporter_name,  -- 기자 이름 추가
+            s.subscription_date AS date
+        FROM tbl_subscription s
+            LEFT JOIN tbl_user u ON s.reporter_id = u.user_id  -- 기자 정보 가져오기
+        WHERE s.user_id = #{userId}
+        ORDER BY s.subscription_date DESC
+        LIMIT #{size} OFFSET #{offset};
     </select>
 
     <select id="getSubscribedCount" resultType="Integer">
