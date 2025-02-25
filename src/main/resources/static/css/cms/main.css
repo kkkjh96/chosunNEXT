@@ -177,8 +177,8 @@ body {
 }
 
 .img_content img {
-    width: 150px; /* 모든 이미지 크기 고정 */
-    height: 150px;
+    width: 12px; /* 모든 이미지 크기 고정 */
+    height: 120px;
     object-fit: cover; /* 이미지 비율 유지 */
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;
@@ -190,17 +190,7 @@ body {
     cursor: pointer;
 }
 
-/* 🟢 반응형 (768px 이하) */
-@media (max-width: 768px) {
-    .photo_show {
-        max-width: 100%;
-    }
 
-    .img_content img {
-        width: 80px;
-        height: 80px;
-    }
-}
 
 
 /* 📢 공지사항 영역 */
@@ -253,33 +243,124 @@ body {
 .tbl_notice_wrap tbody tr:hover {
     background-color: #eaeaea;
 }
-
-/* 🟢 반응형 디자인 (768px 이하일 때) */
-@media (max-width: 768px) {
+/* 🟢 반응형 디자인 - 1024px 이하 */
+@media (max-width: 1024px) {
     .wrap {
         flex-direction: column;
+        align-items: center;
     }
 
-    .side_bar {
-        width: 100%;
-        height: auto;
-        padding: 10px;
-    }
-
-    .dash_board, .session_2 {
+    .dash_board {
         width: 100%;
     }
 
-    .main-menu li {
-        font-size: 14px;
-    }
-
-    .sub-menu {
-        font-size: 12px;
+    .session_2 {
+        width: 100%;
     }
 
     .news_reg {
         width: 100%;
         font-size: 16px;
+    }
+}
+
+/* 🟢 반응형 디자인 - 768px 이하 */
+@media (max-width: 768px) {
+    .wrap {
+        padding: 10px;
+    }
+
+    .dash_board, .session_2 {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .news_reg {
+        width: 100%;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .news_list_wrap th, .news_list_wrap td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* 📸 이미지 크기 조정 */
+    .img_content img {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* 📢 공지사항 스타일 조정 */
+    .notice_wrap {
+        padding: 15px;
+        height: auto;
+    }
+
+    .notice_wrap p {
+        font-size: 20px;
+    }
+
+    .tbl_notice_wrap th, .tbl_notice_wrap td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* 테이블 가로 스크롤 추가 */
+    .news_list_wrap {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .news_list_wrap table {
+        width: 100%;
+    }
+
+    /* 📑 페이지네이션 버튼 크기 조정 */
+    .pagination button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+/* 🟢 반응형 디자인 - 480px 이하 (초소형 기기) */
+@media (max-width: 480px) {
+    .dash_board, .session_2 {
+        padding: 10px;
+    }
+
+    .news_reg {
+        font-size: 12px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .news_list_wrap th, .news_list_wrap td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .photo p {
+        font-size: 18px;
+    }
+
+    /* 이미지 크기 조정 */
+    .img_content img {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* 공지사항 폰트 크기 조정 */
+    .tbl_notice_wrap th, .tbl_notice_wrap td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    /* 페이지네이션 버튼 크기 축소 */
+    .pagination button {
+        padding: 5px 10px;
+        font-size: 10px;
     }
 }
