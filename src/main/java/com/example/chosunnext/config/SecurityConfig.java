@@ -78,14 +78,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // 🔹 정적 리소스에 대한 보안 설정
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
+//                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**", "/survey-form/**").permitAll()
+//                        .requestMatchers("/survey/**", "/smarteditor/**", "/admin/**", "/categoryNews/**").permitAll()
+//                        .requestMatchers("/login", "/", "/register", "/api/**", "/board/list", "/board/detail/**").permitAll()
+//                        .requestMatchers( "/board/write", "/board/edit/**").hasAuthority("USER")  // 사용자 권한 검사
+//                        .requestMatchers("/mypage/**").hasAnyAuthority("USER", "REPORTER")  // ✅ `USER` 또는 `REPORTER`만 접근 가능
+//                        .anyRequest().authenticated()
+//                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/uploads/**").permitAll()  // 🔥 이미지 요청은 인증 없이 허용
-                        .requestMatchers("/css/**", "/javascript/**", "/images/**", "/error/**", "/survey-form/**").permitAll()
-                        .requestMatchers("/survey/**", "/smarteditor/**", "/admin/**", "/categoryNews/**").permitAll()
-                        .requestMatchers("/login", "/", "/register", "/api/**", "/board/list", "/board/detail/**").permitAll()
-                        .requestMatchers( "/board/write", "/board/edit/**").hasAuthority("USER")  // 사용자 권한 검사
-                        .requestMatchers("/mypage/**").hasAnyAuthority("USER", "REPORTER")  // ✅ `USER` 또는 `REPORTER`만 접근 가능
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() // 🔥 모든 요청 허용
                 )
 
                 // 🔹 이미지 요청 시 새로운 세션 생성 방지
