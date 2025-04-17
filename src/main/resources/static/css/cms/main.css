@@ -177,7 +177,7 @@ body {
 }
 
 .img_content img {
-    width: 1300px;/* 모든 이미지 크기 고정 */
+    width: 130px;/* 모든 이미지 크기 고정 */
     height: 120px;
     object-fit: cover; /* 이미지 비율 유지 */
     border-radius: 8px;
