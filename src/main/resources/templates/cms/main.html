@@ -91,7 +91,7 @@
                 alert("불러올 뉴스가 없습니다.");
                 return;
             }
-
+//
             updateNewsTable(response.data.newsList);
             let totalPages = response.data.totalPages;
             updatePagination(response.data.currentPage, totalPages);
