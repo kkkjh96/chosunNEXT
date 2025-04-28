@@ -11,7 +11,7 @@ import org.thymeleaf.model.IModel;
 @Controller
 @RequestMapping("/categoryNews")
 public class CategoryNewsController {
-
+d
     @GetMapping("/{category}")
     public String categoryPage(@PathVariable String category) {
         return "categoryNews/mainCategory" ;
